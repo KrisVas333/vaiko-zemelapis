@@ -74,12 +74,12 @@ canvas:active{cursor:grabbing}
 <div class="hint" id="hHint"></div>
 <div id="about" class="about"><div class="sheet" id="aboutSheet"></div></div>
 <script>
-const COLORS={"Matematika":"#5b8def","Lietuvių kalba":"#f4d06f","Gamtos mokslai":"#57c7b8","Informatika":"#a06bff","Pažinimas":"#ff6b8a","Visuomeninis ugdymas":"#e88ab5","Istorija ir geografija":"#d9c7a7","Technologijos":"#7ac74f","Dailė":"#f78fb3","Muzika":"#c9a7eb","Fizinis ugdymas":"#90be6d","Etika":"#b5838d"};
+const COLORS={"Matematika":"#5b8def","Lietuvių kalba":"#f4d06f","Gamtos mokslai":"#57c7b8","Fizika":"#ff9e64","Chemija":"#5cc8ff","Biologija":"#7dd87d","Informatika":"#a06bff","Pažinimas":"#ff6b8a","Visuomeninis ugdymas":"#e88ab5","Istorija ir geografija":"#d9c7a7","Technologijos":"#7ac74f","Dailė":"#f78fb3","Muzika":"#c9a7eb","Fizinis ugdymas":"#90be6d","Etika":"#b5838d","Kalba ir komunikacija":"#ffd39e","Emocijos ir santykiai":"#f7a1a1","Menai ir kūryba":"#d4b3f5","Savarankiškumas":"#8fd0f0","Mokėjimas mokytis":"#f0b9d8"};
 const FALLBACK="#8fa0cc";
-const SUBJ_EN={"Matematika":"Mathematics","Lietuvių kalba":"Lithuanian","Gamtos mokslai":"Science","Informatika":"Computing","Pažinimas":"Cognition","Visuomeninis ugdymas":"Social studies","Istorija ir geografija":"History & geography","Technologijos":"Technologies","Dailė":"Art","Muzika":"Music","Fizinis ugdymas":"Physical education","Etika":"Ethics"};
+const SUBJ_EN={"Matematika":"Mathematics","Lietuvių kalba":"Lithuanian","Gamtos mokslai":"Science","Informatika":"Computing","Pažinimas":"Cognition","Visuomeninis ugdymas":"Social studies","Istorija ir geografija":"History & geography","Technologijos":"Technologies","Dailė":"Art","Muzika":"Music","Fizinis ugdymas":"Physical education","Etika":"Ethics","Fizika":"Physics","Chemija":"Chemistry","Biologija":"Biology","Kalba ir komunikacija":"Language & communication","Emocijos ir santykiai":"Emotions & relationships","Menai ir kūryba":"Arts & creativity","Savarankiškumas":"Self-care","Mokėjimas mokytis":"Learning to learn"};
 const STR={
  lt:{title:'Viskas, ko išmoksta Lietuvos vaikas',sub:(t,d)=>`Atviras žemėlapis iš oficialių Lietuvos ugdymo programų (2022). <b>${t}</b> temos ir <b>${d}</b> ryšių — kiekvienas sako, kas turi ateiti pirmiau ir kodėl. <b>Paliesk tašką</b> — pamatysi visą kelią iki jo.`,
-  badge:'🧪 v0.5 juodraštis: <b>visi 12 dalykų, darželis–6 kl.</b> — 7–12 klasės jau ruošiamos',
+  badge:'🎓 v1.0 juodraštis: <b>PILNAS — darželis–12 klasė, 20 dalykų</b> · laukia pedagogų peržiūros',
   data:'⬇ Atviri duomenys · ODbL',about:'ℹ️ Apie žemėlapį',credit:'Kuria Kristijonas Vasiliauskas · v0 juodraštis — ruošiama pedagogų peržiūrai · duomenys: LT BP 2022',
   legend:'Dalykai · spausk',hint:'<b>Tempk</b> — sukti · <b>Dešinys/Shift</b> — stumdyti · <b>Ratukas</b> — priartinti · <b>Dukart</b> — atstatyti · <b>Spausk tašką</b> — kelias',
   steps:'žingsnių atveda iki šios temos',ask:'❓ Klauskite savo vaiko',ev:'✅ Moka, kai',dep:'Remiasi',un:'Atrakina',child:'jūsų vaikas',yrs:'m.',
@@ -95,7 +95,7 @@ const STR={
   <h4>🔜 Kas bus toliau</h4><p>Paieška · amžiaus filtras · „Kur mano vaikas?" · būrelių sluoksnis · 7–12 klasės · EN duomenys.</p>
   <p class="foot">Kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · LinkedIn: Kristijonas Vasiliauskas.</p>`},
  en:{title:'Everything a Lithuanian child learns',sub:(t,d)=>`An open map of Lithuania's official curricula (2022). <b>${t}</b> concepts and <b>${d}</b> prerequisite links — each says what must come first, and why. <b>Tap any dot</b> to trace the full path to it.`,
-  badge:'🧪 v0.5 draft: <b>all 12 subjects, kindergarten–grade 6</b> — grades 7–12 in progress',
+  badge:'🎓 v1.0 draft: <b>COMPLETE — kindergarten to grade 12, 20 subjects</b> · pending educator review',
   data:'⬇ Open data · ODbL',about:'ℹ️ About',credit:'Built by Kristijonas Vasiliauskas · v0 draft — pending educator review · data: LT national curricula 2022 · topic content currently in Lithuanian',
   legend:'Subjects · click',hint:'<b>Drag</b> — spin · <b>Right/Shift</b> — pan · <b>Scroll</b> — zoom · <b>Double-click</b> — reset · <b>Tap a dot</b> — trace',
   steps:'prerequisites lead to this concept',ask:'❓ Ask your child',ev:'✅ Mastery looks like',dep:'Builds on',un:'Unlocks',child:'your child',yrs:'y.',
@@ -147,7 +147,7 @@ function applyLang(){const S=STR[LANG];
  [...rows.children].forEach(div=>{const s=div.dataset.s;div.querySelector('.lbl').textContent=subjName(s)});
 }
 
-Promise.all([fetch('data/topics.json').then(r=>r.json()),fetch('data/dependencies.json').then(r=>r.json())]).then(([T,D])=>{
+Promise.all([fetch('data/topics.json?v='+Date.now()).then(r=>r.json()),fetch('data/dependencies.json?v='+Date.now()).then(r=>r.json())]).then(([T,D])=>{
   topics=T.topics;deps=D.dependencies;
   topics.forEach(t=>{byId[t.id]=t;childs[t.id]=[];pars[t.id]=[];
     const h=hash(t.id);t.theta=(h%3600)/3600*Math.PI*2;t.rr=.35+((h>>4)%1000)/1000*.65;
