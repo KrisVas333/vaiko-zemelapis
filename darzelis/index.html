@@ -154,7 +154,7 @@ function applyLang(){const S=STR[LANG];
 function buildAges(){const S=STR[LANG];const el=document.getElementById('ageBtns');el.innerHTML='';
  const mk=(label,val)=>{const b=document.createElement('button');b.textContent=label;b.className=(ageSel===val)?'on':'';b.onclick=()=>{ageSel=val;buildAges()};el.appendChild(b)};
  mk(S.all,null);[2,3,4,5,6].forEach(a=>mk(a+' '+S.yrs,a));}
-Promise.all([fetch('data/topics.json').then(r=>r.json()),fetch('data/dependencies.json').then(r=>r.json())]).then(([T,D])=>{
+Promise.all([fetch('data/topics.json?v='+Date.now()).then(r=>r.json()),fetch('data/dependencies.json?v='+Date.now()).then(r=>r.json())]).then(([T,D])=>{
   topics=T.topics;deps=D.dependencies;
   topics.forEach(t=>{byId[t.id]=t;childs[t.id]=[];pars[t.id]=[];
     const h=hash(t.id);t.theta=(h%3600)/3600*Math.PI*2;t.rr=.35+((h>>4)%1000)/1000*.65;
