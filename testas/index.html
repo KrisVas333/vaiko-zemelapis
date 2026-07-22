@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kur mano vaikas? · Žinių žemėlapio patikra</title>
+<meta property="og:title" content="Kur mano vaikas? 🧭 Žinių patikra">
+<meta property="og:description" content="Per 5 minutes pamatykite, ką jūsų vaikas jau moka pagal oficialią Lietuvos ugdymo programą — ir kas natūraliai laukia toliau.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(180deg,#fbfaff 0%,#f3f1fb 100%);color:#2f2b45;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:26px 20px 80px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.logo{font-weight:800;font-size:1.05em}
+.logo .d{color:#8a63c9}
+.lang{display:flex;background:#fff;border:2px solid #e7e2f2;border-radius:20px;padding:2px}
+.lang button{border:0;background:transparent;color:#a89fb5;border-radius:16px;padding:6px 13px;font-size:.8em;font-weight:800;cursor:pointer}
+.lang button.on{background:#8a63c9;color:#fff}
+h1{font-size:1.9em;line-height:1.15;font-weight:800;margin-bottom:8px}
+h1 .g{background:linear-gradient(90deg,#8a63c9,#e07db2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:#6a6380;font-size:.98em;margin-bottom:4px}
+.reassure{display:inline-block;background:#eef7f0;color:#3d7a52;border-radius:20px;padding:6px 14px;font-size:.82em;font-weight:600;margin-top:12px}
+.step{margin-top:26px}
+.gridc{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:16px}
+.gcard{background:#fff;border:2px solid #ebe6f5;border-radius:16px;padding:16px 14px;cursor:pointer;text-align:center;font-weight:700;color:#4a4560;transition:.15s}
+.gcard:hover{border-color:#c7a9f0;transform:translateY(-2px)}
+.gcard .a{display:block;font-size:.72em;color:#a89fb5;font-weight:600;margin-top:3px}
+.tcard{background:#fff;border:2px solid #ebe6f5;border-radius:16px;padding:15px 16px;margin-bottom:12px}
+.tcard .subj{font-size:.68em;letter-spacing:.05em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.tcard h3{font-size:1.02em;margin-bottom:5px}
+.tcard .ev{color:#6a6380;font-size:.86em;margin-bottom:10px}
+.opts{display:flex;gap:8px}
+.opts button{flex:1;border:2px solid #ebe6f5;background:#faf9fd;border-radius:12px;padding:10px 6px;font-size:.82em;font-weight:700;color:#6a6380;cursor:pointer;transition:.12s}
+.opts button.yes.on{background:#e4f5ea;border-color:#5cbd7e;color:#2f7a4c}
+.opts button.part.on{background:#fef4e3;border-color:#f0b64c;color:#a5741a}
+.opts button.no.on{background:#f2eef8;border-color:#b58fe0;color:#7a5aad}
+.bar{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(243,241,251,0) 0%,#f3f1fb 40%);padding:16px 0 6px;margin-top:8px}
+.btn{display:inline-block;background:linear-gradient(90deg,#8a63c9,#e07db2);color:#fff;border:0;border-radius:26px;padding:14px 30px;font-size:1em;font-weight:800;cursor:pointer;width:100%;text-align:center;text-decoration:none}
+.btn.ghost{background:#fff;border:2px solid #e7e2f2;color:#6a6380;margin-top:10px}
+.btn:disabled{opacity:.4;cursor:default}
+.prog{font-size:.8em;color:#a89fb5;text-align:center;margin-bottom:10px}
+/* result */
+.res .big{background:#fff;border:2px solid #ebe6f5;border-radius:20px;padding:24px;text-align:center;margin-bottom:18px}
+.res .pct{font-size:3.4em;font-weight:800;background:linear-gradient(90deg,#5cbd7e,#8a63c9);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.res .pctlbl{color:#6a6380;font-size:.92em;margin-top:2px}
+.res .track{height:12px;background:#eee9f6;border-radius:8px;margin:16px 0 4px;overflow:hidden}
+.res .fill{height:100%;background:linear-gradient(90deg,#5cbd7e,#8a63c9);border-radius:8px}
+.sec{background:#fff;border:2px solid #ebe6f5;border-radius:18px;padding:18px 18px;margin-bottom:14px}
+.sec h4{font-size:.72em;letter-spacing:.06em;text-transform:uppercase;color:#a89fb5;font-weight:700;margin-bottom:10px}
+.chips .chip{display:inline-block;background:#eef7f0;color:#3d7a52;border-radius:14px;padding:6px 13px;font-size:.86em;font-weight:600;margin:3px 4px 3px 0}
+.next{border-left:4px solid #e07db2;background:#fdf3f9;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:10px}
+.next .nm{font-weight:700;font-size:.94em;margin-bottom:3px}
+.next .pr{color:#8a5a76;font-size:.87em}
+.foot{color:#a89fb5;font-size:.78em;text-align:center;margin-top:20px;line-height:1.5}
+.foot a{color:#8a63c9}
+@media(max-width:520px){h1{font-size:1.55em}.res .pct{font-size:2.8em}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="logo">🧭 Vaiko žemėlapis<span class="d">.</span></div>
+    <div class="lang"><button id="lLT" class="on" onclick="setLang('lt')">LT</button><button id="lEN" onclick="setLang('en')">EN</button></div>
+  </div>
+  <div id="app"></div>
+  <div class="foot" id="foot"></div>
+</div>
+<script>
+const T={
+ lt:{h:'Kur mano <span class="g">vaikas</span>?',
+   lead:'Per 5 minutes pamatykite, ką vaikas jau moka pagal oficialią Lietuvos ugdymo programą — ir kas natūraliai laukia toliau.',
+   reassure:'✨ Tai ne testas ir ne pažymys — tai žemėlapis, kur auga jūsų vaikas.',
+   pick:'Pasirinkite vaiko klasę:',
+   markLead:(c)=>`Pažymėkite, ką jūsų vaikas <b>jau moka</b>. Nežinote — palikite. Grafas pats išves likusias temas.`,
+   yes:'✅ Moka',part:'🌱 Mokosi',no:'⚪ Dar ne',
+   see:'Pamatyti rezultatą →',of:'iš',marked:'pažymėta',
+   pct:'pasiruošimas šiai klasei',
+   strengths:'💪 Stiprybės',
+   nextH:'🌱 Ką verta pažaisti / paklausti dabar',
+   noNext:'Puiku — jūsų vaikas įvaldęs šios klasės branduolį! Išbandykite kitą klasę.',
+   onMap:'🗺️ Pamatyti žemėlapyje',share:'📲 Pasidalinti',again:'↻ Pradėti iš naujo',
+   copied:'Nuoroda nukopijuota!',
+   foot:'Duomenys: oficialios LT ugdymo programos (2022) · v0 juodraštis, laukia pedagogų peržiūros · <a href="../">pilnas žemėlapis</a>',
+   infMsg:(n)=>`Pagal jūsų atsakymus grafas nustatė, kad vaikas greičiausiai jau moka dar <b>${n}</b> susijusias temas.`,
+   yrs:'m.'},
+ en:{h:'Where is my <span class="g">child</span>?',
+   lead:'In 5 minutes, see what your child already knows according to Lithuania\'s official curriculum — and what naturally comes next.',
+   reassure:'✨ Not a test, not a grade — a map of where your child is growing.',
+   pick:'Choose your child\'s grade:',
+   markLead:(c)=>`Mark what your child <b>already knows</b>. Not sure — leave it. The graph infers the rest.`,
+   yes:'✅ Knows',part:'🌱 Learning',no:'⚪ Not yet',
+   see:'See result →',of:'of',marked:'marked',
+   pct:'readiness for this grade',
+   strengths:'💪 Strengths',
+   nextH:'🌱 Worth playing / asking now',
+   noNext:'Great — your child has mastered this grade\'s core! Try the next grade.',
+   onMap:'🗺️ See on the map',share:'📲 Share',again:'↻ Start over',
+   copied:'Link copied!',
+   foot:'Data: Lithuania\'s official curricula (2022) · v0 draft, pending educator review · <a href="../">full map</a> · topic content in Lithuanian',
+   infMsg:(n)=>`From your answers, the graph inferred your child likely already knows <b>${n}</b> more related topics.`,
+   yrs:'y.'}
+};
+const SUBJ_EN={"Matematika":"Mathematics","Lietuvių kalba":"Lithuanian","Gamtos mokslai":"Science","Fizika":"Physics","Chemija":"Chemistry","Biologija":"Biology","Informatika":"Computing","Pažinimas":"Cognition","Visuomeninis ugdymas":"Social studies","Istorija ir geografija":"History & geography","Technologijos":"Technologies","Dailė":"Art","Muzika":"Music","Fizinis ugdymas":"Physical education","Etika":"Ethics","Kalba ir komunikacija":"Language & communication","Emocijos ir santykiai":"Emotions & relationships","Menai ir kūryba":"Arts & creativity","Savarankiškumas":"Self-care","Mokėjimas mokytis":"Learning to learn"};
+const COL={"Matematika":"#5b8def","Lietuvių kalba":"#e0b13e","Gamtos mokslai":"#3aae9f","Fizika":"#e8823c","Chemija":"#3a9fd9","Biologija":"#57b85a","Informatika":"#8f5fe8","Pažinimas":"#e8607f","Visuomeninis ugdymas":"#d878ab","Istorija ir geografija":"#b09b78","Technologijos":"#5aa63f","Dailė":"#ef83b0","Muzika":"#a98adf","Fizinis ugdymas":"#7fae5c","Etika":"#a5726f","Kalba ir komunikacija":"#e0b13e","Emocijos ir santykiai":"#e8607f","Menai ir kūryba":"#a98adf","Savarankiškumas":"#3a9fd9","Mokėjimas mokytis":"#d878ab"};
+const CLASSES=[
+ {id:'darzelis',lo:2,hi:6,lt:'Darželis',en:'Kindergarten',a:'2–6 m.'},
+ {id:'priesmok',lo:6,hi:7,lt:'Priešmokyklinis',en:'Pre-primary',a:'6–7 m.'},
+ {id:'k12',lo:7,hi:9,lt:'1–2 klasė',en:'Grade 1–2',a:'7–9 m.'},
+ {id:'k34',lo:9,hi:11,lt:'3–4 klasė',en:'Grade 3–4',a:'9–11 m.'},
+ {id:'k56',lo:11,hi:13,lt:'5–6 klasė',en:'Grade 5–6',a:'11–13 m.'},
+ {id:'k78',lo:13,hi:15,lt:'7–8 klasė',en:'Grade 7–8',a:'13–15 m.'},
+ {id:'k910',lo:15,hi:17,lt:'9–10 klasė',en:'Grade 9–10',a:'15–17 m.'},
+ {id:'k1112',lo:17,hi:19,lt:'11–12 klasė',en:'Grade 11–12',a:'17–19 m.'}
+];
+let LANG=localStorage.getItem('vz-lang')||'lt';
+let topics=[],byId={},pars={},cls=null,backbone=[],marks={};
+function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
+function setLang(l){LANG=l;localStorage.setItem('vz-lang',l);document.getElementById('lLT').classList.toggle('on',l==='lt');document.getElementById('lEN').classList.toggle('on',l==='en');render()}
+window.setLang=setLang;
+
+Promise.all([fetch('../data/topics.json').then(r=>r.json()),fetch('../data/dependencies.json').then(r=>r.json())]).then(([TT,DD])=>{
+  topics=TT.topics;topics.forEach(t=>{byId[t.id]=t;pars[t.id]=[]});
+  DD.dependencies.forEach(e=>{if(pars[e.topicId])pars[e.topicId].push(e.prerequisiteId)});
+  if(document.getElementById('lEN')) document.getElementById(LANG==='en'?'lEN':'lLT').classList.add('on');
+  render();
+});
+function pickBackbone(c){
+  const inC=topics.filter(t=>t.ageRangeStart>=c.lo && t.ageRangeStart<c.hi);
+  inC.sort((a,b)=>(b.centrality||0)-(a.centrality||0));
+  const out=[],perSubj={};
+  for(const t of inC){const s=t.subject;perSubj[s]=perSubj[s]||0;if(perSubj[s]>=3)continue;perSubj[s]++;out.push(t);if(out.length>=14)break}
+  // ensure at least a few subjects
+  return out;
+}
+function knownSet(){
+  const known=new Set();
+  const add=id=>{if(known.has(id))return;known.add(id);(pars[id]||[]).forEach(add)};
+  for(const t of backbone) if(marks[t.id]==='yes') add(t.id);
+  return known;
+}
+function render(){
+  const S=T[LANG];
+  document.getElementById('foot').innerHTML=S.foot;
+  const app=document.getElementById('app');
+  if(!cls){
+    app.innerHTML=`<h1>${S.h}</h1><p class="lead">${S.lead}</p><span class="reassure">${S.reassure}</span>
+      <div class="step"><b>${S.pick}</b><div class="gridc">${CLASSES.map(c=>`<div class="gcard" onclick="chooseClass('${c.id}')">${c[LANG]}<span class="a">${c.a}</span></div>`).join('')}</div></div>`;
+    return;
+  }
+  if(app.dataset.mode!=='result'){
+    app.dataset.mode='mark';
+    const done=Object.keys(marks).length;
+    app.innerHTML=`<h1>${cls[LANG]} <span style="color:#a89fb5;font-size:.6em">${cls.a}</span></h1>
+      <p class="lead">${S.markLead(cls)}</p>
+      <div id="cards"></div>
+      <div class="bar"><div class="prog" id="prog"></div><button class="btn" id="seeBtn" onclick="showResult()">${S.see}</button>
+      <button class="btn ghost" onclick="cls=null;marks={};render()">${S.again}</button></div>`;
+    const cw=document.getElementById('cards');
+    cw.innerHTML=backbone.map(t=>`<div class="tcard">
+        <div class="subj" style="color:${COL[t.subject]||'#8a63c9'}">● ${subjName(t.subject)}</div>
+        <h3>${t.name}</h3>
+        <div class="ev">${(t.evidence&&t.evidence[0])||t.description||''}</div>
+        <div class="opts">
+          <button class="yes${marks[t.id]==='yes'?' on':''}" onclick="mark('${t.id}','yes')">${S.yes}</button>
+          <button class="part${marks[t.id]==='part'?' on':''}" onclick="mark('${t.id}','part')">${S.part}</button>
+          <button class="no${marks[t.id]==='no'?' on':''}" onclick="mark('${t.id}','no')">${S.no}</button>
+        </div></div>`).join('');
+    updateProg();
+    return;
+  }
+}
+function chooseClass(id){cls=CLASSES.find(c=>c.id===id);marks={};backbone=pickBackbone(cls);const a=document.getElementById('app');a.dataset.mode='mark';render()}
+window.chooseClass=chooseClass;
+function mark(id,v){marks[id]=(marks[id]===v?undefined:v);if(marks[id]===undefined)delete marks[id];
+  document.querySelectorAll(`.tcard`);render()}
+window.mark=mark;
+function updateProg(){const S=T[LANG];const p=document.getElementById('prog');if(p)p.textContent=`${Object.keys(marks).length} ${S.of} ${backbone.length} ${S.marked}`}
+function showResult(){
+  const S=T[LANG];
+  const known=knownSet();
+  // readiness over backbone
+  let score=0;backbone.forEach(t=>{if(marks[t.id]==='yes')score+=1;else if(marks[t.id]==='part')score+=0.5});
+  const pct=Math.round(100*score/Math.max(1,backbone.length));
+  // strengths: subjects with most yes among backbone
+  const bySub={};backbone.forEach(t=>{if(marks[t.id]==='yes'){bySub[t.subject]=(bySub[t.subject]||0)+1}});
+  const strengths=Object.entries(bySub).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+  // next: not-known topics whose prereqs all known — from backbone first then class-adjacent
+  const isKnown=id=>known.has(id);
+  const ready=t=>!isKnown(t.id) && (pars[t.id]||[]).every(isKnown);
+  let nexts=backbone.filter(t=>marks[t.id]!=='yes' && ready(t));
+  if(nexts.length<4){
+    const extra=topics.filter(t=>t.ageRangeStart>=cls.lo && t.ageRangeStart<cls.hi+2 && !backbone.includes(t) && ready(t));
+    extra.sort((a,b)=>(b.centrality||0)-(a.centrality||0));
+    nexts=nexts.concat(extra.slice(0,6-nexts.length));
+  }
+  nexts=nexts.slice(0,5);
+  // inferred beyond explicit
+  const explicit=backbone.filter(t=>marks[t.id]==='yes').length;
+  const inferred=known.size-explicit;
+  // save
+  localStorage.setItem('vz-child',JSON.stringify({cls:cls.id,label:cls[LANG],marks,known:[...known],ready:nexts.map(t=>t.id),pct,ts:Date.now()}));
+  const app=document.getElementById('app');app.dataset.mode='result';
+  app.innerHTML=`<div class="res">
+    <div class="big"><div class="pct">${pct}%</div><div class="pctlbl">${S.pct} · ${cls[LANG]}</div>
+      <div class="track"><div class="fill" style="width:${pct}%"></div></div>
+      ${inferred>0?`<div style="color:#6a6380;font-size:.86em;margin-top:10px">${S.infMsg(inferred)}</div>`:''}</div>
+    ${strengths.length?`<div class="sec"><h4>${S.strengths}</h4><div class="chips">${strengths.map(s=>`<span class="chip">${subjName(s)}</span>`).join('')}</div></div>`:''}
+    <div class="sec"><h4>${S.nextH}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'#2f2b45'}">${t.name}</div><div class="pr">${(t.assessmentPrompt||t.description||'').replaceAll('{{name}}',LANG==='en'?'your child':'jūsų vaikas')}</div></div>`).join(''):`<p style="color:#6a6380">${S.noNext}</p>`}</div>
+    <a class="btn" href="../?mode=child">${S.onMap}</a>
+    <button class="btn ghost" onclick="doShare()">${S.share}</button>
+    <button class="btn ghost" onclick="cls=null;marks={};document.getElementById('app').dataset.mode='';render()">${S.again}</button>
+  </div>`;
+  window.scrollTo(0,0);
+}
+window.showResult=showResult;
+function doShare(){const S=T[LANG];const url=location.origin+location.pathname;const txt=LANG==='en'?'See what your child already knows — a 5-min check on Lithuania\'s official curriculum:':'Pažiūrėkite, ką jūsų vaikas jau moka — 5 min patikra pagal oficialią LT programą:';
+  if(navigator.share){navigator.share({title:'Kur mano vaikas?',text:txt,url})}else{navigator.clipboard.writeText(url);alert(S.copied)}}
+window.doShare=doShare;
+</script>
+</body>
+</html>

@@ -23,6 +23,22 @@ canvas:active{cursor:grabbing}
 .lang{position:fixed;top:24px;right:24px;z-index:5;display:flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:3px}
 .lang button{border:0;background:transparent;color:#8fa0cc;border-radius:16px;padding:6px 14px;font-size:.78em;font-weight:700;cursor:pointer}
 .lang button.on{background:#ff8a3d;color:#0a0e1f}
+.toolbar{position:fixed;top:64px;right:24px;z-index:5;display:flex;gap:8px;align-items:flex-start}
+.tb-test{background:linear-gradient(90deg,#ff8a3d,#ffb15e);color:#0a0e1f;font-weight:800;font-size:.8em;border-radius:18px;padding:9px 16px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 16px rgba(255,138,61,.35)}
+.tb-search{position:relative}
+.tb-search input{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:18px;padding:9px 14px;font-size:.8em;width:190px;outline:none}
+.tb-search input::placeholder{color:#8fa0cc}
+#qres{position:absolute;top:40px;right:0;width:280px;background:rgba(16,22,44,.97);border:1px solid rgba(255,255,255,.14);border-radius:12px;overflow:hidden;display:none}
+#qres.on{display:block}
+#qres div{padding:9px 13px;font-size:.82em;color:#dde5fa;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.06)}
+#qres div:hover{background:rgba(255,138,61,.18)}
+#qres div .qs{font-size:.85em;color:#8fa0cc}
+#grade{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:18px;padding:9px 12px;font-size:.8em;outline:none;cursor:pointer}
+#grade option{background:#101a34}
+.cbanner{position:fixed;top:108px;right:24px;z-index:5;background:rgba(75,191,122,.16);border:1px solid rgba(75,191,122,.5);color:#8fe3ac;border-radius:16px;padding:8px 14px;font-size:.78em;display:none;align-items:center;gap:10px}
+.cbanner.on{display:flex}
+.cbanner button{background:transparent;border:0;color:#cfeede;cursor:pointer;font-weight:700;text-decoration:underline;font-size:1em}
+@media(max-width:720px){.toolbar{top:auto;bottom:70px;right:12px;left:12px;flex-wrap:wrap}.tb-search input{width:130px}.cbanner{top:auto;bottom:130px;right:12px}}
 .legend{position:fixed;left:28px;bottom:24px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;z-index:2;backdrop-filter:blur(8px);max-height:44vh;overflow-y:auto}
 .legend h3{font-size:.65em;letter-spacing:.12em;color:#8fa0cc;margin-bottom:8px;text-transform:uppercase}
 .legend .row{display:flex;align-items:center;gap:8px;font-size:.8em;padding:3px 0;cursor:pointer;user-select:none}
@@ -68,6 +84,12 @@ canvas:active{cursor:grabbing}
 <body>
 <canvas id="c"></canvas>
 <div class="lang"><button id="langLT" class="on" onclick="setLang('lt')">LT</button><button id="langEN" onclick="setLang('en')">EN</button></div>
+<div class="toolbar">
+  <a class="tb-test" href="testas/" id="tbTest">🧭 Kur mano vaikas?</a>
+  <div class="tb-search"><input id="q" placeholder="🔍 Ieškoti temos…" autocomplete="off" oninput="onSearch(this.value)" onkeydown="if(event.key==='Enter')pickFirst()"><div id="qres"></div></div>
+  <select id="grade" onchange="setGrade(this.value)"></select>
+</div>
+<div class="cbanner" id="cbanner"></div>
 <div class="hero">
   <h1 id="hTitle">Viskas, ko išmoksta Lietuvos vaikas<span class="dot">.</span></h1>
   <p class="stats" id="hSub"></p>
@@ -123,6 +145,9 @@ function rgba(s,a){const c=RGB[s]||RGBF;return `rgba(${c[0]},${c[1]},${c[2]},${a
 let topics=[],deps=[],byId={},childs={},pars={},on={};
 let sel=null,ancestors=new Set(),descendants=new Set();
 let introStart=0, introMax=0, introDone=false;
+let ageLo=null,ageHi=null,childMode=false,searchHit=null;
+const CHILD={known:new Set(),ready:new Set(),label:''};
+function loadChild(){try{const d=JSON.parse(localStorage.getItem('vz-child')||'null');if(!d)return false;CHILD.known=new Set(d.known||[]);CHILD.ready=new Set(d.ready||[]);CHILD.label=d.label||'';return true}catch(e){return false}}
 const cv=document.getElementById('c'),ctx=cv.getContext('2d');
 function resize(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
 addEventListener('resize',resize);resize();
@@ -137,7 +162,7 @@ function stepTween(now){if(!tween)return;let k=Math.min(1,(now-tween.t0)/tween.d
 function setLang(l){LANG=l;localStorage.setItem('zm-lang',l);
  document.getElementById('langLT').classList.toggle('on',l==='lt');
  document.getElementById('langEN').classList.toggle('on',l==='en');
- applyLang(); if(sel)select(sel);}
+ applyLang(); if(typeof applyTB==='function')applyTB(); if(sel)select(sel);}
 window.setLang=setLang;
 function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
 function applyLang(){const S=STR[LANG];
@@ -242,9 +267,13 @@ function frame(now){
     let r=Math.max(.8,t.baseR*p.s*1.15)*scale, al=.28+.62*depth;
     const isSel=sel&&t.id===sel.id, isAnc=sel&&ancestors.has(t.id), isDesc=sel&&descendants.has(t.id);
     if(sel){ if(isSel||isAnc){al=1} else if(isDesc){al=Math.min(1,al+.15)} else al*=.12; }
+    let col=COLORS[t.subject];
+    if(ageLo!==null && !(t.ageRangeStart<ageHi && t.ageRangeEnd>ageLo)) al*=.08;
+    if(childMode&&!sel){ if(CHILD.known.has(t.id)){col='#4bbf7a';al=Math.max(al,.92)} else if(CHILD.ready.has(t.id)){col='#f0a94c';al=Math.max(al,.85);r*=1.2} else {col='#586080';al*=.22} }
+    if(searchHit){ if(searchHit.has(t.id)){al=1;r*=1.5;col='#ffffff'} else al*=.15 }
     if(glow>0){ctx.globalAlpha=glow*.45;ctx.fillStyle=rgba(t.subject,1);ctx.beginPath();ctx.arc(p.x,p.y,r*(1+glow*2.6),0,7);ctx.fill();}
     ctx.globalAlpha=al;
-    ctx.fillStyle=(isSel||isAnc)?rgba(t.subject,1):COLORS[t.subject];
+    ctx.fillStyle=(isSel||isAnc)?rgba(t.subject,1):col;
     ctx.beginPath();ctx.arc(p.x,p.y,isSel?r+2.5:(isAnc?r+1:r),0,7);ctx.fill();
     if(isSel||isAnc){ctx.globalAlpha=.35;ctx.strokeStyle=rgba(t.subject,1);ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,r+(isSel?7:4),0,7);ctx.stroke();}
     if(isSel){ctx.globalAlpha=1;ctx.strokeStyle='#fff';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(p.x,p.y,r+6,0,7);ctx.stroke();}
@@ -300,6 +329,32 @@ function select(t){
   pn.classList.add('open');
 }
 window.select=select;window.byId=byId;
+// ---- Phase 0: search · grade filter · "Kur mano vaikas?" ----
+const GRADES=[{v:'',lt:'🎂 Visi amžiai',en:'🎂 All ages'},{v:'2,6',lt:'Darželis (2–6 m.)',en:'Kindergarten'},{v:'6,7',lt:'Priešmokyklinis',en:'Pre-primary'},{v:'7,9',lt:'1–2 klasė',en:'Grade 1–2'},{v:'9,11',lt:'3–4 klasė',en:'Grade 3–4'},{v:'11,13',lt:'5–6 klasė',en:'Grade 5–6'},{v:'13,15',lt:'7–8 klasė',en:'Grade 7–8'},{v:'15,17',lt:'9–10 klasė',en:'Grade 9–10'},{v:'17,19',lt:'11–12 klasė',en:'Grade 11–12'}];
+function buildGrades(){const g=document.getElementById('grade');const cur=g.value;g.innerHTML=GRADES.map(o=>`<option value="${o.v}">${o[LANG]}</option>`).join('');g.value=cur}
+function setGrade(v){if(!v){ageLo=null;ageHi=null}else{const p=v.split(',');ageLo=+p[0];ageHi=+p[1]}}
+window.setGrade=setGrade;
+function onSearch(q){q=q.trim().toLowerCase();const res=document.getElementById('qres');
+ if(q.length<2){searchHit=null;res.classList.remove('on');return}
+ const m=topics.filter(t=>t.name.toLowerCase().includes(q));
+ searchHit=new Set(m.map(t=>t.id));
+ res.innerHTML=m.slice(0,7).map(t=>`<div onclick="pickId('${t.id}')">${t.name}<span class="qs"> · ${subjName(t.subject)} · ${t.ageRangeStart}–${t.ageRangeEnd}</span></div>`).join('')||`<div style="color:#8fa0cc">—</div>`;
+ res.classList.add('on');}
+function pickId(id){searchHit=null;const r=document.getElementById('qres');r.classList.remove('on');document.getElementById('q').value='';select(byId[id])}
+function pickFirst(){if(searchHit&&searchHit.size)pickId([...searchHit][0])}
+window.onSearch=onSearch;window.pickId=pickId;window.pickFirst=pickFirst;
+function applyTB(){const isEn=LANG==='en';
+ document.getElementById('tbTest').textContent=isEn?'🧭 Where is my child?':'🧭 Kur mano vaikas?';
+ document.getElementById('q').placeholder=isEn?'🔍 Search a topic…':'🔍 Ieškoti temos…';
+ buildGrades(); if(childMode)showBanner();}
+function showBanner(){const b=document.getElementById('cbanner');const isEn=LANG==='en';
+ b.innerHTML=`✅ ${isEn?'Showing':'Rodoma'}: <b>${CHILD.label||(isEn?'your child':'jūsų vaikas')}</b> <button onclick="exitChild()">${isEn?'exit':'išjungti'}</button>`;
+ b.classList.add('on');}
+function exitChild(){childMode=false;document.getElementById('cbanner').classList.remove('on')}
+window.exitChild=exitChild;
+buildGrades();
+if(new URLSearchParams(location.search).get('mode')==='child'&&loadChild()){childMode=true;setTimeout(showBanner,60)}
+document.addEventListener('click',e=>{if(!e.target.closest('.tb-search')){const r=document.getElementById('qres');if(r)r.classList.remove('on')}});
 
 /* --- hover tooltip (Marble-style): tema · dalykas · amžius · aprašymas --- */
 const tipEl=document.createElement('div');tipEl.id='tip';document.body.appendChild(tipEl);
