@@ -115,6 +115,12 @@ const CLASSES=[
 let LANG=localStorage.getItem('vz-lang')||'lt';
 let topics=[],byId={},pars={},cls=null,backbone=[],marks={};
 function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
+function fillName(txt){if(!txt)return txt;if(LANG==='en')return txt.replaceAll('{{name}}','your child');
+  return txt.replace(/(\S+)?\s*\{\{name\}\}/g,(m,pre)=>{const p=(pre||'').toLowerCase().replace(/[^a-ząčęėįšųūž]/g,'');const j=(pre?pre+' ':'');
+  if(p==='su')return j+'jūsų vaiku';if(p==='priešais')return j+'jūsų vaiką';
+  if(/^(paklaus|paprašy|klausk|pasiteirau|teiraukit)/.test(p))return j+'jūsų vaiko';
+  if(/^(duok|leisk|pasiūlyk|parodyk|padėk|primink|paduok|užraš|perskaity|paskaity|padiktuo)/.test(p))return j+'jūsų vaikui';
+  return j+'jūsų vaikas';});}
 function setLang(l){LANG=l;localStorage.setItem('vz-lang',l);document.getElementById('lLT').classList.toggle('on',l==='lt');document.getElementById('lEN').classList.toggle('on',l==='en');render()}
 window.setLang=setLang;
 
@@ -206,7 +212,7 @@ function showResult(){
       <div class="track"><div class="fill" style="width:${pct}%"></div></div>
       ${inferred>0?`<div style="color:#6a6380;font-size:.86em;margin-top:10px">${S.infMsg(inferred)}</div>`:''}</div>
     ${strengths.length?`<div class="sec"><h4>${S.strengths}</h4><div class="chips">${strengths.map(s=>`<span class="chip">${subjName(s)}</span>`).join('')}</div></div>`:''}
-    <div class="sec"><h4>${S.nextH}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'#2f2b45'}">${t.name}</div><div class="pr">${(t.assessmentPrompt||t.description||'').replaceAll('{{name}}',LANG==='en'?'your child':'jūsų vaikas')}</div></div>`).join(''):`<p style="color:#6a6380">${S.noNext}</p>`}</div>
+    <div class="sec"><h4>${S.nextH}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'#2f2b45'}">${t.name}</div><div class="pr">${fillName(t.assessmentPrompt||t.description||'')}</div></div>`).join(''):`<p style="color:#6a6380">${S.noNext}</p>`}</div>
     <a class="btn" href="../?mode=child">${S.onMap}</a>
     <button class="btn ghost" onclick="doShare()">${S.share}</button>
     <button class="btn ghost" onclick="cls=null;marks={};document.getElementById('app').dataset.mode='';render()">${S.again}</button>
