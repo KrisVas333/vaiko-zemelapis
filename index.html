@@ -109,13 +109,13 @@ const SUBJ_EN={"Matematika":"Mathematics","Lietuvių kalba":"Lithuanian","Gamtos
 const STR={
  lt:{title:'Viskas, ko išmoksta Lietuvos vaikas',sub:(t,d)=>`Atviras žemėlapis iš oficialių Lietuvos ugdymo programų (2022). <b>${t}</b> temos ir <b>${d}</b> ryšių — kiekvienas sako, kas turi ateiti pirmiau ir kodėl. <b>Paliesk tašką</b> — pamatysi visą kelią iki jo.`,
   badge:'🎓 v1.0 juodraštis: <b>PILNAS — darželis–12 klasė, 20 dalykų</b> · laukia pedagogų peržiūros',
-  data:'⬇ Atviri duomenys · ODbL',about:'ℹ️ Apie žemėlapį',credit:'Kuria Kristijonas Vasiliauskas · v0 juodraštis — ruošiama pedagogų peržiūrai · duomenys: LT BP 2022',
+  data:'⬇ Atviri duomenys · ODbL',about:'ℹ️ Apie žemėlapį',credit:'Kuria Kristijonas Vasiliauskas · v1.0 juodraštis — ruošiama pedagogų peržiūrai · duomenys: LT BP 2022',
   legend:'Dalykai · spausk',hint:'<b>Tempk</b> — sukti · <b>Dešinys/Shift</b> — stumdyti · <b>Ratukas</b> — priartinti · <b>Dukart</b> — atstatyti · <b>Spausk tašką</b> — kelias',
   steps:'žingsnių atveda iki šios temos',ask:'❓ Klauskite savo vaiko',ev:'✅ Moka, kai',dep:'Remiasi',un:'Atrakina',child:'jūsų vaikas',yrs:'m.',
   aboutHtml:`<span class="close" onclick="document.getElementById('about').classList.remove('open')">✕</span>
   <h2>Apie žemėlapį</h2>
   <h4>Kas čia per daiktas?</h4><p>Pirmas atviras <b>Lietuvos vaiko mokymosi žemėlapis</b>: 2 129 mikro-temos ir 2 747 „kas turi ateiti pirmiau" ryšių — nuo darželio iki 12 klasės, visi 20 dalykų. Kiekviena tema turi aprašymą tėvų kalba, klausimą vaikui, mokėjimo kriterijus ir tikslų ugdymo programos kodą.</p>
-  <h4>Kaip jis padarytas?</h4><p>AI agentai perskaitė oficialias <b>2022 m. atnaujintas Bendrąsias programas</b> (emokykla.lt) ir NŠA ikimokyklinio ugdymo pasiekimų aprašą, išskaidė jas į mokomas mikro-temas ir supynė priklausomybių grafą. Dabar vyksta pedagogų peržiūra — todėl v0 „juodraštis". Duomenys atviri (ODbL).</p>
+  <h4>Kaip jis padarytas?</h4><p>AI agentai perskaitė oficialias <b>2022 m. atnaujintas Bendrąsias programas</b> (emokykla.lt) ir NŠA ikimokyklinio ugdymo pasiekimų aprašą, išskaidė jas į mokomas mikro-temas ir supynė priklausomybių grafą. Dabar vyksta pedagogų peržiūra — todėl v1.0 „juodraštis". Duomenys atviri (ODbL).</p>
   <h4>Koks originalas?</h4><p>Idėjos autorius — <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble (withmarble.com)</a>: atviras JAV/JK programų žemėlapis su 1 590 temų. Šis — lietuviškas atitikmuo iš mūsų BUP.</p>
   <h4>👨‍👩‍👧 Tėvams</h4><p>Pagal amžių matote, kas natūraliai „dega" dabar; prie kiekvienos temos — <b>klausimas vaikui</b> ir „moka, kai" požymiai.</p>
   <h4>🧑‍🏫 Mokytojams</h4><p>„Remiasi" = ko mokinys turi jau mokėti (spragų diagnostika); tarppjūviniai ryšiai rodo tarpdalykines jungtis.</p>
@@ -125,7 +125,7 @@ const STR={
   <p class="foot">Kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · LinkedIn: Kristijonas Vasiliauskas.</p>`},
  en:{title:'Everything a Lithuanian child learns',sub:(t,d)=>`An open map of Lithuania's official curricula (2022). <b>${t}</b> concepts and <b>${d}</b> prerequisite links — each says what must come first, and why. <b>Tap any dot</b> to trace the full path to it.`,
   badge:'🎓 v1.0 draft: <b>COMPLETE — kindergarten to grade 12, 20 subjects</b> · pending educator review',
-  data:'⬇ Open data · ODbL',about:'ℹ️ About',credit:'Built by Kristijonas Vasiliauskas · v0 draft — pending educator review · data: LT national curricula 2022 · topic content currently in Lithuanian',
+  data:'⬇ Open data · ODbL',about:'ℹ️ About',credit:'Built by Kristijonas Vasiliauskas · v1.0 draft — pending educator review · data: LT national curricula 2022 · topic content currently in Lithuanian',
   legend:'Subjects · click',hint:'<b>Drag</b> — spin · <b>Right/Shift</b> — pan · <b>Scroll</b> — zoom · <b>Double-click</b> — reset · <b>Tap a dot</b> — trace',
   steps:'prerequisites lead to this concept',ask:'❓ Ask your child',ev:'✅ Mastery looks like',dep:'Builds on',un:'Unlocks',child:'your child',yrs:'y.',
   aboutHtml:`<span class="close" onclick="document.getElementById('about').classList.remove('open')">✕</span>
@@ -174,7 +174,7 @@ window.setLang=setLang;
 function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
 function applyLang(){const S=STR[LANG];
  document.getElementById('hTitle').innerHTML=S.title+'<span class="dot">.</span>';
- document.getElementById('hSub').innerHTML=S.sub(topics.length||937,deps.length||1520);
+ document.getElementById('hSub').innerHTML=S.sub(topics.length||2129,deps.length||2747);
  document.getElementById('hBadge').innerHTML=S.badge;
  document.getElementById('hData').textContent=S.data;
  document.getElementById('hAbout').textContent=S.about;
