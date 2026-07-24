@@ -79,6 +79,7 @@ canvas:active{cursor:grabbing}
 #tip .tmeta{font-size:11px;color:#9fb0d8;margin-bottom:5px}
 #tip .tmeta .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0}
 #tip .tdesc{color:#b9c4de;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+body.present .toolbar,body.present .legend,body.present .hint,body.present .lang,body.present .cbanner{display:none!important}
 </style>
 </head>
 <body>
@@ -152,6 +153,7 @@ function rgba(s,a){const c=RGB[s]||RGBF;return `rgba(${c[0]},${c[1]},${c[2]},${a
 let topics=[],deps=[],byId={},childs={},pars={},on={};
 let sel=null,ancestors=new Set(),descendants=new Set();
 let introStart=0, introMax=0, introDone=false;
+let present=false;
 let ageLo=null,ageHi=null,childMode=false,searchHit=null;
 const CHILD={known:new Set(),ready:new Set(),label:''};
 function loadChild(){try{const d=JSON.parse(localStorage.getItem('vz-child')||'null');if(!d)return false;CHILD.known=new Set(d.known||[]);CHILD.ready=new Set(d.ready||[]);CHILD.label=d.label||'';return true}catch(e){return false}}
@@ -219,6 +221,7 @@ Promise.all([fetch('data/topics.json?v='+Date.now()).then(r=>r.json()),fetch('da
     div.onclick=()=>{on[s]=!on[s];div.classList.toggle('off',!on[s])};
     rows.appendChild(div);});
   applyLang();
+  if(new URLSearchParams(location.search).has('present'))setTimeout(startPresent,300);
   requestAnimationFrame(frame);
 });
 applyLang();
@@ -232,13 +235,28 @@ function project(t,W,H){
   const zc=z2+cam.dist, s=F/Math.max(120,zc);
   return {x:W*0.5+120+(x*s)+cam.panX, y:H*0.52-(y2*s)+cam.panY, s, z:zc};
 }
+function startPresent(){
+  present=true; document.body.classList.add('present');
+  const byC=[...topics].sort((a,b)=>b.centrality-a.centrality);
+  const keystone=byC[0];
+  const later=[...topics].filter(t=>t.ageRangeStart>=13).sort((a,b)=>b.centrality-a.centrality)[0]||byC[3];
+  const closePanel=()=>{sel=null;ancestors=new Set();descendants=new Set();document.getElementById('panel').classList.remove('open');};
+  const seq=[
+    [400,   ()=>tweenTo({dist:1750,pitch:-0.05},1600)],
+    [7000,  ()=>tweenTo({dist:1250,pitch:-0.02},1500)],
+    [8800,  ()=>{if(keystone)select(keystone)}],
+    [14000, ()=>{if(later)select(later)}],
+    [19500, ()=>{closePanel();tweenTo({yaw:cam.yaw,pitch:-0.08,dist:1650,panX:0,panY:0},1800)}]
+  ];
+  seq.forEach(([t,fn])=>setTimeout(fn,t));
+}
 function frame(now){
   stepTween(now);
   const W=innerWidth,H=innerHeight;
   ctx.clearRect(0,0,W,H);
   const it=now-introStart;
   if(!introDone && it>introMax+900) introDone=true;
-  if(!sel&&!tween&&now-lastInteract>4000)cam.yaw+=0.0015;
+  if(present){if(!tween)cam.yaw+=0.0016;} else if(!sel&&!tween&&now-lastInteract>4000)cam.yaw+=0.0015;
   const P={};let zmin=1e9,zmax=-1e9;
   topics.forEach(t=>{const p=project(t,W,H);P[t.id]=p;if(p.z<zmin)zmin=p.z;if(p.z>zmax)zmax=p.z});
   const zr=Math.max(1,zmax-zmin);
