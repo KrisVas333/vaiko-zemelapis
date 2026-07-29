@@ -6,6 +6,12 @@
 <title>Viskas, ko išmoksta Lietuvos vaikas · LT mokymosi žemėlapis</title>
 <meta property="og:title" content="Viskas, ko išmoksta Lietuvos vaikas">
 <meta property="og:description" content="Atviras Lietuvos ugdymo programų žemėlapis: 2 129 mikro-temos ir 2 747 ryšių — nuo darželio iki 12 klasės, 20 dalykų. Paliesk tašką ir pamatyk visą vaiko kelią.">
+<meta property="og:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://krisvas333.github.io/vaiko-zemelapis/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23ff8a3d'/%3E%3C/svg%3E">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0e1f;color:#fff;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;overflow:hidden;height:100vh}
@@ -71,7 +77,7 @@ canvas:active{cursor:grabbing}
 .about a{color:#ff8a3d}
 .about .close{float:right;cursor:pointer;color:#8fa0cc;font-size:1.2em;padding:2px 8px}
 .about .foot{margin-top:18px;color:#8fa0cc;font-size:.8em}
-@media(max-width:720px){.hero{max-width:260px}.hero h1{font-size:1.7em}.panel{width:calc(100vw - 32px);right:16px;top:auto;bottom:16px;max-height:55vh;transform:translateY(24px)}.panel.open{transform:none}.legend,.hint{display:none}.lang{top:16px;right:16px}}
+.legTog{display:none;position:fixed;left:12px;bottom:12px;z-index:7;background:rgba(16,22,44,.96);border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:14px;padding:10px 14px;font-size:.85em;align-items:center;gap:6px;cursor:pointer}.mhint{display:none;position:fixed;left:12px;right:12px;bottom:66px;z-index:4;text-align:center;color:#9fb0d8;font-size:.78em;pointer-events:none}.coach{position:fixed;inset:0;z-index:20;background:rgba(5,8,20,.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}.coach.on{display:flex}.coach .cbox{background:#101a34;border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:26px 24px;max-width:340px;text-align:center}.coach .cbox h3{font-size:1.2em;margin-bottom:14px}.coach .cbox p{color:#c7d2f0;font-size:.98em;line-height:1.85;margin-bottom:20px;text-align:left}.coach .cbox button{background:#ff8a3d;color:#0a0e1f;border:0;border-radius:14px;padding:12px 26px;font-weight:800;font-size:.95em;cursor:pointer}@keyframes gpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,138,61,.6)}50%{box-shadow:0 0 0 7px rgba(255,138,61,0)}}@media(max-width:720px){.hero{max-width:225px}.hero h1{font-size:1.5em}.hero p{font-size:.8em}.panel{width:calc(100vw - 24px);right:12px;left:12px;top:auto;bottom:12px;max-height:60vh;transform:translateY(24px);border-radius:18px}.panel.open{transform:none}.panel li{font-size:.94em;padding:7px 0}.hint{display:none}.lang{top:14px;right:14px}.legend{left:10px;right:10px;bottom:66px;max-height:44vh;transform:translateY(135%);transition:transform .3s ease;display:block;z-index:6}.legend.mopen{transform:none}.legend .row{font-size:.98em;padding:8px 2px}.legTog{display:flex}.mhint{display:block}#grade.nudge{animation:gpulse 1.6s ease-in-out infinite}#tip{font-size:13px;max-width:72vw}.tb-test{font-size:.75em;padding:8px 12px}.tb-search input{width:120px}}
 
 #tip{position:fixed;z-index:8;pointer-events:none;max-width:300px;background:rgba(13,19,38,.96);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 13px;font-size:12.5px;line-height:1.45;color:#dfe6f5;box-shadow:0 8px 28px rgba(0,0,0,.45);opacity:0;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease;backdrop-filter:blur(6px)}
 #tip.on{opacity:1;transform:none}
@@ -99,7 +105,7 @@ body.present .toolbar,body.present .legend,body.present .hint,body.present .lang
   <a class="databtn" href="#" onclick="document.getElementById('about').classList.add('open');return false" style="margin-left:8px" id="hAbout"></a>
   <div class="credit" id="hCredit"></div>
 </div>
-<div class="legend"><h3 id="hLegend"></h3><div id="rows"></div></div>
+<div class="legend"><h3 id="hLegend"></h3><div id="rows"></div></div><button class="legTog" onclick="document.querySelector('.legend').classList.toggle('mopen')">🎨 <span>Dalykai</span></button><div class="mhint" id="mhint">👆 Bakstelėk tašką · 🤏 Suimk suartinti</div><div class="coach" id="coach"><div class="cbox"><h3>Sveiki! 👋</h3><p>👆 <b>Bakstelėk tašką</b> — pamatysi visą kelią iki jo<br><br>🤏 <b>Suimk dviem pirštais</b> — priartink<br><br>🎂 <b>Pasirink vaiko amžių</b> — pamatysi, kas „dega" dabar</p><button onclick="document.getElementById('coach').classList.remove('on')">Supratau 👍</button></div></div>
 <div class="panel" id="panel"></div>
 <div class="hint" id="hHint"></div>
 <div id="about" class="about"><div class="sheet" id="aboutSheet"></div></div>
@@ -316,8 +322,8 @@ addEventListener('mousemove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.
 addEventListener('mouseup',e=>{const was=drag&&drag.moved>6,btn=drag?drag.btn:0;drag=null;if(!was&&btn===0)pick(e.clientX,e.clientY)});
 cv.addEventListener('wheel',e=>{e.preventDefault();cam.dist=Math.max(650,Math.min(2800,cam.dist*(1+e.deltaY*.0012)));lastInteract=performance.now()},{passive:false});
 cv.addEventListener('dblclick',()=>{tweenTo({...DEF},700);lastInteract=performance.now()});
-let touches={};
-cv.addEventListener('touchstart',e=>{lastInteract=performance.now();
+let touches={};let lastPointerTouch=false;
+cv.addEventListener('touchstart',e=>{lastInteract=performance.now();lastPointerTouch=true;
   if(e.touches.length===1)drag={x:e.touches[0].clientX,y:e.touches[0].clientY,btn:0,moved:0};
   if(e.touches.length===2){drag=null;touches.d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)}},{passive:true});
 cv.addEventListener('touchmove',e=>{lastInteract=performance.now();
@@ -325,7 +331,7 @@ cv.addEventListener('touchmove',e=>{lastInteract=performance.now();
   if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);cam.dist=Math.max(650,Math.min(2800,cam.dist*touches.d/d));touches.d=d}},{passive:true});
 cv.addEventListener('touchend',e=>{const was=drag&&drag.moved>8;const t=e.changedTouches[0];const had=!!drag;drag=null;if(had&&!was)pick(t.clientX,t.clientY)});
 function pick(mx,my){
-  const W=innerWidth,H=innerHeight;let best=null,bd=20*20;
+  const W=innerWidth,H=innerHeight;let best=null,bd=(lastPointerTouch?32:20)**2;
   topics.forEach(t=>{if(!on[t.subject])return;const p=project(t,W,H);const d=(p.x-mx)**2+(p.y-my)**2;if(d<bd){bd=d;best=t}});
   if(best)select(best);
   else{sel=null;document.getElementById('panel').classList.remove('open')}
@@ -357,7 +363,7 @@ window.select=select;window.byId=byId;
 // ---- Phase 0: search · grade filter · "Kur mano vaikas?" ----
 const GRADES=[{v:'',lt:'🎂 Visi amžiai',en:'🎂 All ages'},{v:'2,6',lt:'Darželis (2–6 m.)',en:'Kindergarten'},{v:'6,7',lt:'Priešmokyklinis',en:'Pre-primary'},{v:'7,9',lt:'1–2 klasė',en:'Grade 1–2'},{v:'9,11',lt:'3–4 klasė',en:'Grade 3–4'},{v:'11,13',lt:'5–6 klasė',en:'Grade 5–6'},{v:'13,15',lt:'7–8 klasė',en:'Grade 7–8'},{v:'15,17',lt:'9–10 klasė',en:'Grade 9–10'},{v:'17,19',lt:'11–12 klasė',en:'Grade 11–12'}];
 function buildGrades(){const g=document.getElementById('grade');const cur=g.value;g.innerHTML=GRADES.map(o=>`<option value="${o.v}">${o[LANG]}</option>`).join('');g.value=cur}
-function setGrade(v){if(!v){ageLo=null;ageHi=null}else{const p=v.split(',');ageLo=+p[0];ageHi=+p[1]}}
+function setGrade(v){if(!v){ageLo=null;ageHi=null}else{const p=v.split(',');ageLo=+p[0];ageHi=+p[1]}var g=document.getElementById('grade');if(g)g.classList.remove('nudge');}
 window.setGrade=setGrade;
 function onSearch(q){q=q.trim().toLowerCase();const res=document.getElementById('qres');
  if(q.length<2){searchHit=null;res.classList.remove('on');return}
@@ -415,6 +421,7 @@ cv.addEventListener('mousemove',e=>{
 cv.addEventListener('mouseleave',hideTip);
 cv.addEventListener('mousedown',hideTip);
 cv.addEventListener('touchstart',hideTip,{passive:true});
+if(innerWidth<=720&&!localStorage.getItem('vz-coach')){var _c=document.getElementById('coach');if(_c)_c.classList.add('on');localStorage.setItem('vz-coach','1');var _g=document.getElementById('grade');if(_g)_g.classList.add('nudge');}
 addEventListener('blur',hideTip);
 </script>
 </body>
