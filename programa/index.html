@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Užžemėlapink savo būrelį · Vaiko žemėlapis</title>
+<meta name="description" content="Būrelių vadovams: parodyk tėvams, kurias mokyklinės programos temas ugdo TAVO veikla. Pirmi 20 būrelių ant žemėlapio — nemokamai.">
+<meta property="og:title" content="Užžemėlapink savo būrelį — nemokamai (pirmi 20)">
+<meta property="og:description" content="Nustok konkuruoti kaina. Parodyk tėvams savo VIETĄ mokyklinės programos žemėlapyje: kurias temas TAVO veikla ugdo ir ką atrakina.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1f;color:#fff;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:#ff8a3d}
+.wrap{max-width:680px;margin:0 auto;padding:40px 22px 80px}
+.lang{display:flex;justify-content:flex-end;gap:0;margin-bottom:18px}
+.lang button{border:0;background:rgba(255,255,255,.07);color:#8fa0cc;padding:6px 14px;font-size:.78em;font-weight:700;cursor:pointer}
+.lang button:first-child{border-radius:16px 0 0 16px}
+.lang button:last-child{border-radius:0 16px 16px 0}
+.lang button.on{background:#ff8a3d;color:#0a0e1f}
+.kicker{font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:#ffb37d;font-weight:700;margin-bottom:12px}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:2.15em;line-height:1.1;font-weight:600;margin-bottom:14px}
+h1 .g{color:#ff8a3d}
+.lede{color:#c7d2f0;font-size:1.02em;margin-bottom:8px}
+.sub{color:#a8b8e8;font-size:.92em;margin-bottom:26px}
+
+/* proof block: mapped-program mock */
+.proof{background:rgba(16,22,44,.7);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:22px 20px;margin:8px 0 30px}
+.proof .plabel{font-size:.72em;letter-spacing:.1em;text-transform:uppercase;color:#8fa0cc;margin-bottom:14px}
+.node{display:inline-block;background:rgba(255,138,61,.16);border:1px solid rgba(255,138,61,.55);color:#ffb37d;border-radius:22px;padding:7px 16px;font-weight:700;font-size:.92em;margin-bottom:14px}
+.fan{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.fan{grid-template-columns:1fr}}
+.clip{border-left:3px solid;border-radius:0 10px 10px 0;background:rgba(255,255,255,.04);padding:9px 12px}
+.clip .cs{font-size:.7em;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-bottom:3px}
+.clip .ct{font-size:.85em;color:#dde5fa}
+.chip{display:inline-block;margin-top:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#dde5fa;border-radius:20px;padding:5px 14px;font-size:.78em}
+.badgeMock{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:#0a0e1f;border:1.5px solid #ff8a3d;border-radius:12px;padding:9px 15px;font-size:.82em;color:#ffb37d;font-weight:700}
+.badgeMock .star{color:#ff8a3d}
+
+.step{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.step .num{flex:0 0 26px;height:26px;border-radius:50%;background:rgba(255,138,61,.16);border:1px solid rgba(255,138,61,.5);color:#ffb37d;font-weight:700;font-size:.85em;display:flex;align-items:center;justify-content:center}
+.step .txt{font-size:.92em;color:#c7d2f0}
+
+/* form */
+.card{background:rgba(16,22,44,.92);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:26px 24px;margin-top:6px}
+.card h2{font-size:1.25em;margin-bottom:6px}
+.card .fnote{color:#8fa0cc;font-size:.85em;margin-bottom:20px}
+label{display:block;font-size:.8em;letter-spacing:.04em;text-transform:uppercase;color:#8fa0cc;font-weight:700;margin:16px 0 7px}
+label .req{color:#ff8a3d}
+input,textarea,select{width:100%;background:#0a0e1f;border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#fff;font-size:1em;padding:12px 14px;font-family:inherit}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#ff8a3d}
+textarea{min-height:80px;resize:vertical}
+.hintline{color:#5f6c96;font-size:.78em;margin-top:5px}
+button.submit{width:100%;margin-top:22px;background:#ff8a3d;color:#0a0e1f;border:0;border-radius:14px;padding:15px;font-size:1.05em;font-weight:800;cursor:pointer;transition:.15s}
+button.submit:hover{background:#ffa05e}
+.privacy{color:#5f6c96;font-size:.78em;margin-top:14px;text-align:center;line-height:1.5}
+.ok{display:none;text-align:center;padding:20px 0}
+.ok.show{display:block}
+.ok .big{font-size:2.4em;margin-bottom:8px}
+.ok h2{margin-bottom:8px}
+.ok p{color:#c7d2f0;font-size:.92em}
+.foot{margin-top:34px;text-align:center;color:#5f6c96;font-size:.8em;line-height:1.6}
+.foot a{color:#8fa0cc}
+.back{display:inline-block;margin-bottom:22px;color:#8fa0cc;font-size:.85em;text-decoration:none}
+</style>
+<script defer src="https://krisvas333.github.io/neuron-ar/track.js"
+        data-brand="kris" data-artifact="programa" data-kind="landing"></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang"><button id="lLT" class="on" onclick="setLang('lt')">LT</button><button id="lEN" onclick="setLang('en')">EN</button></div>
+  <a class="back" href="../" id="back">← Vaiko žemėlapis</a>
+
+  <div class="kicker" id="kicker">Būrelių ir veiklų vadovams</div>
+  <h1 id="h1">Nustok konkuruoti kaina.<br><span class="g" id="h1g">Konkuruok savo vieta žemėlapyje.</span></h1>
+  <p class="lede" id="lede">Tėvas mato tik kainą, todėl renkasi pigiausią. Parodyk jam kitą dalyką: kurias <b>mokyklinės programos temas</b> ugdo būtent tavo veikla.</p>
+  <p class="sub" id="sub">Mokykla kloja pamatą. Būreliai — vieta, kur jis pritaikomas ir kartojamas. Tavo programa turi tikslią vietą žemėlapyje (2 129 temos · 2 747 ryšiai · 20 dalykų · darželis–12 kl.). Dauguma būrelių jos net nežino.</p>
+
+  <div class="proof">
+    <div class="plabel" id="plabel">Ką gauni — pavyzdys: šokio studija</div>
+    <span class="node" id="pnode">🩰 Šokio būrelis, 1–4 kl.</span>
+    <div class="fan" id="fan">
+      <div class="clip" style="border-color:#90be6d"><div class="cs" style="color:#90be6d">Fizinis ugdymas</div><div class="ct">koordinacija · pusiausvyra · ritmas · kūno schema</div></div>
+      <div class="clip" style="border-color:#c9a7eb"><div class="cs" style="color:#c9a7eb">Muzika</div><div class="ct">ritmo pojūtis · tempas · metras</div></div>
+      <div class="clip" style="border-color:#5b8def"><div class="cs" style="color:#5b8def">Matematika</div><div class="ct">erdvinis mąstymas · sekos · dėsningumai</div></div>
+      <div class="clip" style="border-color:#ff6b8a"><div class="cs" style="color:#ff6b8a">Emocijos ir raiška</div><div class="ct">saviraiška · pasirodymas · savireguliacija</div></div>
+    </div>
+    <span class="chip" id="chip">9 temos · 4 dalykai — tas pačias vaikas laiko mokykloje</span>
+    <div class="badgeMock" id="badge"><span class="star">★</span> „Žemėlapyje“ · patvirtintas būrelis — ženkliukas tavo bureliai.lt skelbimui</div>
+  </div>
+
+  <div id="steps">
+    <div class="step"><div class="num">1</div><div class="txt" id="s1">Užpildai 1 laukelį (žemiau) — 60 sek., jokio pokalbio.</div></div>
+    <div class="step"><div class="num">2</div><div class="txt" id="s2">Aš rankomis užžemėlapinu tavo programą: node’as, kuris išsišakoja į tavo ugdomas temas.</div></div>
+    <div class="step"><div class="num">3</div><div class="txt" id="s3">Gauni: (a) savo programos žemėlapį, (b) „Žemėlapyje“ ženkliuką skelbimui, ir kai tėvas išsitraukia savo <b>Vaiko žemėlapį</b>, tavo veikla švyti tiksliai ant jo vaiko spragos.</div></div>
+  </div>
+
+  <div class="card">
+    <form id="form" onsubmit="return submitForm(event)">
+      <h2 id="fh">Užžemėlapink savo programą</h2>
+      <p class="fnote" id="fnote">Pirmi 20 būrelių — nemokamai. Recenzuoju kiekvieną rankomis, todėl vietos ribotos.</p>
+
+      <label id="lProg">Būrelio pavadinimas · miestas · nuoroda <span class="req">*</span></label>
+      <textarea id="prog" name="programa" required placeholder="pvz.: Ritmo šokio studija, Kaunas, facebook.com/ritmostudija"></textarea>
+      <div class="hintline" id="hProg">Vienas laukelis — pavadinimas, miestas ir nuoroda (FB / svetainė / bureliai.lt). To užtenka.</div>
+
+      <label id="lEmail">El. paštas (kur atsiųsti žemėlapį ir ženkliuką) <span class="req">*</span></label>
+      <input id="email" name="email" type="email" required placeholder="tu@pastas.lt">
+
+      <label id="lType">Veiklos tipas (nebūtina)</label>
+      <select id="type" name="tipas">
+        <option value="">— pasirink —</option>
+        <option>Robotika / technologijos</option>
+        <option>Programavimas / IT</option>
+        <option>Šokis / judesys / gimnastika</option>
+        <option>Sportas / stovyklos</option>
+        <option>Daile / kūryba / muzika</option>
+        <option>Kalbos</option>
+        <option>Gamta / mokslas</option>
+        <option>Darželio veiklos (2–6 m.)</option>
+        <option>Kita</option>
+      </select>
+
+      <button type="submit" class="submit" id="btn">Užžemėlapink mane →</button>
+      <p class="privacy" id="priv">Jokio spamo. Jokio pokalbio. Tik tavo programos žemėlapis ir ženkliukas. Vietos ribotos — pirmi 20.</p>
+    </form>
+    <div class="ok" id="ok">
+      <div class="big">🗺️</div>
+      <h2 id="okh">Gavau. Ačiū!</h2>
+      <p id="okp">Užžemėlapinu rankomis ir grįšiu su tavo programos žemėlapiu bei ženkliuku. Jei el. laiškas neatsidarė automatiškai — parašyk man tiesiai.</p>
+    </div>
+  </div>
+
+  <p class="foot" id="foot">Vaiko žemėlapis · kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · <a href="../">grįžti į žemėlapį</a></p>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   LEAD CAPTURE
+   Default (works today, zero setup): opens a pre-filled email to Kris.
+   To capture silently instead: paste a Formspree/Tally endpoint into
+   ENDPOINT below (e.g. "https://formspree.io/f/xxxx"). If set, the form
+   POSTs there and the mailto fallback is skipped.
+-------------------------------------------------------------------*/
+const ENDPOINT = ""; // <-- paste Formspree/Tally form action here to enable silent capture
+const TO_EMAIL = "kristijonas.vasiliauskas@gmail.com";
+
+const T={
+ lt:{back:'← Vaiko žemėlapis',kicker:'Būrelių ir veiklų vadovams',
+  h1:'Nustok konkuruoti kaina.',h1g:'Konkuruok savo vieta žemėlapyje.',
+  lede:'Tėvas mato tik kainą, todėl renkasi pigiausią. Parodyk jam kitą dalyką: kurias <b>mokyklinės programos temas</b> ugdo būtent tavo veikla.',
+  sub:'Mokykla kloja pamatą. Būreliai — vieta, kur jis pritaikomas ir kartojamas. Tavo programa turi tikslią vietą žemėlapyje (2 129 temos · 2 747 ryšiai · 20 dalykų · darželis–12 kl.). Dauguma būrelių jos net nežino.',
+  plabel:'Ką gauni — pavyzdys: šokio studija',pnode:'🩰 Šokio būrelis, 1–4 kl.',
+  chip:'9 temos · 4 dalykai — tas pačias vaikas laiko mokykloje',
+  badge:'„Žemėlapyje“ · patvirtintas būrelis — ženkliukas tavo bureliai.lt skelbimui',
+  s1:'Užpildai 1 laukelį (žemiau) — 60 sek., jokio pokalbio.',
+  s2:'Aš rankomis užžemėlapinu tavo programą: node’as, kuris išsišakoja į tavo ugdomas temas.',
+  s3:'Gauni: (a) savo programos žemėlapį, (b) „Žemėlapyje“ ženkliuką skelbimui, ir kai tėvas išsitraukia savo <b>Vaiko žemėlapį</b>, tavo veikla švyti tiksliai ant jo vaiko spragos.',
+  fh:'Užžemėlapink savo programą',fnote:'Pirmi 20 būrelių — nemokamai. Recenzuoju kiekvieną rankomis, todėl vietos ribotos.',
+  lProg:'Būrelio pavadinimas · miestas · nuoroda',hProg:'Vienas laukelis — pavadinimas, miestas ir nuoroda (FB / svetainė / bureliai.lt). To užtenka.',
+  lEmail:'El. paštas (kur atsiųsti žemėlapį ir ženkliuką)',lType:'Veiklos tipas (nebūtina)',
+  btn:'Užžemėlapink mane →',priv:'Jokio spamo. Jokio pokalbio. Tik tavo programos žemėlapis ir ženkliukas. Vietos ribotos — pirmi 20.',
+  okh:'Gavau. Ačiū!',okp:'Užžemėlapinu rankomis ir grįšiu su tavo programos žemėlapiu bei ženkliuku. Jei el. laiškas neatsidarė automatiškai — parašyk man tiesiai.',
+  foot:'Vaiko žemėlapis · kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · <a href="../">grįžti į žemėlapį</a>',
+  mailSubj:'Užžemėlapink mano būrelį'},
+ en:{back:'← The child map',kicker:'For after-school providers',
+  h1:'Stop competing on price.',h1g:'Compete on your place on the map.',
+  lede:'A parent sees only the price, so they pick the cheapest. Show them something else: which <b>school-curriculum topics</b> your activity actually builds.',
+  sub:'School builds the foundation. After-school is where it gets applied and repeated. Your programme has an exact place on the map (2,129 topics · 2,747 links · 20 subjects · kindergarten–grade 12). Most providers have no idea where.',
+  plabel:'What you get — example: a dance studio',pnode:'🩰 Dance club, grades 1–4',
+  chip:'9 topics · 4 subjects — the same ones tested at school',
+  badge:'“On the map” · verified provider — a badge for your bureliai.lt listing',
+  s1:'Fill one field (below) — 60 sec, no call.',
+  s2:'I hand-map your programme: a node that fans out to the topics you build.',
+  s3:'You get: (a) your programme’s map, (b) an “On the map” badge for your listing, and when a parent pulls up their <b>Child Map</b>, your activity glows right on their child’s gap.',
+  fh:'Map my programme',fnote:'First 20 providers — free. I review each one by hand, so slots are limited.',
+  lProg:'Club name · city · link',hProg:'One field — name, city and a link (FB / site / bureliai.lt). That’s enough.',
+  lEmail:'Email (where to send the map and badge)',lType:'Activity type (optional)',
+  btn:'Map me →',priv:'No spam. No call. Just your programme’s map and badge. Limited — first 20.',
+  okh:'Got it. Thank you!',okp:'I map by hand and will come back with your programme’s map and badge. If your email client didn’t open — just write to me directly.',
+  foot:'The child map · built by <b>Kristijonas Vasiliauskas</b> (Robotics Academy · BrAIn Club) · <a href="../">back to the map</a>',
+  mailSubj:'Map my after-school club'}
+};
+let LANG=localStorage.getItem('zm-lang')||'lt';
+function setLang(l){LANG=l;localStorage.setItem('zm-lang',l);
+  document.getElementById('lLT').classList.toggle('on',l==='lt');
+  document.getElementById('lEN').classList.toggle('on',l==='en');
+  const S=T[l];
+  const set=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html};
+  set('back',S.back);set('kicker',S.kicker);set('h1',S.h1);set('h1g',S.h1g);set('lede',S.lede);set('sub',S.sub);
+  set('plabel',S.plabel);set('pnode',S.pnode);set('chip',S.chip);set('foot',S.foot);
+  document.getElementById('badge').innerHTML='<span class="star">★</span> '+S.badge;
+  set('s1',S.s1);set('s2',S.s2);set('s3',S.s3);set('fh',S.fh);set('fnote',S.fnote);
+  document.getElementById('lProg').innerHTML=S.lProg+' <span class="req">*</span>';set('hProg',S.hProg);
+  document.getElementById('lEmail').innerHTML=S.lEmail+' <span class="req">*</span>';
+  set('lType',S.lType);set('btn',S.btn);set('priv',S.priv);set('okh',S.okh);set('okp',S.okp);
+}
+setLang(LANG);
+
+function submitForm(e){
+  e.preventDefault();
+  const prog=document.getElementById('prog').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const type=document.getElementById('type').value;
+  if(ENDPOINT){
+    fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},
+      body:new FormData(document.getElementById('form'))})
+      .then(()=>showOk()).catch(()=>showOk());
+    return false;
+  }
+  // zero-setup fallback: pre-filled email to Kris
+  const S=T[LANG];
+  const body=encodeURIComponent(
+    (LANG==='en'?'Programme: ':'Būrelis: ')+prog+'\n'+
+    (LANG==='en'?'Type: ':'Tipas: ')+type+'\n'+
+    'Email: '+email+'\n');
+  window.location.href='mailto:'+TO_EMAIL+'?subject='+encodeURIComponent(S.mailSubj)+'&body='+body;
+  showOk();
+  return false;
+}
+function showOk(){document.getElementById('form').style.display='none';document.getElementById('ok').classList.add('show');}
+</script>
+</body>
+</html>
