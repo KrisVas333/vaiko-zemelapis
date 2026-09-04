@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metodika ir duomenys · LT vaiko mokymosi žemėlapis</title>
+<meta name="description" content="Iš kur paimti duomenys, kaip sudarytas grafas, kokie patikrinimai atlikti, ko šis rinkinys NEGALI — ir kaip jį cituoti. 2 129 temos · 2 747 ryšiai · 79 šaltinio dokumentai.">
+<meta property="og:title" content="Metodika ir duomenys — LT vaiko mokymosi žemėlapis">
+<meta property="og:description" content="Atviras duomenų rinkinys: 2 129 mikro-temos, 2 747 ryšiai, 79 oficialūs šaltiniai. Metodika, kokybės patikros, apribojimai ir citavimas.">
+<meta property="og:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://krisvas333.github.io/vaiko-zemelapis/metodika/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1f;color:#fff;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:#ff8a3d}
+.wrap{max-width:760px;margin:0 auto;padding:34px 22px 90px}
+.lang{display:flex;justify-content:flex-end;margin-bottom:16px}
+.lang button{border:0;background:rgba(255,255,255,.07);color:#8fa0cc;padding:6px 14px;font-size:.78em;font-weight:700;cursor:pointer}
+.lang button:first-child{border-radius:16px 0 0 16px}
+.lang button:last-child{border-radius:0 16px 16px 0}
+.lang button.on{background:#ff8a3d;color:#0a0e1f}
+.back{display:inline-block;margin-bottom:20px;color:#8fa0cc;font-size:.85em;text-decoration:none}
+.back:hover{color:#ff8a3d}
+.kicker{font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:#ffb37d;font-weight:700;margin-bottom:11px}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:2.15em;line-height:1.12;font-weight:600;margin-bottom:14px}
+h1 .g{color:#ff8a3d}
+.lede{color:#c7d2f0;font-size:1.04em;margin-bottom:30px}
+h2{font-family:Georgia,serif;font-size:1.42em;font-weight:600;margin:38px 0 12px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
+h3{font-size:.98em;color:#ffb37d;margin:20px 0 6px}
+p{color:#c7d2f0;font-size:.94em;margin-bottom:11px}
+ul,ol{color:#c7d2f0;font-size:.94em;margin:0 0 12px 20px}
+li{margin-bottom:7px}
+b,strong{color:#fff}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;background:rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;color:#ffd0ad}
+
+/* stat grid */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 8px}
+@media(max-width:620px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:rgba(16,22,44,.75);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 13px}
+.stat .n{font-family:Georgia,serif;font-size:1.65em;color:#ff8a3d;line-height:1.1}
+.stat .l{font-size:.72em;letter-spacing:.05em;text-transform:uppercase;color:#8fa0cc;margin-top:5px;font-weight:700}
+
+table{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:.88em}
+th{text-align:left;color:#8fa0cc;font-size:.76em;letter-spacing:.07em;text-transform:uppercase;padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.16)}
+td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,.07);color:#c7d2f0;vertical-align:top}
+td.ok{color:#7fe0a8;font-weight:700;white-space:nowrap}
+.tscroll{overflow-x:auto}
+
+.card{background:rgba(16,22,44,.75);border:1px solid rgba(255,255,255,.13);border-radius:16px;padding:19px 20px;margin:14px 0}
+.warn{background:rgba(255,138,61,.07);border:1px solid rgba(255,138,61,.4);border-radius:16px;padding:19px 20px;margin:14px 0}
+.warn h3{margin-top:0;color:#ffb37d}
+.cite{background:#050814;border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:15px 17px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82em;color:#dde5fa;line-height:1.65;word-break:break-word}
+.copy{margin-top:10px;background:rgba(255,138,61,.16);border:1px solid rgba(255,138,61,.5);color:#ffb37d;border-radius:20px;padding:7px 16px;font-size:.8em;font-weight:700;cursor:pointer;font-family:inherit}
+.copy:hover{background:rgba(255,138,61,.28)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:6px 14px;font-size:.79em;color:#dde5fa;text-decoration:none}
+.badge b{color:#ffb37d}
+.step{display:flex;gap:13px;margin-bottom:13px;align-items:flex-start}
+.step .num{flex:0 0 27px;height:27px;border-radius:50%;background:rgba(255,138,61,.16);border:1px solid rgba(255,138,61,.5);color:#ffb37d;font-weight:700;font-size:.85em;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step .txt{font-size:.93em;color:#c7d2f0}
+.foot{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#5f6c96;font-size:.81em;line-height:1.7}
+.foot a{color:#8fa0cc}
+[data-l]{display:none}
+body.lt [data-l="lt"],body.en [data-l="en"]{display:block}
+li[data-l],td[data-l],span[data-l],b[data-l]{display:none}
+body.lt li[data-l="lt"],body.en li[data-l="en"]{display:list-item}
+body.lt td[data-l="lt"],body.en td[data-l="en"],
+body.lt span[data-l="lt"],body.en span[data-l="en"],
+body.lt b[data-l="lt"],body.en b[data-l="en"]{display:inline}
+</style>
+</head>
+<body class="lt">
+<div class="wrap">
+  <div class="lang"><button id="bLT" class="on" onclick="setLang('lt')">LT</button><button id="bEN" onclick="setLang('en')">EN</button></div>
+  <a class="back" href="../"><span data-l="lt">← Grįžti į žemėlapį</span><span data-l="en">← Back to the map</span></a>
+
+  <div data-l="lt">
+    <div class="kicker">Metodika · duomenys · citavimas</div>
+    <h1>Iš kur šitie duomenys<br><span class="g">ir ko jie neįrodo.</span></h1>
+    <p class="lede">Žemėlapis rodo gražų vaizdą. Šis puslapis rodo, kas po juo: kokie oficialūs dokumentai perskaityti, kaip iš jų padarytas grafas, kokie patikrinimai atlikti — ir sąžiningą sąrašą to, ko šis rinkinys <b>dar negali</b>.</p>
+  </div>
+  <div data-l="en">
+    <div class="kicker">Methodology · data · citation</div>
+    <h1>Where this data comes from<br><span class="g">and what it does not prove.</span></h1>
+    <p class="lede">The map shows a pretty picture. This page shows what is underneath it: which official documents were read, how the graph was built from them, which checks it passes — and an honest list of what this dataset <b>cannot yet</b> do.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">2 129</div><div class="l"><span data-l="lt">mikro-temos</span><span data-l="en">micro-topics</span></div></div>
+    <div class="stat"><div class="n">2 747</div><div class="l"><span data-l="lt">ryšiai</span><span data-l="en">prerequisite links</span></div></div>
+    <div class="stat"><div class="n">79</div><div class="l"><span data-l="lt">šaltinio dok.</span><span data-l="en">source documents</span></div></div>
+    <div class="stat"><div class="n">2–19</div><div class="l"><span data-l="lt">metų amžius</span><span data-l="en">age range</span></div></div>
+  </div>
+
+  <div class="badges">
+    <span class="badge"><b>v1.0</b> · 2026-08-13</span>
+    <a class="badge" href="https://opendatacommons.org/licenses/odbl/1-0/"><b>ODbL v1.0</b> <span data-l="lt">duomenys</span><span data-l="en">database</span></a>
+    <a class="badge" href="https://creativecommons.org/licenses/by/4.0/"><b>CC BY 4.0</b> <span data-l="lt">dokumentacija</span><span data-l="en">documentation</span></a>
+    <a class="badge" href="https://github.com/KrisVas333/vaiko-zemelapis">GitHub</a>
+    <span class="badge" id="doiBadge"><b>DOI</b> <span data-l="lt">ruošiamas</span><span data-l="en">pending</span></span>
+  </div>
+
+  <!-- ── WHAT IT IS ─────────────────────────────────────────── -->
+  <h2><span data-l="lt">Kas tai yra</span><span data-l="en">What this is</span></h2>
+  <div data-l="lt">
+    <p>Lietuva savo <b>Bendrąsias programas (2022)</b> skelbia kaip tekstinius dokumentus — po vieną kiekvienam dalykui. Juose parašyta, <b>ką</b> reikia išmokti. Bet nėra parašyta, <b>kas nuo ko priklauso</b> — kokia tvarka vaiko supratimas iš tikrųjų turi būti statomas.</p>
+    <p>Šis rinkinys tuos dokumentus paverčia <b>kryptiniu acikliniu grafu</b>:</p>
+    <ul>
+      <li><b>Temos</b> — 2 129 mokomos mikro-temos. Kiekviena su paprastu aprašymu, stebimais „moka, kai…" kriterijais, amžiaus intervalu ir nuoroda į tikslų programos dokumentą bei kodą.</li>
+      <li><b>Ryšiai</b> — 2 747 priklausomybės. Kiekviena pažymėta <code>hard</code> arba <code>soft</code> ir kiekviena turi <b>parašytą priežastį</b>, kodėl ji egzistuoja.</li>
+    </ul>
+    <p>Kiek žinome, tai pirmas viešai paskelbtas Lietuvos ugdymo turinio priklausomybių grafas. Programų <i>sąrašus</i> turi visi ir jie vieši; <i>grafo</i> nebuvo.</p>
+  </div>
+  <div data-l="en">
+    <p>Lithuania publishes its national curricula (<b>Bendrosios programos, 2022</b>) as prose documents, one per subject. They state <b>what</b> should be taught, but not <b>what depends on what</b> — the order in which a child's understanding actually has to be built.</p>
+    <p>This dataset turns those documents into a <b>directed acyclic graph</b>:</p>
+    <ul>
+      <li><b>Topics</b> — 2 129 teachable micro-topics, each with a plain-language description, observable "knows-it-when" criteria, an age band, and a citation back to the exact curriculum document and code.</li>
+      <li><b>Dependencies</b> — 2 747 prerequisite edges, each labelled <code>hard</code> or <code>soft</code>, and each carrying a <b>written reason</b> for why it exists.</li>
+    </ul>
+    <p>To our knowledge this is the first openly published prerequisite graph of the Lithuanian curriculum. Curriculum <i>lists</i> exist and are public; the <i>graph</i> did not.</p>
+  </div>
+
+  <!-- ── SOURCES ────────────────────────────────────────────── -->
+  <h2><span data-l="lt">Šaltiniai</span><span data-l="en">Sources</span></h2>
+  <div data-l="lt">
+    <p>Visa medžiaga — Lietuvos teisės aktai ir valstybės institucijų dokumentai. Jie <b>nėra autorių teisių objektas</b> (LR ATGTĮ 5 str.), todėl juos naudoti teisiškai švaru.</p>
+    <ul>
+      <li><a href="https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos">Bendrosios programos (2022)</a> — visi dalykai</li>
+      <li>Priešmokyklinio ugdymo bendroji programa (2022)</li>
+      <li>Ikimokyklinio ugdymo programos gairės (NŠA)</li>
+      <li>Teisės aktas: e-TAR V-1269 (aktuali redakcija)</li>
+    </ul>
+    <p>Iš viso cituojami <b>79 skirtingi šaltinio dokumentai</b>, <b>2 593</b> nuorodos į konkrečius programos kodus (<code>LT-BP-2022</code>: 2 437 · <code>LT-IKIMOK</code>: 156).</p>
+  </div>
+  <div data-l="en">
+    <p>All source material is Lithuanian legislation or state-agency guidance, which is <b>not subject to copyright</b> under Lithuanian law (LR ATGTĮ art. 5).</p>
+    <ul>
+      <li><a href="https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos">Bendrosios programos (2022)</a> — all subject curricula</li>
+      <li>Priešmokyklinio ugdymo bendroji programa (2022) — pre-primary curriculum</li>
+      <li>Ikimokyklinio ugdymo programos gairės (NŠA) — pre-school attainment guidelines</li>
+      <li>Legal instrument: e-TAR V-1269 (consolidated)</li>
+    </ul>
+    <p><b>79 distinct source documents</b> are cited across <b>2 593</b> standard references (<code>LT-BP-2022</code>: 2 437 · <code>LT-IKIMOK</code>: 156).</p>
+  </div>
+
+  <!-- ── METHOD ─────────────────────────────────────────────── -->
+  <h2><span data-l="lt">Kaip padaryta</span><span data-l="en">Method</span></h2>
+  <div data-l="lt">
+    <div class="step"><div class="num">1</div><div class="txt"><b>Surinkimas.</b> Oficialūs programų dokumentai paimti iš emokykla.lt ir NŠA.</div></div>
+    <div class="step"><div class="num">2</div><div class="txt"><b>Distiliavimas.</b> Kalbos modeliai kiekvieną programos sritį išskaidė į atskiras mokomas mikro-temas, kiekvienai sugeneruodami aprašymą, 2–4 stebimus pasiekimo kriterijus, amžiaus intervalą, temos tipą ir nuorodą į šaltinio dokumentą su kodu. Dalykai apdoroti atskiromis grupėmis, kad nesusimaišytų dalykų terminija.</div></div>
+    <div class="step"><div class="num">3</div><div class="txt"><b>Suvėrimas.</b> Antras etapas pasiūlė priklausomybes dalyko viduje, po to atskiras etapas — tarpdalykines jungtis (161 iš 2 747 ryšių kerta dalyko ribą).</div></div>
+    <div class="step"><div class="num">4</div><div class="txt"><b>Patikra.</b> Automatiniai testai tikrina schemos atitiktį, nuorodų vientisumą, kad nebūtų kilpų ir kad grafas būtų <b>aciklinis</b> — priklausomybių grafas su ciklu yra pagal apibrėžimą klaidingas.</div></div>
+    <div class="step"><div class="num">5</div><div class="txt"><b>Pedagogų peržiūra.</b> <b>Vyksta ir dar nebaigta</b> — žr. apribojimus žemiau.</div></div>
+    <p style="margin-top:14px">Rinkinys atkuriamas iš <code>build-release.py</code>: <b>kiekvienas šiame puslapyje esantis skaičius perskaičiuojamas iš pačių duomenų</b>, o ne vedamas ranka. Todėl jie negali „pasenti" nepastebimai.</p>
+  </div>
+  <div data-l="en">
+    <div class="step"><div class="num">1</div><div class="txt"><b>Ingest.</b> Official curriculum documents retrieved from emokykla.lt and NŠA.</div></div>
+    <div class="step"><div class="num">2</div><div class="txt"><b>Distil.</b> Large language models decomposed each curriculum strand into discrete teachable micro-topics, emitting for each a description, 2–4 observable attainment criteria, an age band, a topic type, and the source document + code. Subjects were processed in independent batches to avoid cross-contamination of subject vocabularies.</div></div>
+    <div class="step"><div class="num">3</div><div class="txt"><b>Wire.</b> A second pass proposed prerequisite edges within each subject; a bridging pass then proposed cross-subject edges (161 of 2 747 cross a subject boundary).</div></div>
+    <div class="step"><div class="num">4</div><div class="txt"><b>Validate.</b> Automated checks enforce schema conformance, referential integrity, no self-loops, and <b>acyclicity</b> — a prerequisite graph containing a cycle is by definition wrong.</div></div>
+    <div class="step"><div class="num">5</div><div class="txt"><b>Educator review.</b> <b>In progress and not yet complete</b> — see limitations below.</div></div>
+    <p style="margin-top:14px">The build is reproducible from <code>build-release.py</code>: <b>every figure on this page is regenerated from the data</b> rather than maintained by hand, so the numbers cannot silently drift.</p>
+  </div>
+
+  <!-- ── QUALITY ────────────────────────────────────────────── -->
+  <h2><span data-l="lt">Kokybės patikros</span><span data-l="en">Quality checks</span></h2>
+  <div class="tscroll">
+  <table>
+    <tr><th><span data-l="lt">Patikra</span><span data-l="en">Check</span></th><th><span data-l="lt">Rezultatas</span><span data-l="en">Result</span></th></tr>
+    <tr><td><span data-l="lt">Atitiktis schemai</span><span data-l="en">Schema conformance</span></td><td class="ok">2 129 / 2 129 · 2 747 / 2 747</td></tr>
+    <tr><td><span data-l="lt">Identifikatorių formatas</span><span data-l="en">Identifier format</span></td><td class="ok">100 %</td></tr>
+    <tr><td><span data-l="lt">Nuorodos į neegzistuojančias temas</span><span data-l="en">Dangling references</span></td><td class="ok">0</td></tr>
+    <tr><td><span data-l="lt">Kilpos į save</span><span data-l="en">Self-loops</span></td><td class="ok">0</td></tr>
+    <tr><td><b><span data-l="lt">Ciklai (privalo būti DAG)</span><span data-l="en">Cycles (must be a DAG)</span></b></td><td class="ok">0</td></tr>
+    <tr><td><span data-l="lt">Temos su „moka, kai" kriterijais</span><span data-l="en">Topics with attainment criteria</span></td><td class="ok">100 % · 6 375 <span data-l="lt">vnt.</span><span data-l="en">criteria</span></td></tr>
+    <tr><td><span data-l="lt">Temos su nuoroda į programą</span><span data-l="en">Topics citing a source standard</span></td><td class="ok">100 %</td></tr>
+    <tr><td><span data-l="lt">Temos su klausimu tėvams</span><span data-l="en">Topics with a parent prompt</span></td><td class="ok">100 %</td></tr>
+    <tr><td><span data-l="lt">Ryšiai su parašyta priežastimi</span><span data-l="en">Edges with a written reason</span></td><td class="ok">100 %</td></tr>
+  </table>
+  </div>
+  <p><span data-l="lt"><b>Grafo forma:</b> 409 pradinės temos (be prielaidų) · 815 galinių · 1 221 <code>hard</code> / 1 526 <code>soft</code> ryšiai · tipai: 1 068 sąvokinės, 720 procedūrinės, 143 meta, 102 kalbinės, 96 vaizdavimo.</span><span data-l="en"><b>Graph shape:</b> 409 roots (no prerequisites) · 815 leaves · 1 221 <code>hard</code> / 1 526 <code>soft</code> edges · types: 1 068 conceptual, 720 procedural, 143 meta, 102 language, 96 representational.</span></p>
+
+  <!-- ── LIMITATIONS ────────────────────────────────────────── -->
+  <h2><span data-l="lt">Apribojimai — perskaityk prieš cituodamas</span><span data-l="en">Limitations — read before citing</span></h2>
+  <div class="warn">
+  <div data-l="lt">
+    <h3>Ko šis rinkinys dar negali</h3>
+    <ol>
+      <li><b>Pedagogų peržiūra nebaigta.</b> v1.0 yra <i>juodraštis su įrašu</i>: mašininiu būdu distiliuotas iš oficialių dokumentų ir viduje neprieštaringas, bet dar nepatvirtintas dalykų mokytojų. Ypač tai liečia ryšių vertinimus (<code>soft</code> ryšiai) — tai modelio išvada, ne profesinis sutarimas.</li>
+      <li><b>269 temos (12,6 %) yra izoliuotos</b> — neturi nė vieno ryšio nė į vieną pusę. Dauguma jų yra nuostatų ar vertybinės sritys, kurios sunkiai modeliuojamos kaip priklausomybės (dalis etikos, fizinio ugdymo). Jos įtrauktos dėl pilnumo, o ne todėl, kad joms nustatyta priklausomybių struktūra.</li>
+      <li><b>Ryšių stiprumas nekalibruotas pagal rezultatus.</b> <code>hard</code> ir <code>soft</code> — eksperto tipo sprendimai, o ne išvestiniai iš mokinių pasiekimų duomenų. <b>Jokie mokinių duomenys nebuvo naudojami</b> kuriant šį grafą.</li>
+      <li><b>Turinys lietuvių kalba.</b> Laukų pavadinimai angliški, visas temų tekstas — lietuviškas. Vertimo v1.0 nėra.</li>
+      <li><b>Programų kaita.</b> Pririšta prie 2022 m. programų tokių, kokios paskelbtos. Vėlesni pakeitimai v1.0 neatsekami.</li>
+      <li><b>Darželio rinkinys nėra griežtas pagrindinio poaibis</b> — jis kurtas atskirai, su savais amžiaus filtrais, ir naudotinas kaip savarankiškas rinkinys.</li>
+    </ol>
+    <p style="margin-bottom:0"><b>Nenaudok šio rinkinio kaip vienintelio pagrindo sprendimams apie konkretų vaiką</b> — vertinimui, skirstymui į grupes ar lygio nustatymui.</p>
+  </div>
+  <div data-l="en">
+    <h3>What this dataset cannot yet do</h3>
+    <ol>
+      <li><b>Educator review is incomplete.</b> v1.0 is a <i>draft of record</i>: machine-distilled from official documents and internally consistent, but not yet ratified by subject teachers. Edge judgements in particular (especially <code>soft</code> edges) reflect model inference, not professional consensus.</li>
+      <li><b>269 topics (12.6 %) are isolated</b> — they carry no prerequisite edge in either direction. These are mostly attitudinal or dispositional strands that resist prerequisite modelling (parts of ethics, physical education). They are included for coverage, not because a prerequisite structure has been established for them.</li>
+      <li><b>Edge strength is not calibrated against outcomes.</b> <code>hard</code> and <code>soft</code> are expert-style judgements, not empirically derived from student performance. <b>No learner data of any kind was used</b> to build this graph.</li>
+      <li><b>Content is in Lithuanian.</b> Field names are English; all topic text is Lithuanian. No translation at v1.0.</li>
+      <li><b>Curriculum drift.</b> Anchored to the 2022 curricula as published; subsequent amendments are not tracked in v1.0.</li>
+      <li><b>The pre-school subset is not a strict subset</b> of the main file — curated separately with its own age filters, and should be used as its own dataset.</li>
+    </ol>
+    <p style="margin-bottom:0"><b>Do not use this dataset as the sole basis for any decision affecting an individual child</b> — placement, assessment, or levelling.</p>
+  </div>
+  </div>
+  <p><span data-l="lt">Pastebėjai klaidą? Rašyk — pataisymai bus įtraukti ir nurodyti versijų istorijoje.</span><span data-l="en">Spotted an error? Corrections are welcome and will be credited in the version history.</span></p>
+
+  <!-- ── LICENCE ────────────────────────────────────────────── -->
+  <h2><span data-l="lt">Licencija</span><span data-l="en">Licence</span></h2>
+  <div data-l="lt">
+    <ul>
+      <li><b>Duomenų bazė ir jos turinys</b> — <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL v1.0</a>. Gali dalintis, naudoti ir keisti, jei <b>nurodai autorių</b>, išvestines <b>duomenų bazes</b> atveri ta pačia licencija ir neapriboji jų techninėmis priemonėmis.</li>
+      <li><b>Dokumentacija ir metodika</b> (šis puslapis, schemos, README) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</li>
+    </ul>
+    <p>Įprastas ODbL skirtumas: <b>sukurtas darbas</b> (ataskaita, vizualizacija, ekranas programėlėje), kuris tik <i>naudoja</i> duomenų bazę, ODbL būti neprivalo. Privalo tik išvestinė <i>duomenų bazė</i>.</p>
+    <p>Patys šaltiniai — Lietuvos teisės aktai — nėra autorių teisių objektas. Licencija taikoma tik šio darbo pridėtai struktūrai, distiliavimui, formuluotėms ir ryšiams.</p>
+  </div>
+  <div data-l="en">
+    <ul>
+      <li><b>Database and contents</b> — <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL v1.0</a>. Share, use and adapt freely, provided you <b>attribute</b>, keep derived <b>databases</b> open under the same licence, and do not lock them behind technical restrictions.</li>
+      <li><b>Documentation and methodology</b> (this page, schemas, README) — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</li>
+    </ul>
+    <p>Note the ordinary ODbL distinction: a <b>Produced Work</b> (a report, a visualisation, an app screen) that merely <i>uses</i> the database does not have to be ODbL. Only a derived <i>database</i> does.</p>
+    <p>The underlying sources are Lithuanian legal acts and are not copyrightable. The licence covers the structure, distillation, wording and prerequisite reasoning added by this work.</p>
+  </div>
+
+  <!-- ── CITE ───────────────────────────────────────────────── -->
+  <h2><span data-l="lt">Kaip cituoti</span><span data-l="en">How to cite</span></h2>
+  <div class="card">
+    <div class="cite" id="citeText">Vasiliauskas, K. (2026). <i>LT Vaiko Mokymosi Žemėlapis: an open prerequisite graph of the Lithuanian school curriculum (kindergarten–grade 12)</i> (Version 1.0) [Data set]. https://krisvas333.github.io/vaiko-zemelapis/</div>
+    <button class="copy" onclick="copyCite()"><span data-l="lt">Kopijuoti citatą</span><span data-l="en">Copy citation</span></button>
+    <p style="margin:12px 0 0;font-size:.86em"><span data-l="lt">DOI ruošiamas — kai bus, atsiras čia ir <code>CITATION.cff</code> faile.</span><span data-l="en">A DOI is pending — it will appear here and in <code>CITATION.cff</code> once minted.</span></p>
+  </div>
+
+  <!-- ── VERSIONS ───────────────────────────────────────────── -->
+  <h2><span data-l="lt">Versijų istorija</span><span data-l="en">Version history</span></h2>
+  <div class="tscroll">
+  <table>
+    <tr><th>V.</th><th><span data-l="lt">Data</span><span data-l="en">Date</span></th><th><span data-l="lt">Pokytis</span><span data-l="en">Change</span></th></tr>
+    <tr><td><b>v1.0</b></td><td>2026-08-13</td><td><span data-l="lt">Pirmas cituojamas leidimas. Pilna darželis–12 kl. apimtis, 20 dalykų. Schemos sulietuvintos, į build'ą įdėtas vientisumo filtras.</span><span data-l="en">First citable release. Full kindergarten–grade 12 coverage, 20 subjects. Schemas localised; integrity gate added to the build.</span></td></tr>
+    <tr><td>v0.2</td><td>2026-07-20</td><td><span data-l="lt">Pilnas juodraštis paskelbtas žemėlapyje (2 129 / 2 747).</span><span data-l="en">Complete draft published to the web browser (2 129 / 2 747).</span></td></tr>
+    <tr><td>v0.1</td><td>2026-07-11</td><td><span data-l="lt">Pilotas: matematika + informatika, darželis–6 kl.</span><span data-l="en">Pilot: mathematics + informatics, kindergarten–grade 6.</span></td></tr>
+  </table>
+  </div>
+
+  <div class="foot">
+    <p style="color:#5f6c96"><span data-l="lt">Kuria Kristijonas Vasiliauskas · duomenys: LT Bendrosios programos 2022</span><span data-l="en">Built by Kristijonas Vasiliauskas · data: LT national curricula 2022</span></p>
+    <p style="color:#5f6c96"><a href="../">← <span data-l="lt">Žemėlapis</span><span data-l="en">The map</span></a> · <a href="https://github.com/KrisVas333/vaiko-zemelapis">GitHub</a> · <a href="mailto:kristijonas.vasiliauskas@gmail.com">kristijonas.vasiliauskas@gmail.com</a></p>
+  </div>
+</div>
+
+<script>
+function setLang(l){
+  document.body.className=l;
+  document.documentElement.lang=l;
+  document.getElementById('bLT').className=(l==='lt')?'on':'';
+  document.getElementById('bEN').className=(l==='en')?'on':'';
+  try{localStorage.setItem('vz_lang',l)}catch(e){}
+}
+try{var s=localStorage.getItem('vz_lang');if(s==='en')setLang('en')}catch(e){}
+function copyCite(){
+  var t=document.getElementById('citeText').innerText;
+  navigator.clipboard.writeText(t).then(function(){
+    var b=document.querySelector('.copy');
+    var o=b.innerHTML; b.innerHTML=(document.body.className==='lt')?'✓ Nukopijuota':'✓ Copied';
+    setTimeout(function(){b.innerHTML=o},1800);
+  });
+}
+</script>
+</body>
+</html>

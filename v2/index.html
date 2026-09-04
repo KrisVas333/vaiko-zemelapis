@@ -102,9 +102,51 @@ button,select,input{font-family:inherit}
 .tp h4{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
 .tp ul{list-style:none}
 .tp li{font-size:15px;padding:6px 0;line-height:1.4;color:var(--ink)}
-.tp li.link{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px}
-.tp li.link:hover{color:var(--accent)}
+.tp li.link{cursor:pointer;min-height:44px;display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:9px 0;border-bottom:1px solid var(--line)}
+.tp ul li.link:last-child{border-bottom:0}
+.tp li.link .lnm{display:flex;align-items:center;gap:6px}
+.tp li.link:hover .lnm{color:var(--accent)}
 .tp li .age{margin-left:auto;color:var(--muted);font-family:var(--mono);font-size:13px;padding-left:10px;white-space:nowrap}
+.tp .lwhy{font-size:13.5px;line-height:1.4;color:var(--muted);padding-left:16px}
+.tp .lmark{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);padding-left:16px}
+.tp .lmark i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.tp .lmark.hard i{background:var(--ink)}
+.tp .lmark.soft i{border:1.5px solid var(--line2);background:transparent}
+.tp .llegend{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:7px 9px;margin-top:14px;line-height:1.5}
+.tp .llegend i{width:9px;height:9px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:5px}
+.tp .llegend i.h{background:var(--ink)}
+.tp .llegend i.s{border:1.5px solid var(--line2)}
+
+/* ---------- 🎯 3 klausimai šįvakar ---------- */
+.q3{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:14px 15px;margin-top:6px}
+.q3 .q3meta{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.q3 ol{margin:0;padding-left:20px}
+.q3 ol li{font-size:15.5px;line-height:1.45;padding:5px 0;color:var(--ink)}
+.q3 .q3btns{display:flex;gap:8px;margin-top:13px}
+.q3 .q3btns button{flex:1;min-height:44px;padding:11px 8px;border:1px solid var(--line2);background:var(--ground);color:var(--ink);border-radius:var(--r);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer}
+.q3 .q3btns button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.q3 .q3ok{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ok);margin-top:9px;display:none}
+.q3 .q3ok.on{display:block}
+.q3age{width:100%;background:var(--ground);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);min-height:46px;padding:12px;font-size:16px;outline:none;margin-bottom:12px}
+/* ---------- ✉️ savaitinis laiškas ---------- */
+.mlwrap{margin-top:10px}
+.mltoggle{width:100%;min-height:44px;padding:11px 12px;background:var(--ground);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer}
+.mltoggle:hover{border-color:var(--accent);color:var(--accent)}
+.mlbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 15px}
+.mlbox h5{font-family:var(--mono);font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--ink);margin-bottom:5px}
+.mlbox .mllead{font-size:13.5px;line-height:1.45;color:var(--muted);margin-bottom:11px}
+.mlbox label{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.mlbox input[type=email],.mlbox select{width:100%;min-height:44px;padding:11px 12px;font-size:16px;background:var(--ground);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);outline:none;margin-bottom:10px}
+.mlbox .mlcon{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;line-height:1.4;color:var(--ink);cursor:pointer;min-height:44px;padding:4px 0;text-transform:none;font-family:var(--body);font-weight:400;letter-spacing:0;margin-bottom:8px}
+.mlbox .mlcon input{width:22px;height:22px;flex:0 0 auto;margin-top:1px;accent-color:var(--accent)}
+.mlbox .mlsend{width:100%;min-height:44px;padding:12px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);border-radius:var(--r);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.05em;cursor:pointer}
+.mlbox .mlsend:disabled{opacity:.55;cursor:default}
+.mlbox .mlmsg{display:none;font-family:var(--mono);font-size:12px;line-height:1.45;letter-spacing:.03em;margin-top:9px}
+.mlbox .mlmsg.on{display:block}
+.mlbox .mlpriv{font-size:12px;line-height:1.45;color:var(--muted);margin-top:9px}
+.mlhp{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.tb-q3{display:inline-flex;align-items:center;min-height:44px;background:var(--ground);border:1px solid var(--line2);color:var(--ink);font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.05em;border-radius:var(--r);padding:11px 14px;cursor:pointer;white-space:nowrap}
+.tb-q3:hover{border-color:var(--accent);color:var(--accent)}
 .tp .ask{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:10px 12px;font-size:15px;line-height:1.45;color:var(--ink);margin-top:6px}
 
 .hint{position:fixed;right:calc(24px + var(--sar));bottom:18px;color:var(--muted);font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;z-index:2}
@@ -255,6 +297,7 @@ body.present .toolbar,body.present .legend,body.present .hint,body.present .lang
 <div class="lang"><button id="langLT" class="on" onclick="setLang('lt')">LT</button><button id="langEN" onclick="setLang('en')">EN</button></div>
 <div class="toolbar">
   <a class="tb-test" href="../testas/" id="tbTest">🧭 Kur mano vaikas?</a>
+  <button class="tb-q3" id="tbQ3" onclick="openQ3()">🎯 3 klausimai</button>
   <div class="tb-search"><input id="q" placeholder="🔍 Ieškoti temos…" autocomplete="off" oninput="onSearch(this.value)" onkeydown="if(event.key==='Enter')pickFirst()"><div id="qres"></div></div>
   <select id="grade" onchange="setGrade(this.value)"></select>
 </div>
@@ -284,6 +327,7 @@ body.present .toolbar,body.present .legend,body.present .hint,body.present .lang
     <div class="mrow">
       <a class="mcta" id="mcta" href="../testas/">🧭 Kur mano vaikas?</a>
       <button class="mchip" id="mgradeBtn" onclick="sheetTo('half');focusGrade()">🎂 <span id="mgradeLbl">Visi amžiai</span></button>
+      <button class="mchip" id="mq3Btn" aria-label="3 klausimai šįvakar" onclick="openQ3()">🎯</button>
       <button class="mchip" id="msearchBtn" aria-label="Ieškoti" onclick="sheetTo('half');focusSearch()">🔍</button>
     </div>
   </div>
@@ -303,6 +347,7 @@ body.present .toolbar,body.present .legend,body.present .hint,body.present .lang
 </div>
 
 <div id="about" class="about"><div class="sheet" id="aboutSheet"></div></div>
+<div id="q3modal" class="about"><div class="sheet" id="q3sheet"></div></div>
 <script>
 /* ============================================================
    v2 · LIGHT palette — every subject >= 3.29:1 on #FFFFFF
@@ -346,18 +391,38 @@ const STR={
   mhint:'👆 Bakstelėk tašką — pamatysi visą kelią iki jo<br>🤏 Suimk dviem pirštais — priartink · 🎂 pasirink amžių',
   steps:'žingsnių atveda iki šios temos',ask:'❓ Klauskite savo vaiko',ev:'✅ Moka, kai',dep:'Remiasi',un:'Atrakina',child:'jūsų vaikas',yrs:'m.',
   nores:'Nieko nerasta',
+  lhard:'patvirtintas ryšys',lsoft:'tikėtinas ryšys (AI, dar neperžiūrėta pedagogų)',
+  llegend:(h,s)=>`<i class="h"></i>${h} patvirtinti · <i class="s"></i>${s} tikėtini ryšiai`,
+  q3h:'🎯 3 klausimai šįvakar',q3btn:'🎯 3 klausimai',q3copy:'📋 Kopijuoti',q3share:'📲 Dalintis',
+  q3ok:'Nukopijuota',q3fail:'Nepavyko nukopijuoti — pažymėkite tekstą ranka',
+  q3daily:'🎯 3 klausimai šįvakar',q3ageH:'Vaiko amžius',
+  q3note:'Klausimai keičiasi kiekvieną dieną. Jie paimti iš oficialios programos temų, kurios tinka šiam amžiui — tai pokalbio pradžia, ne testas.',
+  q3wait:'Kraunami duomenys…',
+  q3cap:(a,sj)=>`3 klausimai vaikui šįvakar (≈ ${a} m., ${sj}):`,
+  q3foot:'Iš atviro Lietuvos ugdymo programų žemėlapio (BP 2022) · krisvas333.github.io/vaiko-zemelapis · AI pagalba, gali klysti',
+  mlBtn:'✉️ Gauti kas pirmadienį',mlH:'3 klausimai kas pirmadienį',
+  mlLead:'Jūsų vaiko klasei — trumpas laiškas, be pardavimų, atsisakyti vienu paspaudimu.',
+  mlMail:'El. paštas',mlPh:'jusu@pastas.lt',mlClass:'Vaiko klasė',
+  mlConsent:'Sutinku gauti laiškus; atsisakyti galima bet kada',
+  mlSend:'Gauti kas pirmadienį',mlSending:'Siunčiama…',
+  mlOk:'Ačiū! Pirmas laiškas — pirmadienį.',mlDup:'Šis el. paštas jau sąraše.',
+  mlErr:'Nepavyko — bandykite po kelių minučių.',mlBadEmail:'Patikrinkite el. pašto adresą.',
+  mlNeedConsent:'Pažymėkite sutikimą — be jo laiškų nesiųsime.',
+  mlPriv:'Duomenys saugomi ES (Supabase · MailerLite). Naudojami tik šiam laiškui.',
   aboutHtml:()=>`<button class="close" onclick="closeAbout()" aria-label="Uždaryti">✕</button>
   <h2>Apie žemėlapį</h2>
   <h4>Kas čia per daiktas?</h4><p>Pirmas atviras <b>Lietuvos vaiko mokymosi žemėlapis</b>: 2 129 mikro-temos ir 2 747 „kas turi ateiti pirmiau" ryšiai — nuo darželio iki 12 klasės, visi 20 dalykų. Kiekviena tema turi aprašymą tėvų kalba, klausimą vaikui, mokėjimo kriterijus ir tikslų ugdymo programos kodą.</p>
   <h4>Kaip jis padarytas?</h4><p>AI agentai perskaitė oficialias <b>2022 m. atnaujintas Bendrąsias programas</b> (emokykla.lt) ir NŠA ikimokyklinio ugdymo pasiekimų aprašą, išskaidė jas į mokomas mikro-temas ir supynė priklausomybių grafą. Dabar vyksta pedagogų peržiūra — todėl „testinė versija". Duomenys atviri (ODbL). Pilna metodika, kokybės patikros, <b>apribojimai</b> ir citavimas — <a href="../metodika/">metodikos puslapyje</a>.</p>
   <h4>Kas naujo v2?</h4><p>Šviesus dizainas (tas pats stilius kaip krisvas.lt), <b>pertvarkytas mobilus vaizdas</b> — žemėlapis per visą ekraną, apatinis lapas vietoj lango, didesni lietimo taikiniai — ir sodresnės dalykų spalvos, kad taškai matytųsi baltame fone.</p>
   <h4>Koks originalas?</h4><p>Idėjos autorius — <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble (withmarble.com)</a>: atviras JAV/JK programų žemėlapis su 1 590 temų. Šis — lietuviškas atitikmuo iš mūsų BUP.</p>
+  <h4>Kiek ryšiams galima tikėti?</h4><p>Ne visi ryšiai vienodi. <b>${nf(nHard||1221)} patvirtinti</b> (●) — programos tekste aiškiai pasakyta, kad viena tema remiasi kita. <b>${nf(nSoft||1526)} tikėtini</b> (○) — AI pasiūlytas, logiškas, bet <b>dar neperžiūrėtas pedagogų</b> ryšys. Prie kiekvieno ryšio matote, <b>kodėl</b> jis ten yra.</p>
   <h4>👨‍👩‍👧 Tėvams</h4><p>Pagal amžių matote, kas natūraliai „dega" dabar; prie kiekvienos temos — <b>klausimas vaikui</b> ir „moka, kai" požymiai.</p>
   <h4>🧑‍🏫 Mokytojams</h4><p>„Remiasi" = ko mokinys turi jau mokėti (spragų diagnostika); tarppjūviniai ryšiai rodo tarpdalykines jungtis.</p>
   <h4>🤸 Būrelių teikėjams</h4><p>Užmap'uokite savo programą — parodykite, kurias temas jūsų veikla ugdo ir ką atrakina. Žemėlapis nereitinguoja ir nerekomenduoja jokio būrelio ar mokyklos.</p>
   <div class="discbox">${DISC_FULL.lt}</div>
   <p class="foot">Kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · v2 testinė versija.</p>
-  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>`},
+  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>
+  <a class="backlink" href="../v1/" style="margin-left:16px">Sena versija (v1)</a>`},
  en:{title:'Everything a Lithuanian child learns',
   sub:(t,d)=>`An open map of Lithuania's official curricula (2022). <b>${t}</b> concepts and <b>${d}</b> prerequisite links — each says what must come first, and why. <b>Tap any dot</b> to trace the full path to it.`,
   stats:(t,d,s)=>`<b>${t}</b> concepts · <b>${d}</b> links · <b>${s}</b> subjects`,
@@ -370,16 +435,36 @@ const STR={
   mhint:'👆 Tap a dot — see the whole path to it<br>🤏 Pinch with two fingers to zoom · 🎂 pick an age',
   steps:'prerequisites lead to this concept',ask:'❓ Ask your child',ev:'✅ Mastery looks like',dep:'Builds on',un:'Unlocks',child:'your child',yrs:'y.',
   nores:'Nothing found',
+  lhard:'confirmed link',lsoft:'likely link (AI, not yet teacher-reviewed)',
+  llegend:(h,s)=>`<i class="h"></i>${h} confirmed · <i class="s"></i>${s} likely links`,
+  q3h:'🎯 3 questions tonight',q3btn:'🎯 3 questions',q3copy:'📋 Copy',q3share:'📲 Share',
+  q3ok:'Copied',q3fail:'Copy failed — select the text manually',
+  q3daily:'🎯 3 questions tonight',q3ageH:"Child's age",
+  q3note:'The questions change every day. They come from official curriculum topics that fit this age — a conversation starter, not a test.',
+  q3wait:'Loading data…',
+  q3cap:(a,sj)=>`3 questions for your child tonight (≈ ages ${a}, ${sj}):`,
+  q3foot:"From the open map of Lithuania's curricula (2022) · krisvas333.github.io/vaiko-zemelapis · AI-assisted, can be wrong",
+  mlBtn:'✉️ Get it every Monday',mlH:'3 questions every Monday',
+  mlLead:"A short letter for your child's class — no selling, one-click unsubscribe.",
+  mlMail:'Email',mlPh:'you@email.com',mlClass:"Child's class",
+  mlConsent:'I agree to receive emails; I can unsubscribe any time',
+  mlSend:'Get it every Monday',mlSending:'Sending…',
+  mlOk:'Thank you! The first letter arrives on Monday.',mlDup:'This email is already on the list.',
+  mlErr:'Something went wrong — try again in a few minutes.',mlBadEmail:'Check the email address.',
+  mlNeedConsent:'Tick the consent box — we will not email without it.',
+  mlPriv:'Data is stored in the EU (Supabase · MailerLite). Used only for this letter.',
   aboutHtml:()=>`<button class="close" onclick="closeAbout()" aria-label="Close">✕</button>
   <h2>About this map</h2>
   <h4>What is this?</h4><p>The first open <b>map of what a Lithuanian child learns</b>: 2,129 micro-concepts wired by 2,747 prerequisite links — kindergarten to grade 12, all 20 subjects. Every concept carries a parent-friendly description, a question to ask your child, mastery criteria and the exact national-curriculum code.</p>
   <h4>How was it made?</h4><p>AI agents distilled Lithuania's official <b>2022 national curricula</b> (emokykla.lt) and the NŠA early-childhood framework into teachable micro-concepts and a dependency graph. Educator review is in progress — hence "test version". Data is open (ODbL). Full method, quality checks, <b>limitations</b> and citation are on the <a href="../metodika/">methodology page</a>.</p>
   <h4>What's new in v2?</h4><p>A light design (same style as krisvas.lt), a <b>rebuilt mobile experience</b> — full-screen map, a bottom sheet instead of pop-ups, bigger touch targets — and deeper subject colours so the dots stay visible on white.</p>
   <h4>The original</h4><p>Inspired by <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble</a> — the open US/UK curriculum map (1,590 concepts). This is its Lithuanian sibling. Note: topic content is currently in Lithuanian.</p>
+  <h4>How much can you trust a link?</h4><p>Links are not equal. <b>${nf(nHard||1221)} confirmed</b> (●) — the curriculum text itself says one topic builds on the other. <b>${nf(nSoft||1526)} likely</b> (○) — proposed by AI, plausible, but <b>not yet reviewed by teachers</b>. Every link shows <b>why</b> it is there.</p>
   <h4>👨‍👩‍👧 Parents · 🧑‍🏫 Teachers · 🤸 Activity providers</h4><p>See what's naturally "lighting up" at your child's age · diagnose gaps via "builds on" · map your programme onto the graph. This map does not rank or recommend any club or school.</p>
   <div class="discbox">${DISC_FULL.en}</div>
   <p class="foot">Built by <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · v2 test version.</p>
-  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>`}
+  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>
+  <a class="backlink" href="../v1/" style="margin-left:16px">Old version (v1)</a>`}
 };
 
 /* declared before applyLang() runs — updGradeLbl() reads it on first paint */
@@ -412,6 +497,9 @@ function mixInk(s,t){const c=RGB[s]||RGBF;
   return `rgb(${Math.round(INK[0]+(c[0]-INK[0])*t)},${Math.round(INK[1]+(c[1]-INK[1])*t)},${Math.round(INK[2]+(c[2]-INK[2])*t)})`}
 
 let topics=[],deps=[],byId={},childs={},pars={},on={},nSubj=20;
+/* edge index: why (reason) + how sure (hard/soft) for every prerequisite link */
+const EDGE={};let nHard=0,nSoft=0;
+function ekey(p,c){return p+'>'+c}
 let sel=null,ancestors=new Set(),descendants=new Set();
 let introStart=0,introMax=0,introDone=false;
 let present=false;
@@ -513,6 +601,9 @@ function applyLang(){const S=STR[LANG];
    <a class="lk" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>
    <a class="lk" href="../metodika/">${LANG==='en'?'Methodology':'Metodika'}</a>`);
  document.getElementById('aboutSheet').innerHTML=S.aboutHtml();
+ const tq=document.getElementById('tbQ3');if(tq)tq.textContent=S.q3btn;
+ const mq3=document.getElementById('mq3Btn');if(mq3)mq3.setAttribute('aria-label',S.q3btn);
+ const q3m=document.getElementById('q3modal');if(q3m&&q3m.classList.contains('open'))renderQ3();
  document.querySelectorAll('#rows .row,#mrows .row').forEach(div=>{
    const l=div.querySelector('.lbl');if(l)l.textContent=subjName(div.dataset.s)});
  updGradeLbl();
@@ -533,7 +624,8 @@ Promise.all([
     const R=(0.22+0.78*a)*R_MAX*t.rr;
     t.x3=Math.cos(t.theta)*R;t.z3=Math.sin(t.theta)*R;
     t.baseR=1.7+t.centrality*16;});
-  deps.forEach(e=>{childs[e.prerequisiteId].push(e.topicId);pars[e.topicId].push(e.prerequisiteId)});
+  deps.forEach(e=>{childs[e.prerequisiteId].push(e.topicId);pars[e.topicId].push(e.prerequisiteId);
+    EDGE[ekey(e.prerequisiteId,e.topicId)]=e;if(e.strength==='hard')nHard++;else nSoft++;});
   /* neural intro: BFS wave from the highest-centrality seeds */
   const seeds=[...topics].sort((a,b)=>b.centrality-a.centrality).slice(0,7).map(t=>t.id);
   const depth={};let frontier=[...seeds];seeds.forEach(s=>depth[s]=0);let dmax=0;
@@ -749,7 +841,12 @@ function topicHTML(t){
   const S=STR[LANG];
   const dir=(pars[t.id]||[]).map(id=>byId[id]).filter(Boolean);
   const un=(childs[t.id]||[]).map(id=>byId[id]).filter(Boolean);
-  const li=x=>`<li class="link" onclick="select(byId['${x.id}'])"><span style="color:${COLORS[x.subject]||FALLBACK}">●</span> ${esc(x.name)}<span class="age">${x.ageRangeStart}–${x.ageRangeEnd} ${S.yrs}</span></li>`;
+  const li=(x,pid,cid)=>{const e=EDGE[ekey(pid,cid)]||{};const hard=e.strength==='hard';
+    return `<li class="link" onclick="select(byId['${x.id}'])">`
+      +`<span class="lnm"><span style="color:${COLORS[x.subject]||FALLBACK}">●</span> ${esc(x.name)}<span class="age">${x.ageRangeStart}–${x.ageRangeEnd} ${S.yrs}</span></span>`
+      +(e.reason?`<span class="lwhy">${esc(e.reason)}</span>`:'')
+      +`<span class="lmark ${hard?'hard':'soft'}"><i></i>${hard?S.lhard:S.lsoft}</span></li>`};
+  const legend=(dir.length||un.length)?`<div class="llegend">${S.llegend(nf(nHard||1221),nf(nSoft||1526))}</div>`:'';
   const c=COLORS[t.subject]||FALLBACK;
   return `<button class="close" onclick="closeTopic(true)" aria-label="✕">✕</button>
     <div class="kicker" style="color:${c}">● ${esc(subjName(t.subject))} · ${esc(t.domain||'')} · ${t.ageRangeStart}–${t.ageRangeEnd} ${S.yrs}</div>
@@ -758,9 +855,158 @@ function topicHTML(t){
     <div class="big" style="color:${c}">${ancestors.size}<small>${S.steps}</small></div>
     ${t.assessmentPrompt?`<h4>${S.ask}</h4><div class="ask" style="border-left-color:${c}">${esc(fillName(t.assessmentPrompt))}</div>`:''}
     ${t.evidence&&t.evidence.length?`<h4>${S.ev}</h4><ul>${t.evidence.map(e=>`<li>· ${esc(e)}</li>`).join('')}</ul>`:''}
-    ${dir.length?`<h4>${S.dep} (${dir.length})</h4><ul>${dir.map(li).join('')}</ul>`:''}
-    ${un.length?`<h4>${S.un} (${un.length})</h4><ul>${un.map(li).join('')}</ul>`:''}`;
+    ${legend}
+    ${dir.length?`<h4>${S.dep} (${dir.length})</h4><ul>${dir.map(x=>li(x,x.id,t.id)).join('')}</ul>`:''}
+    ${un.length?`<h4>${S.un} (${un.length})</h4><ul>${un.map(x=>li(x,t.id,x.id)).join('')}</ul>`:''}
+    ${q3Block(t)}`;
 }
+
+/* ============================================================
+   🎯 "3 klausimai šįvakar" — three curriculum questions a parent
+   can ask tonight. Built from assessmentPrompt + fillName() grammar.
+   ============================================================ */
+let Q3N=0;const Q3TEXT={};
+function q3Pick(t){
+  const out=[t],seen=new Set([t.id]);
+  const push=x=>{if(out.length<3&&x&&!seen.has(x.id)&&x.assessmentPrompt){seen.add(x.id);out.push(x)}};
+  const byC=a=>a.sort((x,y)=>(y.centrality||0)-(x.centrality||0)||(x.id<y.id?-1:1));
+  byC((pars[t.id]||[]).map(id=>byId[id]).filter(Boolean)).forEach(push);            /* 1. remiasi */
+  byC((childs[t.id]||[]).map(id=>byId[id]).filter(Boolean)).forEach(push);          /* 2. atrakina */
+  if(out.length<3)byC(topics.filter(x=>x.subject===t.subject
+      &&x.ageRangeStart<t.ageRangeEnd&&x.ageRangeEnd>t.ageRangeStart)).forEach(push); /* 3. tas pats dalykas + amžius */
+  if(out.length<3)byC(topics.slice()).forEach(push);
+  return out.slice(0,3);
+}
+function q3Card(list,ageLbl,subjLbl){
+  const S=STR[LANG],key='q3_'+(++Q3N);
+  const lines=list.map(x=>fillName(x.assessmentPrompt||''));
+  Q3TEXT[key]=S.q3cap(ageLbl,subjLbl)+'\n'+lines.map((l,i)=>(i+1)+'. '+l).join('\n')+'\n'+S.q3foot;
+  return `<div class="q3" data-q3="${key}">
+    <div class="q3meta">${esc(ageLbl)} ${esc(S.yrs)} · ${esc(subjLbl)}</div>
+    <ol>${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ol>
+    <div class="q3btns">
+      <button class="primary" onclick="q3copy(this)">${S.q3copy}</button>
+      <button onclick="q3share(this)">${S.q3share}</button>
+    </div>
+    <div class="q3ok"></div></div>`;
+}
+function q3Block(t){const S=STR[LANG];const list=q3Pick(t);if(list.length<3)return '';
+  const subj=[...new Set(list.map(x=>subjName(x.subject)))].join(' · ');
+  return `<h4>${S.q3h}</h4>`+q3Card(list,`${t.ageRangeStart}–${t.ageRangeEnd}`,subj)+mlForm(t,false);}
+function q3Say(btn,msg,ok){const b=btn.closest('.q3');if(!b)return;const e=b.querySelector('.q3ok');if(!e)return;
+  e.textContent=msg;e.style.color=ok?'var(--ok)':'var(--accent)';e.classList.add('on');
+  clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2800)}
+function q3Text(btn){const b=btn.closest('.q3');return b?(Q3TEXT[b.dataset.q3]||''):''}
+async function q3copy(btn){const S=STR[LANG],txt=q3Text(btn);let ok=false;
+  try{await navigator.clipboard.writeText(txt);ok=true}catch(e){
+    try{const ta=document.createElement('textarea');ta.value=txt;ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);
+      ta.select();ta.setSelectionRange(0,txt.length);ok=document.execCommand('copy');ta.remove()}catch(e2){ok=false}}
+  q3Say(btn,ok?S.q3ok:S.q3fail,ok);}
+async function q3share(btn){const txt=q3Text(btn);
+  if(navigator.share){try{await navigator.share({text:txt});return}catch(e){if(e&&e.name==='AbortError')return}}
+  q3copy(btn);}
+window.q3copy=q3copy;window.q3share=q3share;
+
+/* daily picker — deterministic per (day, age): new questions every morning */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function q3Age(){const a=parseInt(localStorage.getItem('vz-q3-age')||'',10);return (a>=3&&a<=18)?a:8}
+function q3Daily(age){
+  if(!topics.length)return [];
+  const day=new Date().toISOString().slice(0,10);
+  const rnd=mulberry32(hash(day+'|'+age));
+  let pool=topics.filter(t=>t.assessmentPrompt&&t.ageRangeStart<=age&&t.ageRangeEnd>age);
+  if(pool.length<3)pool=topics.filter(t=>t.assessmentPrompt);
+  const bySub={};pool.forEach(t=>{(bySub[t.subject]=bySub[t.subject]||[]).push(t)});
+  const subs=Object.keys(bySub).sort();
+  subs.forEach(k=>bySub[k].sort((a,b)=>(b.centrality||0)-(a.centrality||0)||(a.id<b.id?-1:1)));
+  for(let i=subs.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[subs[i],subs[j]]=[subs[j],subs[i]]}
+  const out=[],seen=new Set();
+  for(const k of subs){if(out.length>=3)break;
+    const top=bySub[k].slice(0,8),t=top[Math.floor(rnd()*top.length)];
+    if(t&&!seen.has(t.id)){seen.add(t.id);out.push(t)}}
+  if(out.length<3){const flat=pool.slice().sort((a,b)=>(b.centrality||0)-(a.centrality||0)||(a.id<b.id?-1:1));
+    for(const t of flat){if(out.length>=3)break;if(!seen.has(t.id)){seen.add(t.id);out.push(t)}}}
+  return out.slice(0,3);
+}
+function openQ3(){document.getElementById('q3modal').classList.add('open');renderQ3()}
+function closeQ3(){document.getElementById('q3modal').classList.remove('open')}
+function setQ3Age(v){localStorage.setItem('vz-q3-age',String(v));renderQ3()}
+function renderQ3(){
+  const S=STR[LANG],age=q3Age(),list=q3Daily(age);
+  const subj=[...new Set(list.map(x=>subjName(x.subject)))].join(' · ');
+  let opts='';for(let a=3;a<=18;a++)opts+=`<option value="${a}"${a===age?' selected':''}>${a} ${S.yrs}</option>`;
+  document.getElementById('q3sheet').innerHTML=
+    `<button class="close" onclick="closeQ3()" aria-label="✕">✕</button>
+     <h2>${S.q3daily}</h2>
+     <h4>${S.q3ageH}</h4>
+     <select class="q3age" onchange="setQ3Age(this.value)" aria-label="${esc(S.q3ageH)}">${opts}</select>
+     ${list.length?q3Card(list,String(age),subj):`<p>${esc(S.q3wait)}</p>`}
+     <p class="foot">${esc(S.q3note)}</p>
+     <div class="discbox">${esc(DISC_SHORT[LANG])}</div>`;
+}
+window.openQ3=openQ3;window.closeQ3=closeQ3;window.setQ3Age=setQ3Age;
+
+/* ============================================================
+   ✉️ "3 klausimai kas pirmadienį" — weekly email opt-in.
+   Backend: krisvas.lt Supabase edge fn → MailerLite. Consent required.
+   ============================================================ */
+const ML_URL='https://bpufgnpzsjmtqyfihkuk.supabase.co/functions/v1/mailerlite-subscribe';
+const ML_KEY='__SB_KEY__';
+const MLSRC={'':'zemelapis-visi','2,6':'zemelapis-darzelis','6,7':'zemelapis-priesmokyklinis',
+  '7,9':'zemelapis-1-2kl','9,11':'zemelapis-3-4kl','11,13':'zemelapis-5-6kl',
+  '13,15':'zemelapis-7-8kl','15,17':'zemelapis-9-10kl','17,19':'zemelapis-11-12kl'};
+function mlDefault(t){
+  const g=document.getElementById('grade');
+  if(g&&g.value&&MLSRC[g.value]!==undefined)return g.value;
+  const a=t?(t.ageRangeStart+t.ageRangeEnd)/2:q3Age();
+  const hit=GRADES.find(o=>{if(!o.v)return false;const p=o.v.split(',');return a>=+p[0]&&a<+p[1]});
+  return hit?hit.v:'';
+}
+function mlForm(t,open){
+  const S=STR[LANG],cur=mlDefault(t);
+  const opts=GRADES.map(o=>`<option value="${o.v}"${o.v===cur?' selected':''}>${esc(o[LANG].replace('🎂 ',''))}</option>`).join('');
+  return `<div class="mlwrap">
+    ${open?'':`<button class="mltoggle" onclick="mlToggle(this)">${S.mlBtn}</button>`}
+    <div class="mlbox"${open?'':' hidden'}>
+      <h5>${S.mlH}</h5>
+      <div class="mllead">${esc(S.mlLead)}</div>
+      <label>${esc(S.mlMail)}</label>
+      <input class="mlemail" type="email" inputmode="email" autocomplete="email" placeholder="${esc(S.mlPh)}" aria-label="${esc(S.mlMail)}">
+      <label>${esc(S.mlClass)}</label>
+      <select class="mlgrade" aria-label="${esc(S.mlClass)}">${opts}</select>
+      <input class="mlhp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+      <label class="mlcon"><input class="mlconsent" type="checkbox"> <span>${esc(S.mlConsent)}</span></label>
+      <button class="mlsend" onclick="mlSubmit(this)">${S.mlSend}</button>
+      <div class="mlmsg" role="status" aria-live="polite"></div>
+      <div class="mlpriv">${esc(S.mlPriv)}</div>
+    </div></div>`;
+}
+function mlToggle(btn){const w=btn.closest('.mlwrap'),b=w.querySelector('.mlbox');
+  b.hidden=false;btn.hidden=true;const e=b.querySelector('.mlemail');if(e)e.focus()}
+async function mlSubmit(btn){
+  const S=STR[LANG],box=btn.closest('.mlbox');if(!box)return;
+  const msg=box.querySelector('.mlmsg');
+  const say=(txt,ok)=>{msg.textContent=txt;msg.style.color=ok?'var(--ok)':'var(--accent)';msg.classList.add('on')};
+  const email=box.querySelector('.mlemail').value.trim();
+  if(!box.querySelector('.mlconsent').checked){say(S.mlNeedConsent,false);return}   /* never send without consent */
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){say(S.mlBadEmail,false);return}
+  const src=(MLSRC[box.querySelector('.mlgrade').value]||'zemelapis-visi').slice(0,60);
+  btn.disabled=true;say(S.mlSending,true);
+  try{
+    const r=await fetch(ML_URL,{method:'POST',
+      headers:{'Content-Type':'application/json','apikey':ML_KEY,'Authorization':'Bearer '+ML_KEY},
+      body:JSON.stringify({email,language:LANG,source:src,consent:true,page_url:location.href,
+        company:box.querySelector('.mlhp').value})});
+    let d={};try{d=await r.json()}catch(e){}
+    if(r.ok&&d&&d.ok){say(d.duplicate?S.mlDup:S.mlOk,true);if(!d.duplicate)box.querySelector('.mlemail').value=''}
+    else if(d&&d.error==='invalid_email')say(S.mlBadEmail,false);
+    else say(S.mlErr,false);
+  }catch(e){say(S.mlErr,false)}
+  btn.disabled=false;
+}
+window.mlToggle=mlToggle;window.mlSubmit=mlSubmit;
 function select(t,quiet){
   sel=t;ancestors=new Set();descendants=new Set();
   collect(t.id,pars,ancestors);collect(t.id,childs,descendants);
@@ -900,7 +1146,7 @@ window.exitChild=exitChild;
 buildGrades();updGradeLbl();
 if(QS.get('mode')==='child'&&loadChild()){childMode=true;setTimeout(showBanner,60)}
 document.addEventListener('click',e=>{if(!e.target.closest('.tb-search')){const r=document.getElementById('qres');if(r)r.classList.remove('on')}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAbout();closeTopic(true)}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAbout();closeQ3();closeTopic(true)}});
 
 /* ---------------- hover tooltip (pointer devices only) ---------------- */
 const tipEl=document.getElementById('tip')||(()=>{const d=document.createElement('div');d.id='tip';document.body.appendChild(d);return d})();

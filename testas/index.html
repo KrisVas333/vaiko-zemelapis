@@ -1,59 +1,121 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kur mano vaikas? · Žinių žemėlapio patikra</title>
 <meta property="og:title" content="Kur mano vaikas? 🧭 Žinių patikra">
 <meta property="og:description" content="Per 5 minutes pamatykite, ką jūsų vaikas jau moka pagal oficialią Lietuvos ugdymo programą — ir kas natūraliai laukia toliau.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23D90429'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap">
 <style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F7F7F5;
+  --surface-2:#F1EFEA;
+  --ink:#0A0A0A;
+  --muted:#595959;
+  --line:#E5E2DE;
+  --line2:#D6D2CC;
+  --accent:#D90429;
+  --accent-ink:#FFFFFF;
+  --red:#FF0000;
+  --ok:#1D7A3E;
+  --warn:#8A5A00;
+  --glow:none;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --r:4px;
+  --shadow:0 1px 2px rgba(10,10,10,.04);
+}
+/* manual dark toggle only — light stays the default for parents */
+:root[data-theme="dark"]{
+  --ground:#080808;--surface:#0D0D0D;--surface-2:#141414;--ink:#FAFAFA;--muted:#9A9A9A;
+  --line:#262626;--line2:#333333;--accent:#FF0000;--accent-ink:#FFFFFF;--ok:#3FCB74;--warn:#E0B44A;--shadow:none;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:linear-gradient(180deg,#fbfaff 0%,#f3f1fb 100%);color:#2f2b45;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh;line-height:1.5}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--accent-ink)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .wrap{max-width:760px;margin:0 auto;padding:26px 20px 80px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
-.logo{font-weight:800;font-size:1.05em}
-.logo .d{color:#8a63c9}
-.lang{display:flex;background:#fff;border:2px solid #e7e2f2;border-radius:20px;padding:2px}
-.lang button{border:0;background:transparent;color:#a89fb5;border-radius:16px;padding:6px 13px;font-size:.8em;font-weight:800;cursor:pointer}
-.lang button.on{background:#8a63c9;color:#fff}
-h1{font-size:1.9em;line-height:1.15;font-weight:800;margin-bottom:8px}
-h1 .g{background:linear-gradient(90deg,#8a63c9,#e07db2);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{color:#6a6380;font-size:.98em;margin-bottom:4px}
-.reassure{display:inline-block;background:#eef7f0;color:#3d7a52;border-radius:20px;padding:6px 14px;font-size:.82em;font-weight:600;margin-top:12px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.logo{font-family:var(--mono);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.logo .d{color:var(--accent)}
+.lang{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:4px}
+.lang button{border:0;background:transparent;color:var(--muted);border-radius:var(--r);min-height:44px;min-width:52px;padding:10px 16px;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.08em;cursor:pointer}
+.lang button.on{background:var(--accent);color:var(--accent-ink)}
+h1{font-family:var(--mono);font-size:clamp(26px,6.5vw,34px);line-height:1.12;font-weight:800;letter-spacing:.01em;text-transform:uppercase;margin-bottom:10px;text-wrap:balance}
+h1 .g{color:var(--accent)}
+.lead{color:var(--muted);font-size:16px;margin-bottom:4px}
+.reassure{display:inline-block;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ok);color:var(--ok);border-radius:var(--r);padding:8px 14px;font-size:15px;font-weight:600;margin-top:12px}
 .step{margin-top:26px}
 .gridc{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:16px}
-.gcard{background:#fff;border:2px solid #ebe6f5;border-radius:16px;padding:16px 14px;cursor:pointer;text-align:center;font-weight:700;color:#4a4560;transition:.15s}
-.gcard:hover{border-color:#c7a9f0;transform:translateY(-2px)}
-.gcard .a{display:block;font-size:.72em;color:#a89fb5;font-weight:600;margin-top:3px}
-.tcard{background:#fff;border:2px solid #ebe6f5;border-radius:16px;padding:15px 16px;margin-bottom:12px}
-.tcard .subj{font-size:.68em;letter-spacing:.05em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
-.tcard h3{font-size:1.02em;margin-bottom:5px}
-.tcard .ev{color:#6a6380;font-size:.86em;margin-bottom:10px}
+.gcard{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);min-height:44px;padding:16px 14px;cursor:pointer;text-align:center;font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.02em;color:var(--ink);transition:.15s;box-shadow:var(--shadow)}
+.gcard:hover{border-color:var(--accent)}
+.gcard .a{display:block;font-family:var(--body);font-size:14px;color:var(--muted);font-weight:500;margin-top:4px}
+.tcard{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.tcard .subj{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.tcard h3{font-family:var(--mono);font-size:17px;font-weight:700;letter-spacing:.01em;margin-bottom:6px;line-height:1.3}
+.tcard .ev{color:var(--muted);font-size:15px;margin-bottom:12px}
 .opts{display:flex;gap:8px}
-.opts button{flex:1;border:2px solid #ebe6f5;background:#faf9fd;border-radius:12px;padding:10px 6px;font-size:.82em;font-weight:700;color:#6a6380;cursor:pointer;transition:.12s}
-.opts button.yes.on{background:#e4f5ea;border-color:#5cbd7e;color:#2f7a4c}
-.opts button.part.on{background:#fef4e3;border-color:#f0b64c;color:#a5741a}
-.opts button.no.on{background:#f2eef8;border-color:#b58fe0;color:#7a5aad}
-.bar{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(243,241,251,0) 0%,#f3f1fb 40%);padding:16px 0 6px;margin-top:8px}
-.btn{display:inline-block;background:linear-gradient(90deg,#8a63c9,#e07db2);color:#fff;border:0;border-radius:26px;padding:14px 30px;font-size:1em;font-weight:800;cursor:pointer;width:100%;text-align:center;text-decoration:none}
-.btn.ghost{background:#fff;border:2px solid #e7e2f2;color:#6a6380;margin-top:10px}
+.opts button{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);min-height:44px;padding:12px 6px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--muted);cursor:pointer;transition:.12s}
+.opts button:hover{border-color:var(--line2)}
+.opts button.yes.on{background:var(--ground);border-color:var(--ok);color:var(--ok)}
+.opts button.part.on{background:var(--ground);border-color:var(--warn);color:var(--warn)}
+.opts button.no.on{background:var(--ground);border-color:var(--accent);color:var(--accent)}
+.bar{position:sticky;bottom:0;background:var(--ground);border-top:1px solid var(--line);padding:16px 0 6px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink);border:0;border-radius:var(--r);min-height:44px;padding:14px 30px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;width:100%;text-align:center;text-decoration:none}
+.btn.ghost{background:var(--ground);border:1px solid var(--line);color:var(--ink);margin-top:10px}
 .btn:disabled{opacity:.4;cursor:default}
-.prog{font-size:.8em;color:#a89fb5;text-align:center;margin-bottom:10px}
+.prog{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:10px}
 /* result */
-.res .big{background:#fff;border:2px solid #ebe6f5;border-radius:20px;padding:24px;text-align:center;margin-bottom:18px}
-.res .pct{font-size:3.4em;font-weight:800;background:linear-gradient(90deg,#5cbd7e,#8a63c9);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
-.res .pctlbl{color:#6a6380;font-size:.92em;margin-top:2px}
-.res .track{height:12px;background:#eee9f6;border-radius:8px;margin:16px 0 4px;overflow:hidden}
-.res .fill{height:100%;background:linear-gradient(90deg,#5cbd7e,#8a63c9);border-radius:8px}
-.sec{background:#fff;border:2px solid #ebe6f5;border-radius:18px;padding:18px 18px;margin-bottom:14px}
-.sec h4{font-size:.72em;letter-spacing:.06em;text-transform:uppercase;color:#a89fb5;font-weight:700;margin-bottom:10px}
-.chips .chip{display:inline-block;background:#eef7f0;color:#3d7a52;border-radius:14px;padding:6px 13px;font-size:.86em;font-weight:600;margin:3px 4px 3px 0}
-.next{border-left:4px solid #e07db2;background:#fdf3f9;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:10px}
-.next .nm{font-weight:700;font-size:.94em;margin-bottom:3px}
-.next .pr{color:#8a5a76;font-size:.87em}
-.foot{color:#a89fb5;font-size:.78em;text-align:center;margin-top:20px;line-height:1.5}
-.foot a{color:#8a63c9}
-@media(max-width:520px){h1{font-size:1.55em}.res .pct{font-size:2.8em}}
+.res .big{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:24px;text-align:center;margin-bottom:18px;box-shadow:var(--shadow)}
+.res .band{font-family:var(--mono);font-size:clamp(24px,6.4vw,34px);font-weight:800;letter-spacing:.01em;text-transform:uppercase;color:var(--accent);line-height:1.1}
+.res .pctlbl{color:var(--muted);font-size:15px;margin-top:6px}
+.res .cnt{color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:.05em;margin-top:8px}
+.disc{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:13px 15px;margin-bottom:14px;color:var(--muted);font-size:13.5px;line-height:1.55}
+.disc .coi{display:block;margin-top:7px;color:var(--ink)}
+.disc a{color:var(--accent)}
+/* 🎯 3 klausimai šįvakar */
+.q3{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:14px 15px}
+.q3 .q3meta{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.q3 ol{margin:0;padding-left:20px}
+.q3 ol li{font-size:15.5px;line-height:1.45;padding:5px 0;color:var(--ink)}
+.q3 .q3btns{display:flex;gap:8px;margin-top:13px}
+.q3 .q3btns button{flex:1;min-height:44px;padding:11px 8px;border:1px solid var(--line2);background:var(--ground);color:var(--ink);border-radius:var(--r);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer}
+.q3 .q3btns button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.q3 .q3ok{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ok);margin-top:9px;display:none}
+.q3 .q3ok.on{display:block}
+/* ✉️ savaitinis laiškas */
+.mlbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px}
+.mlbox h5{font-family:var(--mono);font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--ink);margin-bottom:5px}
+.mlbox .mllead{font-size:14px;line-height:1.45;color:var(--muted);margin-bottom:12px}
+.mlbox label{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.mlbox input[type=email],.mlbox select{width:100%;min-height:44px;padding:11px 12px;font-size:16px;background:var(--ground);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);outline:none;margin-bottom:10px;font-family:var(--body)}
+.mlbox .mlcon{display:flex;align-items:flex-start;gap:9px;font-size:14px;line-height:1.4;color:var(--ink);cursor:pointer;min-height:44px;padding:4px 0;text-transform:none;font-family:var(--body);font-weight:400;letter-spacing:0;margin-bottom:8px}
+.mlbox .mlcon input{width:22px;height:22px;flex:0 0 auto;margin-top:1px;accent-color:var(--accent)}
+.mlbox .mlsend{width:100%;min-height:44px;padding:12px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);border-radius:var(--r);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.05em;cursor:pointer}
+.mlbox .mlsend:disabled{opacity:.55;cursor:default}
+.mlbox .mlmsg{display:none;font-family:var(--mono);font-size:12.5px;line-height:1.45;letter-spacing:.03em;margin-top:9px}
+.mlbox .mlmsg.on{display:block}
+.mlbox .mlpriv{font-size:12.5px;line-height:1.45;color:var(--muted);margin-top:9px}
+.mlhp{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.res .track{height:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);margin:16px 0 4px;overflow:hidden}
+.res .fill{height:100%;background:var(--accent);border-radius:var(--r)}
+.sec{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.sec h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px}
+.chips .chip{display:inline-block;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ok);color:var(--ok);border-radius:var(--r);padding:7px 13px;font-size:15px;font-weight:600;margin:3px 4px 3px 0}
+.next{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);border-radius:var(--r);padding:12px 14px;margin-bottom:10px}
+.next .nm{font-family:var(--mono);font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:.01em}
+.next .pr{color:var(--muted);font-size:15px}
+.foot{color:var(--muted);font-size:15px;text-align:center;margin-top:20px;line-height:1.6}
+.foot a{color:var(--accent)}
+.backlink{display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+@media(max-width:520px){.res .band{font-size:clamp(21px,6.6vw,28px)}.big{padding:18px}}
 </style>
 <script defer src="https://krisvas333.github.io/neuron-ar/track.js"
         data-brand="kris" data-artifact="testas" data-kind="quiz"></script>
@@ -70,6 +132,25 @@ h1 .g{background:linear-gradient(90deg,#8a63c9,#e07db2);-webkit-background-clip:
 <script>
 const T={
  lt:{h:'Kur mano <span class="g">vaikas</span>?',
+   seasons:{a:'Ar vaikas pasiruošęs <span class="g">mokslo metams</span>?',b:'Kaip sekasi <span class="g">pirmas pusmetis</span>?',c:'<span class="g">Pusmečio</span> patikra',d:'Ar pasiruošęs <span class="g">kitai klasei</span>?',e:'Ką verta <span class="g">pažaisti vasarą</span>?'},
+   bands:{hi:'Tvirtas pagrindas',mid:'Auga',lo:'Verta pažaisti'},
+   bandsub:{hi:'Šios klasės branduolys jau vietoje.',mid:'Dalis temų jau vietoje, kitos dar auga.',lo:'Daug temų dar prieky — puiki proga pažaisti kartu.'},
+   counted:(n,m)=>`pažymėta ${n} iš ${m} temų`,
+   q3h:'🎯 3 klausimai šįvakar',q3copy:'📋 Kopijuoti',q3share:'📲 Dalintis',
+   q3ok:'Nukopijuota',q3fail:'Nepavyko nukopijuoti — pažymėkite tekstą ranka',
+   q3cap:(a,sj)=>`3 klausimai vaikui šįvakar (≈ ${a} m., ${sj}):`,
+   q3foot:'Iš atviro Lietuvos ugdymo programų žemėlapio (BP 2022) · krisvas333.github.io/vaiko-zemelapis · AI pagalba, gali klysti',
+   mlH:'3 klausimai kas pirmadienį',
+   mlLead:'Jūsų vaiko klasei — trumpas laiškas, be pardavimų, atsisakyti vienu paspaudimu.',
+   mlMail:'El. paštas',mlPh:'jusu@pastas.lt',mlClass:'Vaiko klasė',
+   mlConsent:'Sutinku gauti laiškus; atsisakyti galima bet kada',
+   mlSend:'Gauti kas pirmadienį',mlSending:'Siunčiama…',
+   mlOk:'Ačiū! Pirmas laiškas — pirmadienį.',mlDup:'Šis el. paštas jau sąraše.',
+   mlErr:'Nepavyko — bandykite po kelių minučių.',mlBadEmail:'Patikrinkite el. pašto adresą.',
+   mlNeedConsent:'Pažymėkite sutikimą — be jo laiškų nesiųsime.',
+   mlPriv:'Duomenys saugomi ES (Supabase · MailerLite). Naudojami tik šiam laiškui.',
+   disc:'⚗️ Eksperimentinis prototipas, sukurtas su AI. Gali klysti — svarbius dalykus pasitikrinkite pas mokytoją. Nemokamas. Radote klaidą? Parašykite: <a href="https://krisvas.lt/?utm_source=vaiko-zemelapis-testas">krisvas.lt</a>',
+   coi:'⚖️ Autorius Kris Vasiliauskas yra Robotikos Akademijos įkūrėjas; šis testas nerekomenduoja jokio būrelio ar teikėjo.',
    lead:'Per 5 minutes pamatykite, ką vaikas jau moka pagal oficialią Lietuvos ugdymo programą — ir kas natūraliai laukia toliau.',
    reassure:'✨ Tai ne testas ir ne pažymys — tai žemėlapis, kur auga jūsų vaikas.',
    pick:'Pasirinkite vaiko klasę:',
@@ -82,10 +163,29 @@ const T={
    noNext:'Puiku — jūsų vaikas įvaldęs šios klasės branduolį! Išbandykite kitą klasę.',
    onMap:'🗺️ Pamatyti žemėlapyje',share:'📲 Pasidalinti',again:'↻ Pradėti iš naujo',
    copied:'Nuoroda nukopijuota!',
-   foot:'Duomenys: oficialios LT ugdymo programos (2022) · v0 juodraštis, laukia pedagogų peržiūros · <a href="../">pilnas žemėlapis</a>',
+   foot:'Duomenys: oficialios LT ugdymo programos (2022) · v0 juodraštis, laukia pedagogų peržiūros · <a href="../">pilnas žemėlapis</a><br><a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis-testas">← krisvas.lt</a>',
    infMsg:(n)=>`Pagal jūsų atsakymus grafas nustatė, kad vaikas greičiausiai jau moka dar <b>${n}</b> susijusias temas.`,
    yrs:'m.'},
  en:{h:'Where is my <span class="g">child</span>?',
+   seasons:{a:'Is your child ready for the <span class="g">school year</span>?',b:'How is the <span class="g">first term</span> going?',c:'<span class="g">Mid-year</span> check',d:'Ready for the <span class="g">next grade</span>?',e:'What is worth <span class="g">playing this summer</span>?'},
+   bands:{hi:'Solid base',mid:'Growing',lo:'Worth playing'},
+   bandsub:{hi:"This grade's core is already in place.",mid:'Some topics are in place, others are still growing.',lo:'Plenty still ahead — a great excuse to play together.'},
+   counted:(n,m)=>`marked ${n} of ${m} topics`,
+   q3h:'🎯 3 questions tonight',q3copy:'📋 Copy',q3share:'📲 Share',
+   q3ok:'Copied',q3fail:'Copy failed — select the text manually',
+   q3cap:(a,sj)=>`3 questions for your child tonight (≈ ages ${a}, ${sj}):`,
+   q3foot:"From the open map of Lithuania's curricula (2022) · krisvas333.github.io/vaiko-zemelapis · AI-assisted, can be wrong",
+   mlH:'3 questions every Monday',
+   mlLead:"A short letter for your child's class — no selling, one-click unsubscribe.",
+   mlMail:'Email',mlPh:'you@email.com',mlClass:"Child's class",
+   mlConsent:'I agree to receive emails; I can unsubscribe any time',
+   mlSend:'Get it every Monday',mlSending:'Sending…',
+   mlOk:'Thank you! The first letter arrives on Monday.',mlDup:'This email is already on the list.',
+   mlErr:'Something went wrong — try again in a few minutes.',mlBadEmail:'Check the email address.',
+   mlNeedConsent:'Tick the consent box — we will not email without it.',
+   mlPriv:'Data is stored in the EU (Supabase · MailerLite). Used only for this letter.',
+   disc:'⚗️ Experimental prototype built with AI. It can be wrong — confirm what matters with the teacher. Free. Found an error? Tell me: <a href="https://krisvas.lt/?utm_source=vaiko-zemelapis-testas">krisvas.lt</a>',
+   coi:'⚖️ The author, Kris Vasiliauskas, founded Robotikos Akademija; this test does not recommend any club or provider.',
    lead:'In 5 minutes, see what your child already knows according to Lithuania\'s official curriculum — and what naturally comes next.',
    reassure:'✨ Not a test, not a grade — a map of where your child is growing.',
    pick:'Choose your child\'s grade:',
@@ -98,7 +198,7 @@ const T={
    noNext:'Great — your child has mastered this grade\'s core! Try the next grade.',
    onMap:'🗺️ See on the map',share:'📲 Share',again:'↻ Start over',
    copied:'Link copied!',
-   foot:'Data: Lithuania\'s official curricula (2022) · v0 draft, pending educator review · <a href="../">full map</a> · topic content in Lithuanian',
+   foot:'Data: Lithuania\'s official curricula (2022) · v0 draft, pending educator review · <a href="../">full map</a> · topic content in Lithuanian<br><a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis-testas">← krisvas.lt</a>',
    infMsg:(n)=>`From your answers, the graph inferred your child likely already knows <b>${n}</b> more related topics.`,
    yrs:'y.'}
 };
@@ -123,6 +223,89 @@ function fillName(txt){if(!txt)return txt;if(LANG==='en')return txt.replaceAll('
   if(/^(paklaus|paprašy|klausk|pasiteirau|teiraukit)/.test(p))return j+'jūsų vaiko';
   if(/^(duok|leisk|pasiūlyk|parodyk|padėk|primink|paduok|užraš|perskaity|paskaity|padiktuo)/.test(p))return j+'jūsų vaikui';
   return j+'jūsų vaikas';});}
+/* season face — the question a parent is actually asking this month */
+function seasonH(){const S=T[LANG],m=new Date().getMonth()+1;
+  if(m>=9&&m<=10)return S.seasons.a;
+  if(m>=11&&m<=12)return S.seasons.b;
+  if(m<=2)return S.seasons.c;
+  if(m<=5)return S.seasons.d;
+  return S.seasons.e;}
+
+/* 🎯 3 klausimai šįvakar — same card as the map */
+let Q3N=0;const Q3TEXT={};
+function q3Card(list,ageLbl,subjLbl){
+  const S=T[LANG],key='q3_'+(++Q3N);
+  const lines=list.map(x=>fillName(x.assessmentPrompt||x.description||''));
+  Q3TEXT[key]=S.q3cap(ageLbl,subjLbl)+'\n'+lines.map((l,i)=>(i+1)+'. '+l).join('\n')+'\n'+S.q3foot;
+  return `<div class="q3" data-q3="${key}">
+    <div class="q3meta">${esc(ageLbl)} ${esc(S.yrs)} · ${esc(subjLbl)}</div>
+    <ol>${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ol>
+    <div class="q3btns">
+      <button class="primary" onclick="q3copy(this)">${S.q3copy}</button>
+      <button onclick="q3share(this)">${S.q3share}</button>
+    </div>
+    <div class="q3ok"></div></div>`;
+}
+function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function q3Say(btn,msg,ok){const b=btn.closest('.q3');if(!b)return;const e=b.querySelector('.q3ok');if(!e)return;
+  e.textContent=msg;e.style.color=ok?'var(--ok)':'var(--accent)';e.classList.add('on');
+  clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2800)}
+function q3Text(btn){const b=btn.closest('.q3');return b?(Q3TEXT[b.dataset.q3]||''):''}
+async function q3copy(btn){const S=T[LANG],txt=q3Text(btn);let ok=false;
+  try{await navigator.clipboard.writeText(txt);ok=true}catch(e){
+    try{const ta=document.createElement('textarea');ta.value=txt;ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);
+      ta.select();ta.setSelectionRange(0,txt.length);ok=document.execCommand('copy');ta.remove()}catch(e2){ok=false}}
+  q3Say(btn,ok?S.q3ok:S.q3fail,ok);}
+async function q3share(btn){const txt=q3Text(btn);
+  if(navigator.share){try{await navigator.share({text:txt});return}catch(e){if(e&&e.name==='AbortError')return}}
+  q3copy(btn);}
+window.q3copy=q3copy;window.q3share=q3share;
+
+/* ✉️ „3 klausimai kas pirmadienį" — savaitinio laiško prenumerata (sutikimas privalomas) */
+const ML_URL='https://bpufgnpzsjmtqyfihkuk.supabase.co/functions/v1/mailerlite-subscribe';
+const ML_KEY='__SB_KEY__';
+const MLSRC={darzelis:'zemelapis-darzelis',priesmok:'zemelapis-priesmokyklinis',k12:'zemelapis-1-2kl',
+  k34:'zemelapis-3-4kl',k56:'zemelapis-5-6kl',k78:'zemelapis-7-8kl',k910:'zemelapis-9-10kl',k1112:'zemelapis-11-12kl'};
+function mlForm(defId){
+  const S=T[LANG];
+  const opts=CLASSES.map(c=>`<option value="${c.id}"${c.id===defId?' selected':''}>${esc(c[LANG])} (${esc(c.a)})</option>`).join('');
+  return `<div class="mlbox">
+    <h5>${esc(S.mlH)}</h5>
+    <div class="mllead">${esc(S.mlLead)}</div>
+    <label>${esc(S.mlMail)}</label>
+    <input class="mlemail" type="email" inputmode="email" autocomplete="email" placeholder="${esc(S.mlPh)}" aria-label="${esc(S.mlMail)}">
+    <label>${esc(S.mlClass)}</label>
+    <select class="mlgrade" aria-label="${esc(S.mlClass)}">${opts}</select>
+    <input class="mlhp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+    <label class="mlcon"><input class="mlconsent" type="checkbox"> <span>${esc(S.mlConsent)}</span></label>
+    <button class="mlsend" onclick="mlSubmit(this)">${esc(S.mlSend)}</button>
+    <div class="mlmsg" role="status" aria-live="polite"></div>
+    <div class="mlpriv">${esc(S.mlPriv)}</div></div>`;
+}
+async function mlSubmit(btn){
+  const S=T[LANG],box=btn.closest('.mlbox');if(!box)return;
+  const msg=box.querySelector('.mlmsg');
+  const say=(txt,ok)=>{msg.textContent=txt;msg.style.color=ok?'var(--ok)':'var(--accent)';msg.classList.add('on')};
+  const email=box.querySelector('.mlemail').value.trim();
+  if(!box.querySelector('.mlconsent').checked){say(S.mlNeedConsent,false);return}   /* niekada nesiunčiam be sutikimo */
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){say(S.mlBadEmail,false);return}
+  const src=(MLSRC[box.querySelector('.mlgrade').value]||'zemelapis-visi').slice(0,60);
+  btn.disabled=true;say(S.mlSending,true);
+  try{
+    const r=await fetch(ML_URL,{method:'POST',
+      headers:{'Content-Type':'application/json','apikey':ML_KEY,'Authorization':'Bearer '+ML_KEY},
+      body:JSON.stringify({email,language:LANG,source:src,consent:true,page_url:location.href,
+        company:box.querySelector('.mlhp').value})});
+    let d={};try{d=await r.json()}catch(e){}
+    if(r.ok&&d&&d.ok){say(d.duplicate?S.mlDup:S.mlOk,true);if(!d.duplicate)box.querySelector('.mlemail').value=''}
+    else if(d&&d.error==='invalid_email')say(S.mlBadEmail,false);
+    else say(S.mlErr,false);
+  }catch(e){say(S.mlErr,false)}
+  btn.disabled=false;
+}
+window.mlSubmit=mlSubmit;
+
 function setLang(l){LANG=l;localStorage.setItem('vz-lang',l);document.getElementById('lLT').classList.toggle('on',l==='lt');document.getElementById('lEN').classList.toggle('on',l==='en');render()}
 window.setLang=setLang;
 
@@ -151,21 +334,21 @@ function render(){
   document.getElementById('foot').innerHTML=S.foot;
   const app=document.getElementById('app');
   if(!cls){
-    app.innerHTML=`<h1>${S.h}</h1><p class="lead">${S.lead}</p><span class="reassure">${S.reassure}</span>
+    app.innerHTML=`<h1>${seasonH()}</h1><p class="lead">${S.lead}</p><span class="reassure">${S.reassure}</span>
       <div class="step"><b>${S.pick}</b><div class="gridc">${CLASSES.map(c=>`<div class="gcard" onclick="chooseClass('${c.id}')">${c[LANG]}<span class="a">${c.a}</span></div>`).join('')}</div></div>`;
     return;
   }
   if(app.dataset.mode!=='result'){
     app.dataset.mode='mark';
     const done=Object.keys(marks).length;
-    app.innerHTML=`<h1>${cls[LANG]} <span style="color:#a89fb5;font-size:.6em">${cls.a}</span></h1>
+    app.innerHTML=`<h1>${cls[LANG]} <span style="color:var(--muted);font-size:.6em">${cls.a}</span></h1>
       <p class="lead">${S.markLead(cls)}</p>
       <div id="cards"></div>
       <div class="bar"><div class="prog" id="prog"></div><button class="btn" id="seeBtn" onclick="showResult()">${S.see}</button>
       <button class="btn ghost" onclick="cls=null;marks={};render()">${S.again}</button></div>`;
     const cw=document.getElementById('cards');
     cw.innerHTML=backbone.map(t=>`<div class="tcard">
-        <div class="subj" style="color:${COL[t.subject]||'#8a63c9'}">● ${subjName(t.subject)}</div>
+        <div class="subj" style="color:${COL[t.subject]||'var(--muted)'}">● ${subjName(t.subject)}</div>
         <h3>${t.name}</h3>
         <div class="ev">${(t.evidence&&t.evidence[0])||t.description||''}</div>
         <div class="opts">
@@ -208,13 +391,28 @@ function showResult(){
   const inferred=known.size-explicit;
   // save
   localStorage.setItem('vz-child',JSON.stringify({cls:cls.id,label:cls[LANG],marks,known:[...known],ready:nexts.map(t=>t.id),pct,ts:Date.now()}));
+  /* qualitative band — same number, no grade on a child */
+  const band=pct>=70?'hi':(pct>=40?'mid':'lo');
+  const marked=Object.keys(marks).length;
+  /* three questions for tonight, from the topics worth playing with now */
+  let q3list=nexts.filter(t=>t.assessmentPrompt).slice(0,3);
+  if(q3list.length<3){const seen=new Set(q3list.map(t=>t.id));
+    const rest=backbone.filter(t=>marks[t.id]!=='yes'&&t.assessmentPrompt&&!seen.has(t.id))
+      .concat(topics.filter(t=>t.assessmentPrompt&&t.ageRangeStart>=cls.lo&&t.ageRangeStart<cls.hi&&!seen.has(t.id))
+        .sort((a,b)=>(b.centrality||0)-(a.centrality||0)));
+    for(const t of rest){if(q3list.length>=3)break;if(!seen.has(t.id)){seen.add(t.id);q3list.push(t)}}}
+  const q3subj=[...new Set(q3list.map(t=>subjName(t.subject)))].join(' · ');
   const app=document.getElementById('app');app.dataset.mode='result';
   app.innerHTML=`<div class="res">
-    <div class="big"><div class="pct">${pct}%</div><div class="pctlbl">${S.pct} · ${cls[LANG]}</div>
+    <div class="big"><div class="band">${S.bands[band]}</div><div class="pctlbl">${S.bandsub[band]}</div>
       <div class="track"><div class="fill" style="width:${pct}%"></div></div>
-      ${inferred>0?`<div style="color:#6a6380;font-size:.86em;margin-top:10px">${S.infMsg(inferred)}</div>`:''}</div>
+      <div class="cnt">${S.counted(marked,backbone.length)} · ${cls[LANG]}</div>
+      ${inferred>0?`<div style="color:var(--muted);font-size:15px;margin-top:10px">${S.infMsg(inferred)}</div>`:''}</div>
+    <div class="disc">${S.disc}<span class="coi">${S.coi}</span></div>
+    ${q3list.length===3?`<div class="sec"><h4>${S.q3h}</h4>${q3Card(q3list,`${cls.lo}–${cls.hi}`,q3subj)}</div>`:''}
+    <div class="sec">${mlForm(cls.id)}</div>
     ${strengths.length?`<div class="sec"><h4>${S.strengths}</h4><div class="chips">${strengths.map(s=>`<span class="chip">${subjName(s)}</span>`).join('')}</div></div>`:''}
-    <div class="sec"><h4>${S.nextH}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'#2f2b45'}">${t.name}</div><div class="pr">${fillName(t.assessmentPrompt||t.description||'')}</div></div>`).join(''):`<p style="color:#6a6380">${S.noNext}</p>`}</div>
+    <div class="sec"><h4>${S.nextH}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'var(--ink)'}">${t.name}</div><div class="pr">${fillName(t.assessmentPrompt||t.description||'')}</div></div>`).join(''):`<p style="color:var(--muted)">${S.noNext}</p>`}</div>
     <a class="btn" href="../?mode=child">${S.onMap}</a>
     <button class="btn ghost" onclick="doShare()">${S.share}</button>
     <button class="btn ghost" onclick="cls=null;marks={};document.getElementById('app').dataset.mode='';render()">${S.again}</button>

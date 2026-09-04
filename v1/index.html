@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viskas, ko išmoksta Lietuvos vaikas · v1 (archyvas)</title>
+<meta property="og:title" content="Viskas, ko išmoksta Lietuvos vaikas">
+<meta property="og:description" content="Atviras Lietuvos ugdymo programų žemėlapis: 2 129 mikro-temos ir 2 747 ryšių — nuo darželio iki 12 klasės, 20 dalykų. Paliesk tašką ir pamatyk visą vaiko kelią.">
+<meta property="og:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://krisvas333.github.io/vaiko-zemelapis/v1/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23D90429'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F7F7F5;
+  --surface-2:#F1EFEA;
+  --ink:#0A0A0A;
+  --muted:#595959;
+  --line:#E5E2DE;
+  --line2:#D6D2CC;
+  --accent:#D90429;
+  --accent-ink:#FFFFFF;
+  --red:#FF0000;
+  --ok:#1D7A3E;
+  --glow:none;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --r:4px;
+  --shadow:0 1px 2px rgba(10,10,10,.06);
+  --shadow-lg:0 4px 20px rgba(10,10,10,.08);
+}
+/* manual dark toggle only — light stays the default for parents */
+:root[data-theme="dark"]{
+  --ground:#080808;
+  --surface:#0D0D0D;
+  --surface-2:#141414;
+  --ink:#FAFAFA;
+  --muted:#9A9A9A;
+  --line:#262626;
+  --line2:#333333;
+  --accent:#FF0000;
+  --accent-ink:#FFFFFF;
+  --ok:#3FCB74;
+  --shadow:none;
+  --shadow-lg:none;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--accent-ink)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+canvas{position:fixed;inset:0;width:100vw;height:100vh;cursor:grab}
+canvas:active{cursor:grabbing}
+.hero{position:fixed;left:28px;top:24px;max-width:390px;pointer-events:none;z-index:2}
+.hero h1{font-family:var(--mono);font-size:1.8em;line-height:1.1;font-weight:800;letter-spacing:.01em;text-transform:uppercase}
+.hero h1 .dot{color:var(--accent)}
+.hero p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.5}
+.hero .stats b{color:var(--ink);font-family:var(--mono);font-weight:700}
+.badge{display:inline-block;margin-top:8px;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:var(--r);padding:7px 14px;font-size:15px;pointer-events:auto}
+.badge b{color:var(--accent);font-family:var(--mono);font-weight:700;letter-spacing:.04em}
+.credit{margin-top:6px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted)}
+.databtn{display:inline-flex;align-items:center;gap:7px;min-height:44px;margin-top:8px;pointer-events:auto;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);padding:9px 13px;font-size:15px;text-decoration:none;transition:.2s;cursor:pointer}
+.databtn:hover{background:var(--surface-2);border-color:var(--line2)}
+.lang{position:fixed;top:24px;right:24px;z-index:5;display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:4px}
+.lang button{border:0;background:transparent;color:var(--muted);border-radius:var(--r);min-height:44px;min-width:52px;padding:10px 16px;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.08em;cursor:pointer}
+.lang button.on{background:var(--accent);color:var(--accent-ink)}
+.toolbar{position:fixed;top:80px;right:24px;z-index:5;display:flex;gap:8px;align-items:flex-start}
+.tb-test{display:inline-flex;align-items:center;min-height:44px;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.06em;border-radius:var(--r);padding:11px 16px;text-decoration:none;white-space:nowrap}
+.tb-search{position:relative}
+.tb-search input{background:var(--ground);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);min-height:44px;padding:11px 14px;font-family:var(--body);font-size:15px;width:190px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+#qres{position:absolute;top:52px;right:0;width:280px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:none;box-shadow:var(--shadow-lg)}
+#qres.on{display:block}
+#qres div{padding:11px 13px;font-size:15px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--line)}
+#qres div:hover{background:var(--surface)}
+#qres div .qs{font-size:13px;color:var(--muted)}
+#grade{background:var(--ground);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);min-height:44px;padding:11px 12px;font-family:var(--body);font-size:15px;outline:none;cursor:pointer}
+#grade option{background:var(--ground);color:var(--ink)}
+.cbanner{position:fixed;top:134px;right:24px;z-index:5;background:var(--surface);border:1px solid var(--ok);color:var(--ok);border-radius:var(--r);padding:10px 14px;font-size:15px;display:none;align-items:center;gap:10px}
+.cbanner.on{display:flex}
+.cbanner button{background:transparent;border:0;color:var(--accent);cursor:pointer;font-weight:700;text-decoration:underline;font-size:1em;min-height:44px}
+@media(max-width:720px){.toolbar{top:auto;bottom:70px;right:12px;left:12px;flex-wrap:wrap}.tb-search input{width:130px}.cbanner{top:auto;bottom:130px;right:12px}}
+.legend{position:fixed;left:28px;bottom:24px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;z-index:2;max-height:38vh;overflow-y:auto;box-shadow:var(--shadow)}
+.legend h3{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.legend .row{display:flex;align-items:center;gap:8px;font-size:15px;padding:5px 0;cursor:pointer;user-select:none;color:var(--ink)}
+.legend .row.off{opacity:.35}
+.legend .swatch{width:10px;height:10px;border-radius:50%}
+.legend .n{margin-left:auto;color:var(--muted);font-family:var(--mono);font-size:13px;padding-left:14px}
+.panel{position:fixed;right:20px;top:134px;width:330px;max-height:calc(100vh - 154px);overflow-y:auto;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:20px;z-index:3;opacity:0;transform:translateX(24px);pointer-events:none;transition:opacity .28s ease,transform .28s ease;box-shadow:var(--shadow-lg)}
+.panel.open{opacity:1;transform:none;pointer-events:auto}
+.panel .close{float:right;cursor:pointer;color:var(--muted);font-size:1.1em;padding:6px 10px;min-height:44px;display:inline-flex;align-items:center}
+.panel .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.panel h2{font-family:var(--mono);font-size:1.15em;font-weight:800;letter-spacing:.01em;margin-bottom:8px;line-height:1.25}
+.panel .desc{color:var(--muted);font-size:15px;line-height:1.5;margin-bottom:12px}
+.panel .big{font-family:var(--mono);font-size:2em;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.panel .big small{font-family:var(--body);font-size:.4em;color:var(--muted);font-weight:400;margin-left:6px}
+.panel h4{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.panel ul{list-style:none}
+.panel li{font-size:15px;padding:6px 0;line-height:1.4;color:var(--ink)}
+.panel li.link{cursor:pointer}
+.panel li.link:hover{color:var(--accent)}
+.panel li .age{color:var(--muted);font-family:var(--mono);font-size:13px;float:right}
+.panel .ask{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:10px 12px;font-size:15px;line-height:1.45;color:var(--ink);margin-top:6px}
+.hint{position:fixed;right:24px;bottom:18px;color:var(--muted);font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;z-index:2}
+.hint b{color:var(--ink);font-weight:700}
+.about{position:fixed;inset:0;background:rgba(10,10,10,.45);z-index:9;display:none;align-items:center;justify-content:center}
+.about.open{display:flex}
+.about .sheet{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);max-width:640px;width:calc(100vw - 40px);max-height:84vh;overflow-y:auto;padding:30px 32px;box-shadow:var(--shadow-lg)}
+.about h2{font-family:var(--mono);font-size:1.5em;font-weight:800;letter-spacing:.01em;text-transform:uppercase;margin-bottom:6px}
+.about h4{font-family:var(--mono);color:var(--accent);font-size:15px;font-weight:700;letter-spacing:.04em;margin:16px 0 4px}
+.about p{color:var(--muted);font-size:15px;line-height:1.55}
+.about a{color:var(--accent)}
+.about .close{float:right;cursor:pointer;color:var(--muted);font-size:1.2em;padding:6px 10px;min-height:44px;display:inline-flex;align-items:center}
+.about .foot{margin-top:18px;color:var(--muted);font-size:14px}
+.about .backlink{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+.legTog{display:none;position:fixed;left:12px;bottom:12px;z-index:7;background:var(--ground);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);min-height:44px;padding:11px 14px;font-size:15px;align-items:center;gap:6px;cursor:pointer;box-shadow:var(--shadow)}
+.mhint{display:none;position:fixed;left:12px;right:12px;bottom:66px;z-index:4;text-align:center;color:var(--muted);font-size:15px;pointer-events:none}
+.coach{position:fixed;inset:0;z-index:20;background:rgba(10,10,10,.55);display:none;align-items:center;justify-content:center;padding:24px}
+.coach.on{display:flex}
+.coach .cbox{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow-lg)}
+.coach .cbox h3{font-family:var(--mono);font-size:1.15em;font-weight:800;letter-spacing:.02em;text-transform:uppercase;margin-bottom:14px}
+.coach .cbox p{color:var(--muted);font-size:16px;line-height:1.85;margin-bottom:20px;text-align:left}
+.coach .cbox b{color:var(--ink)}
+.coach .cbox button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:var(--r);min-height:44px;padding:12px 26px;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 0 rgba(217,4,41,.55)}50%{box-shadow:0 0 0 7px rgba(217,4,41,0)}}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important;animation:none !important} }
+@media(max-width:720px){.hero{max-width:225px}.hero h1{font-size:1.4em}.hero p{font-size:15px}.panel{width:calc(100vw - 24px);right:12px;left:12px;top:auto;bottom:12px;max-height:60vh;transform:translateY(24px)}.panel.open{transform:none}.panel li{font-size:16px;padding:7px 0}.hint{display:none}.lang{top:14px;right:14px}.legend{left:10px;right:10px;bottom:66px;max-height:44vh;transform:translateY(135%);transition:transform .3s ease;display:block;z-index:6}.legend.mopen{transform:none}.legend .row{font-size:16px;padding:9px 2px}.legTog{display:flex}.mhint{display:block}#grade.nudge{animation:gpulse 1.6s ease-in-out infinite}#tip{font-size:14px;max-width:72vw}.tb-test{font-size:13px;padding:11px 12px}.tb-search input{width:120px}}
+
+#tip{position:fixed;z-index:8;pointer-events:none;max-width:300px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:10px 13px;font-size:15px;line-height:1.45;color:var(--ink);box-shadow:var(--shadow-lg);opacity:0;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}
+#tip.on{opacity:1;transform:none}
+#tip .tname{font-family:var(--mono);font-weight:700;color:var(--ink);margin-bottom:3px}
+#tip .tmeta{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}
+#tip .tmeta .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0}
+#tip .tdesc{color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+body.present .toolbar,body.present .legend,body.present .hint,body.present .lang,body.present .cbanner{display:none!important}
+.hero .backlink{display:inline-flex;align-items:center;min-height:44px;pointer-events:auto;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+</style>
+<script defer src="https://krisvas333.github.io/neuron-ar/track.js"
+        data-brand="kris" data-artifact="vaiko-zemelapis-v1" data-kind="map"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="lang"><button id="langLT" class="on" onclick="setLang('lt')">LT</button><button id="langEN" onclick="setLang('en')">EN</button></div>
+<div class="toolbar">
+  <a class="tb-test" href="../testas/" id="tbTest">🧭 Kur mano vaikas?</a>
+  <div class="tb-search"><input id="q" placeholder="🔍 Ieškoti temos…" autocomplete="off" oninput="onSearch(this.value)" onkeydown="if(event.key==='Enter')pickFirst()"><div id="qres"></div></div>
+  <select id="grade" onchange="setGrade(this.value)"></select>
+</div>
+<div class="cbanner" id="cbanner"></div>
+<div class="hero">
+  <h1 id="hTitle">Viskas, ko išmoksta Lietuvos vaikas<span class="dot">.</span></h1>
+  <p class="stats" id="hSub"></p>
+  <span class="badge" id="hBadge"></span><br>
+  <a class="databtn" href="https://github.com/KrisVas333/vaiko-zemelapis/tree/main/data" target="_blank" rel="noopener" id="hData"></a>
+  <a class="databtn" href="../metodika/" style="margin-left:8px" id="hMet"></a>
+  <a class="databtn" href="#" onclick="document.getElementById('about').classList.add('open');return false" style="margin-left:8px" id="hAbout"></a>
+  <div class="credit" id="hCredit"></div>
+  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>
+</div>
+<div class="legend"><h3 id="hLegend"></h3><div id="rows"></div></div><button class="legTog" onclick="document.querySelector('.legend').classList.toggle('mopen')">🎨 <span>Dalykai</span></button><div class="mhint" id="mhint">👆 Bakstelėk tašką · 🤏 Suimk suartinti</div><div class="coach" id="coach"><div class="cbox"><h3>Sveiki! 👋</h3><p>👆 <b>Bakstelėk tašką</b> — pamatysi visą kelią iki jo<br><br>🤏 <b>Suimk dviem pirštais</b> — priartink<br><br>🎂 <b>Pasirink vaiko amžių</b> — pamatysi, kas „dega" dabar</p><button onclick="document.getElementById('coach').classList.remove('on')">Supratau 👍</button></div></div>
+<div class="panel" id="panel"></div>
+<div class="hint" id="hHint"></div>
+<div id="about" class="about"><div class="sheet" id="aboutSheet"></div></div>
+<script>
+const COLORS={"Matematika":"#5b8def","Lietuvių kalba":"#f4d06f","Gamtos mokslai":"#57c7b8","Fizika":"#ff9e64","Chemija":"#5cc8ff","Biologija":"#7dd87d","Informatika":"#a06bff","Pažinimas":"#ff6b8a","Visuomeninis ugdymas":"#e88ab5","Istorija ir geografija":"#d9c7a7","Technologijos":"#7ac74f","Dailė":"#f78fb3","Muzika":"#c9a7eb","Fizinis ugdymas":"#90be6d","Etika":"#b5838d","Kalba ir komunikacija":"#ffd39e","Emocijos ir santykiai":"#f7a1a1","Menai ir kūryba":"#d4b3f5","Savarankiškumas":"#8fd0f0","Mokėjimas mokytis":"#f0b9d8"};
+const FALLBACK="#8fa0cc";
+const SUBJ_EN={"Matematika":"Mathematics","Lietuvių kalba":"Lithuanian","Gamtos mokslai":"Science","Informatika":"Computing","Pažinimas":"Cognition","Visuomeninis ugdymas":"Social studies","Istorija ir geografija":"History & geography","Technologijos":"Technologies","Dailė":"Art","Muzika":"Music","Fizinis ugdymas":"Physical education","Etika":"Ethics","Fizika":"Physics","Chemija":"Chemistry","Biologija":"Biology","Kalba ir komunikacija":"Language & communication","Emocijos ir santykiai":"Emotions & relationships","Menai ir kūryba":"Arts & creativity","Savarankiškumas":"Self-care","Mokėjimas mokytis":"Learning to learn"};
+const STR={
+ lt:{title:'Viskas, ko išmoksta Lietuvos vaikas',sub:(t,d)=>`Atviras žemėlapis iš oficialių Lietuvos ugdymo programų (2022). <b>${t}</b> temos ir <b>${d}</b> ryšių — kiekvienas sako, kas turi ateiti pirmiau ir kodėl. <b>Paliesk tašką</b> — pamatysi visą kelią iki jo.`,
+  badge:'🎓 v1.0 juodraštis: <b>PILNAS — darželis–12 klasė, 20 dalykų</b> · laukia pedagogų peržiūros',
+  data:'⬇ Atviri duomenys · ODbL',met:'🔬 Metodika ir duomenys',about:'ℹ️ Apie žemėlapį',credit:'Kuria Kristijonas Vasiliauskas · v1.0 juodraštis — ruošiama pedagogų peržiūrai · duomenys: LT BP 2022',
+  legend:'Dalykai · spausk',hint:'<b>Tempk</b> — sukti · <b>Dešinys/Shift</b> — stumdyti · <b>Ratukas</b> — priartinti · <b>Dukart</b> — atstatyti · <b>Spausk tašką</b> — kelias',
+  steps:'žingsnių atveda iki šios temos',ask:'❓ Klauskite savo vaiko',ev:'✅ Moka, kai',dep:'Remiasi',un:'Atrakina',child:'jūsų vaikas',yrs:'m.',
+  aboutHtml:`<span class="close" onclick="document.getElementById('about').classList.remove('open')">✕</span>
+  <h2>Apie žemėlapį</h2>
+  <h4>Kas čia per daiktas?</h4><p>Pirmas atviras <b>Lietuvos vaiko mokymosi žemėlapis</b>: 2 129 mikro-temos ir 2 747 „kas turi ateiti pirmiau" ryšių — nuo darželio iki 12 klasės, visi 20 dalykų. Kiekviena tema turi aprašymą tėvų kalba, klausimą vaikui, mokėjimo kriterijus ir tikslų ugdymo programos kodą.</p>
+  <h4>Kaip jis padarytas?</h4><p>AI agentai perskaitė oficialias <b>2022 m. atnaujintas Bendrąsias programas</b> (emokykla.lt) ir NŠA ikimokyklinio ugdymo pasiekimų aprašą, išskaidė jas į mokomas mikro-temas ir supynė priklausomybių grafą. Dabar vyksta pedagogų peržiūra — todėl v1.0 „juodraštis". Duomenys atviri (ODbL). Pilna metodika, kokybės patikros, <b>apribojimai</b> ir citavimas — <a href="../metodika/">metodikos puslapyje</a>.</p>
+  <h4>Koks originalas?</h4><p>Idėjos autorius — <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble (withmarble.com)</a>: atviras JAV/JK programų žemėlapis su 1 590 temų. Šis — lietuviškas atitikmuo iš mūsų BUP.</p>
+  <h4>👨‍👩‍👧 Tėvams</h4><p>Pagal amžių matote, kas natūraliai „dega" dabar; prie kiekvienos temos — <b>klausimas vaikui</b> ir „moka, kai" požymiai.</p>
+  <h4>🧑‍🏫 Mokytojams</h4><p>„Remiasi" = ko mokinys turi jau mokėti (spragų diagnostika); tarppjūviniai ryšiai rodo tarpdalykines jungtis.</p>
+  <h4>🎓 Švietimo ekspertams</h4><p>Pilnas grafas su BP kodais — atsisiųskite, cituokite, plėskite.</p>
+  <h4>🤸 Būrelių teikėjams</h4><p>Užmap'uokite savo programą — parodykite, kurias temas jūsų veikla ugdo ir ką atrakina. Norite savo sluoksnio? Susisiekite.</p>
+  <h4>🔜 Kas bus toliau</h4><p>Paieška · amžiaus filtras · „Kur mano vaikas?" · būrelių sluoksnis · 7–12 klasės · EN duomenys.</p>
+  <p class="foot">Kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · LinkedIn: Kristijonas Vasiliauskas.</p>`},
+ en:{title:'Everything a Lithuanian child learns',sub:(t,d)=>`An open map of Lithuania's official curricula (2022). <b>${t}</b> concepts and <b>${d}</b> prerequisite links — each says what must come first, and why. <b>Tap any dot</b> to trace the full path to it.`,
+  badge:'🎓 v1.0 draft: <b>COMPLETE — kindergarten to grade 12, 20 subjects</b> · pending educator review',
+  data:'⬇ Open data · ODbL',met:'🔬 Methodology & data',about:'ℹ️ About',credit:'Built by Kristijonas Vasiliauskas · v1.0 draft — pending educator review · data: LT national curricula 2022 · topic content currently in Lithuanian',
+  legend:'Subjects · click',hint:'<b>Drag</b> — spin · <b>Right/Shift</b> — pan · <b>Scroll</b> — zoom · <b>Double-click</b> — reset · <b>Tap a dot</b> — trace',
+  steps:'prerequisites lead to this concept',ask:'❓ Ask your child',ev:'✅ Mastery looks like',dep:'Builds on',un:'Unlocks',child:'your child',yrs:'y.',
+  aboutHtml:`<span class="close" onclick="document.getElementById('about').classList.remove('open')">✕</span>
+  <h2>About this map</h2>
+  <h4>What is this?</h4><p>The first open <b>map of what a Lithuanian child learns</b>: 2,129 micro-concepts wired by 2,747 prerequisite links — kindergarten to grade 12, all 20 subjects. Every concept carries a parent-friendly description, a question to ask your child, mastery criteria and the exact national-curriculum code.</p>
+  <h4>How was it made?</h4><p>AI agents distilled Lithuania's official <b>2022 national curricula</b> (emokykla.lt) and the NŠA early-childhood framework into teachable micro-concepts and a dependency graph. Educator review is in progress — hence "draft". Data is open (ODbL). Full method, quality checks, <b>limitations</b> and citation are on the <a href="../metodika/">methodology page</a>.</p>
+  <h4>The original</h4><p>Inspired by <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble</a> — the open US/UK curriculum map (1,590 concepts). This is its Lithuanian sibling. Note: topic content is currently in Lithuanian.</p>
+  <h4>👨‍👩‍👧 Parents · 🧑‍🏫 Teachers · 🎓 Researchers · 🤸 Activity providers</h4><p>See what's naturally "lighting up" at your child's age · diagnose gaps via "builds on" · download and extend the open graph · map your program onto it — get in touch.</p>
+  <h4>🔜 Next</h4><p>Search · age filter · "Where is my child?" · activity-provider layer · grades 7–12 · English dataset.</p>
+  <p class="foot">Built by <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · LinkedIn: Kristijonas Vasiliauskas.</p>`}
+};
+let LANG=localStorage.getItem('zm-lang')||'lt';
+function fillName(txt){if(!txt)return txt;if(LANG==='en')return txt.replaceAll('{{name}}','your child');
+  return txt.replace(/(\S+)?\s*\{\{name\}\}/g,(m,pre)=>{const p=(pre||'').toLowerCase().replace(/[^a-ząčęėįšųūž]/g,'');
+  const j=(pre?pre+' ':'');
+  if(p==='su')return j+'jūsų vaiku';if(p==='priešais')return j+'jūsų vaiką';
+  if(/^(paklaus|paprašy|klausk|pasiteirau|teiraukit)/.test(p))return j+'jūsų vaiko';
+  if(/^(duok|leisk|pasiūlyk|parodyk|padėk|primink|paduok|užraš|perskaity|paskaity|padiktuo)/.test(p))return j+'jūsų vaikui';
+  return j+'jūsų vaikas';});}
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+const RGB={}; for(const s in COLORS) RGB[s]=hex2rgb(COLORS[s]); const RGBF=hex2rgb(FALLBACK);
+function rgba(s,a){const c=RGB[s]||RGBF;return `rgba(${c[0]},${c[1]},${c[2]},${a})`}
+
+let topics=[],deps=[],byId={},childs={},pars={},on={};
+let sel=null,ancestors=new Set(),descendants=new Set();
+let introStart=0, introMax=0, introDone=false;
+let present=false;
+let ageLo=null,ageHi=null,childMode=false,searchHit=null;
+const CHILD={known:new Set(),ready:new Set(),label:''};
+function loadChild(){try{const d=JSON.parse(localStorage.getItem('vz-child')||'null');if(!d)return false;CHILD.known=new Set(d.known||[]);CHILD.ready=new Set(d.ready||[]);CHILD.label=d.label||'';return true}catch(e){return false}}
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+function resize(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+addEventListener('resize',resize);resize();
+function hash(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h}
+const DEF={yaw:0,pitch:-0.10,dist:1500,panX:0,panY:0};
+const cam={...DEF};
+const F=900, WORLD_H=980, R_MAX=460;
+let tween=null,lastInteract=0,drag=null;
+function tweenTo(t,dur=650){tween={t0:performance.now(),dur,from:{...cam},to:{...cam,...t}}}
+function stepTween(now){if(!tween)return;let k=Math.min(1,(now-tween.t0)/tween.dur);k=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;for(const p of ['yaw','pitch','dist','panX','panY'])cam[p]=tween.from[p]+(tween.to[p]-tween.from[p])*k;if(k>=1)tween=null}
+
+function setLang(l){LANG=l;localStorage.setItem('zm-lang',l);
+ document.getElementById('langLT').classList.toggle('on',l==='lt');
+ document.getElementById('langEN').classList.toggle('on',l==='en');
+ applyLang(); if(typeof applyTB==='function')applyTB(); if(sel)select(sel);}
+window.setLang=setLang;
+function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
+function applyLang(){const S=STR[LANG];
+ document.getElementById('hTitle').innerHTML=S.title+'<span class="dot">.</span>';
+ document.getElementById('hSub').innerHTML=S.sub(topics.length||2129,deps.length||2747);
+ document.getElementById('hBadge').innerHTML=S.badge;
+ document.getElementById('hData').textContent=S.data;
+ document.getElementById('hMet').textContent=S.met;
+ document.getElementById('hAbout').textContent=S.about;
+ document.getElementById('hCredit').textContent=S.credit;
+ document.getElementById('hLegend').textContent=S.legend;
+ document.getElementById('hHint').innerHTML=S.hint;
+ document.getElementById('aboutSheet').innerHTML=S.aboutHtml;
+ const rows=document.getElementById('rows');
+ [...rows.children].forEach(div=>{const s=div.dataset.s;div.querySelector('.lbl').textContent=subjName(s)});
+}
+
+Promise.all([fetch('../data/topics.json?v='+Date.now()).then(r=>r.json()),fetch('../data/dependencies.json?v='+Date.now()).then(r=>r.json())]).then(([T,D])=>{
+  topics=T.topics;deps=D.dependencies;
+  topics.forEach(t=>{byId[t.id]=t;childs[t.id]=[];pars[t.id]=[];
+    const h=hash(t.id);t.theta=(h%3600)/3600*Math.PI*2;t.rr=.35+((h>>4)%1000)/1000*.65;
+    const jit=(((h>>8)%100)-50)/50;
+    t.age=(t.ageRangeStart+t.ageRangeEnd)/2;
+    const a=(t.age-3)/10;
+    t.y3=(a-0.5)*WORLD_H + jit*30;
+    const R=(0.22+0.78*a)*R_MAX*t.rr;
+    t.x3=Math.cos(t.theta)*R; t.z3=Math.sin(t.theta)*R;
+    t.baseR=1.7+t.centrality*16;});
+  deps.forEach(e=>{childs[e.prerequisiteId].push(e.topicId);pars[e.prerequisiteId]&&0;pars[e.topicId].push(e.prerequisiteId)});
+  // ---- neural intro: BFS wave from highest-centrality seed neurons ----
+  const seeds=[...topics].sort((a,b)=>b.centrality-a.centrality).slice(0,7).map(t=>t.id);
+  const depth={}; let frontier=[...seeds]; seeds.forEach(s=>depth[s]=0); let dmax=0;
+  const und={}; topics.forEach(t=>und[t.id]=[]);
+  deps.forEach(e=>{und[e.topicId].push(e.prerequisiteId);und[e.prerequisiteId].push(e.topicId)});
+  while(frontier.length){const nf=[];
+    for(const n of frontier)for(const m of und[n])if(depth[m]===undefined){depth[m]=depth[n]+1;dmax=Math.max(dmax,depth[m]);nf.push(m)}
+    frontier=nf;}
+  topics.forEach(t=>{const d=depth[t.id]!==undefined?depth[t.id]:dmax+1;
+    t.reveal=d*240+((hash(t.id)>>6)%200);introMax=Math.max(introMax,t.reveal);});
+  introStart=performance.now()+400;
+  document.getElementById('rows').innerHTML='';
+  const rows=document.getElementById('rows');
+  const present=[...new Set(topics.map(t=>t.subject))].sort((a,b)=>topics.filter(t=>t.subject===b).length-topics.filter(t=>t.subject===a).length);
+  present.forEach(s=>{on[s]=1;if(!COLORS[s]){COLORS[s]=FALLBACK;RGB[s]=RGBF}
+    const n=topics.filter(t=>t.subject===s).length;
+    const div=document.createElement('div');div.className='row';div.dataset.s=s;
+    div.innerHTML=`<span class="swatch" style="background:${COLORS[s]}"></span><span class="lbl">${subjName(s)}</span><span class="n">${n}</span>`;
+    div.onclick=()=>{on[s]=!on[s];div.classList.toggle('off',!on[s])};
+    rows.appendChild(div);});
+  applyLang();
+  if(new URLSearchParams(location.search).has('present'))setTimeout(startPresent,300);
+  requestAnimationFrame(frame);
+});
+applyLang();
+if(LANG==='en'){document.getElementById('langLT').classList.remove('on');document.getElementById('langEN').classList.add('on')}
+
+function project(t,W,H){
+  const cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw);
+  let x=t.x3*cy-t.z3*sy, z=t.x3*sy+t.z3*cy, y=t.y3;
+  const cp=Math.cos(cam.pitch),sp=Math.sin(cam.pitch);
+  let y2=y*cp-z*sp, z2=y*sp+z*cp;
+  const zc=z2+cam.dist, s=F/Math.max(120,zc);
+  return {x:W*0.5+120+(x*s)+cam.panX, y:H*0.52-(y2*s)+cam.panY, s, z:zc};
+}
+function startPresent(){
+  present=true; document.body.classList.add('present');
+  const byC=[...topics].sort((a,b)=>b.centrality-a.centrality);
+  const keystone=byC[0];
+  const later=[...topics].filter(t=>t.ageRangeStart>=13).sort((a,b)=>b.centrality-a.centrality)[0]||byC[3];
+  const closePanel=()=>{sel=null;ancestors=new Set();descendants=new Set();document.getElementById('panel').classList.remove('open');};
+  const seq=[
+    [400,   ()=>tweenTo({dist:1750,pitch:-0.05},1600)],
+    [7000,  ()=>tweenTo({dist:1250,pitch:-0.02},1500)],
+    [8800,  ()=>{if(keystone)select(keystone)}],
+    [14000, ()=>{if(later)select(later)}],
+    [19500, ()=>{closePanel();tweenTo({yaw:cam.yaw,pitch:-0.08,dist:1650,panX:0,panY:0},1800)}]
+  ];
+  seq.forEach(([t,fn])=>setTimeout(fn,t));
+}
+function frame(now){
+  stepTween(now);
+  const W=innerWidth,H=innerHeight;
+  ctx.clearRect(0,0,W,H);
+  const it=now-introStart;
+  if(!introDone && it>introMax+900) introDone=true;
+  if(present){if(!tween)cam.yaw+=0.0016;} else if(!sel&&!tween&&now-lastInteract>4000)cam.yaw+=0.0015;
+  const P={};let zmin=1e9,zmax=-1e9;
+  topics.forEach(t=>{const p=project(t,W,H);P[t.id]=p;if(p.z<zmin)zmin=p.z;if(p.z>zmax)zmax=p.z});
+  const zr=Math.max(1,zmax-zmin);
+  // edges (grow like synapses during intro; subject-tinted)
+  deps.forEach(e=>{
+    const a=byId[e.prerequisiteId],b=byId[e.topicId];
+    if(!on[a.subject]&&!on[b.subject])return;
+    let grow=1, flash=0;
+    if(!introDone){
+      const born=Math.max(a.reveal,b.reveal)+150;
+      const ea=it-born; if(ea<0)return;
+      grow=Math.min(1,ea/340);
+      if(ea<640)flash=(1-ea/640);
+    }
+    const hl=sel&&((ancestors.has(e.topicId)||e.topicId===sel.id)&&(ancestors.has(e.prerequisiteId)||e.prerequisiteId===sel.id));
+    const pa=P[a.id],pb=P[b.id];
+    const ex=pa.x+(pb.x-pa.x)*grow, ey=pa.y+(pb.y-pa.y)*grow;
+    if(sel&&!hl){ctx.strokeStyle='rgba(10,10,10,.05)';ctx.lineWidth=.4}
+    else if(hl){ctx.strokeStyle=rgba(a.subject,.95);ctx.lineWidth=1.8}
+    else{ctx.strokeStyle=rgba(a.subject,.07+flash*.5);ctx.lineWidth=.5+flash*.9}
+    ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(ex,ey);ctx.stroke();});
+  // nodes far→near (pop + glow during intro; subject-colored selection)
+  const order=[...topics].sort((a,b)=>P[b.id].z-P[a.id].z);
+  order.forEach(t=>{
+    if(!on[t.subject])return;
+    let scale=1, glow=0;
+    if(!introDone){
+      const na=it-t.reveal; if(na<0)return;
+      scale=Math.min(1,na/320); scale=1-Math.pow(1-scale,3);
+      if(na<700)glow=1-na/700;
+    }
+    const p=P[t.id], depth=1-(p.z-zmin)/zr;
+    let r=Math.max(.8,t.baseR*p.s*1.15)*scale, al=.28+.62*depth;
+    const isSel=sel&&t.id===sel.id, isAnc=sel&&ancestors.has(t.id), isDesc=sel&&descendants.has(t.id);
+    if(sel){ if(isSel||isAnc){al=1} else if(isDesc){al=Math.min(1,al+.15)} else al*=.12; }
+    let col=COLORS[t.subject];
+    if(ageLo!==null && !(t.ageRangeStart<ageHi && t.ageRangeEnd>ageLo)) al*=.08;
+    if(childMode&&!sel){ if(CHILD.known.has(t.id)){col='#1D7A3E';al=Math.max(al,.92)} else if(CHILD.ready.has(t.id)){col='#D90429';al=Math.max(al,.85);r*=1.2} else {col='#B5B0A9';al*=.35} }
+    if(searchHit){ if(searchHit.has(t.id)){al=1;r*=1.5;col='#D90429'} else al*=.15 }
+    if(glow>0){ctx.globalAlpha=glow*.45;ctx.fillStyle=rgba(t.subject,1);ctx.beginPath();ctx.arc(p.x,p.y,r*(1+glow*2.6),0,7);ctx.fill();}
+    ctx.globalAlpha=al;
+    ctx.fillStyle=(isSel||isAnc)?rgba(t.subject,1):col;
+    ctx.beginPath();ctx.arc(p.x,p.y,isSel?r+2.5:(isAnc?r+1:r),0,7);ctx.fill();
+    if(isSel||isAnc){ctx.globalAlpha=.35;ctx.strokeStyle=rgba(t.subject,1);ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,r+(isSel?7:4),0,7);ctx.stroke();}
+    if(isSel){ctx.globalAlpha=1;ctx.strokeStyle='#0A0A0A';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(p.x,p.y,r+6,0,7);ctx.stroke();}
+  });
+  ctx.globalAlpha=1;
+  requestAnimationFrame(frame);
+}
+function collect(id,map,out){(map[id]||[]).forEach(n=>{if(!out.has(n)){out.add(n);collect(n,map,out)}})}
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('mousedown',e=>{drag={x:e.clientX,y:e.clientY,btn:e.button,shift:e.shiftKey,moved:0};lastInteract=performance.now()});
+addEventListener('mousemove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(drag.btn===2||drag.shift){cam.panX+=dx;cam.panY+=dy}
+  else{cam.yaw+=dx*.005;cam.pitch=Math.max(-.9,Math.min(.9,cam.pitch-dy*.003))}
+  drag.x=e.clientX;drag.y=e.clientY;drag.moved+=Math.abs(dx)+Math.abs(dy);lastInteract=performance.now()});
+addEventListener('mouseup',e=>{const was=drag&&drag.moved>6,btn=drag?drag.btn:0;drag=null;if(!was&&btn===0)pick(e.clientX,e.clientY)});
+cv.addEventListener('wheel',e=>{e.preventDefault();cam.dist=Math.max(650,Math.min(2800,cam.dist*(1+e.deltaY*.0012)));lastInteract=performance.now()},{passive:false});
+cv.addEventListener('dblclick',()=>{tweenTo({...DEF},700);lastInteract=performance.now()});
+let touches={};let lastPointerTouch=false;
+cv.addEventListener('touchstart',e=>{lastInteract=performance.now();lastPointerTouch=true;
+  if(e.touches.length===1)drag={x:e.touches[0].clientX,y:e.touches[0].clientY,btn:0,moved:0};
+  if(e.touches.length===2){drag=null;touches.d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)}},{passive:true});
+cv.addEventListener('touchmove',e=>{lastInteract=performance.now();
+  if(e.touches.length===1&&drag){const dx=e.touches[0].clientX-drag.x,dy=e.touches[0].clientY-drag.y;cam.yaw+=dx*.005;cam.pitch=Math.max(-.9,Math.min(.9,cam.pitch-dy*.003));drag.x=e.touches[0].clientX;drag.y=e.touches[0].clientY;drag.moved+=Math.abs(dx)+Math.abs(dy)}
+  if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);cam.dist=Math.max(650,Math.min(2800,cam.dist*touches.d/d));touches.d=d}},{passive:true});
+cv.addEventListener('touchend',e=>{const was=drag&&drag.moved>8;const t=e.changedTouches[0];const had=!!drag;drag=null;if(had&&!was)pick(t.clientX,t.clientY)});
+function pick(mx,my){
+  const W=innerWidth,H=innerHeight;let best=null,bd=(lastPointerTouch?32:20)**2;
+  topics.forEach(t=>{if(!on[t.subject])return;const p=project(t,W,H);const d=(p.x-mx)**2+(p.y-my)**2;if(d<bd){bd=d;best=t}});
+  if(best)select(best);
+  else{sel=null;document.getElementById('panel').classList.remove('open')}
+}
+function select(t){
+  const S=STR[LANG];
+  sel=t;ancestors=new Set();descendants=new Set();
+  collect(t.id,pars,ancestors);collect(t.id,childs,descendants);
+  let ty=-Math.PI/2 - t.theta;
+  while(ty-cam.yaw>Math.PI)ty-=2*Math.PI;while(ty-cam.yaw<-Math.PI)ty+=2*Math.PI;
+  tweenTo({yaw:ty,dist:Math.max(900,cam.dist*.9),panX:0,panY:0},700);
+  const dir=(pars[t.id]||[]).map(id=>byId[id]);
+  const un=(childs[t.id]||[]).map(id=>byId[id]);
+  const li=x=>`<li class="link" onclick="select(byId['${x.id}'])"><span style="color:${COLORS[x.subject]}">●</span> ${x.name}<span class="age">${x.ageRangeStart}–${x.ageRangeEnd} ${S.yrs}</span></li>`;
+  const pn=document.getElementById('panel');
+  pn.innerHTML=`
+    <span class="close" onclick="sel=null;this.parentElement.classList.remove('open')">✕</span>
+    <div class="kicker" style="color:${COLORS[t.subject]}">● ${subjName(t.subject)} · ${t.domain} · ${t.ageRangeStart}–${t.ageRangeEnd} ${S.yrs}</div>
+    <h2>${t.name}</h2>
+    <div class="desc">${t.description}</div>
+    <div class="big" style="color:${COLORS[t.subject]}">${ancestors.size}<small>${S.steps}</small></div>
+    ${t.assessmentPrompt?`<h4>${S.ask}</h4><div class="ask" style="border-color:${COLORS[t.subject]}">${fillName(t.assessmentPrompt)}</div>`:''}
+    ${t.evidence&&t.evidence.length?`<h4>${S.ev}</h4><ul>${t.evidence.map(e=>`<li>· ${e}</li>`).join('')}</ul>`:''}
+    ${dir.length?`<h4>${S.dep} (${dir.length})</h4><ul>${dir.map(li).join('')}</ul>`:''}
+    ${un.length?`<h4>${S.un} (${un.length})</h4><ul>${un.map(li).join('')}</ul>`:''}`;
+  pn.classList.add('open');
+}
+window.select=select;window.byId=byId;
+// ---- Phase 0: search · grade filter · "Kur mano vaikas?" ----
+const GRADES=[{v:'',lt:'🎂 Visi amžiai',en:'🎂 All ages'},{v:'2,6',lt:'Darželis (2–6 m.)',en:'Kindergarten'},{v:'6,7',lt:'Priešmokyklinis',en:'Pre-primary'},{v:'7,9',lt:'1–2 klasė',en:'Grade 1–2'},{v:'9,11',lt:'3–4 klasė',en:'Grade 3–4'},{v:'11,13',lt:'5–6 klasė',en:'Grade 5–6'},{v:'13,15',lt:'7–8 klasė',en:'Grade 7–8'},{v:'15,17',lt:'9–10 klasė',en:'Grade 9–10'},{v:'17,19',lt:'11–12 klasė',en:'Grade 11–12'}];
+function buildGrades(){const g=document.getElementById('grade');const cur=g.value;g.innerHTML=GRADES.map(o=>`<option value="${o.v}">${o[LANG]}</option>`).join('');g.value=cur}
+function setGrade(v){if(!v){ageLo=null;ageHi=null}else{const p=v.split(',');ageLo=+p[0];ageHi=+p[1]}var g=document.getElementById('grade');if(g)g.classList.remove('nudge');}
+window.setGrade=setGrade;
+function onSearch(q){q=q.trim().toLowerCase();const res=document.getElementById('qres');
+ if(q.length<2){searchHit=null;res.classList.remove('on');return}
+ const m=topics.filter(t=>t.name.toLowerCase().includes(q));
+ searchHit=new Set(m.map(t=>t.id));
+ res.innerHTML=m.slice(0,7).map(t=>`<div onclick="pickId('${t.id}')">${t.name}<span class="qs"> · ${subjName(t.subject)} · ${t.ageRangeStart}–${t.ageRangeEnd}</span></div>`).join('')||`<div style="color:var(--muted)">—</div>`;
+ res.classList.add('on');}
+function pickId(id){searchHit=null;const r=document.getElementById('qres');r.classList.remove('on');document.getElementById('q').value='';select(byId[id])}
+function pickFirst(){if(searchHit&&searchHit.size)pickId([...searchHit][0])}
+window.onSearch=onSearch;window.pickId=pickId;window.pickFirst=pickFirst;
+function applyTB(){const isEn=LANG==='en';
+ document.getElementById('tbTest').textContent=isEn?'🧭 Where is my child?':'🧭 Kur mano vaikas?';
+ document.getElementById('q').placeholder=isEn?'🔍 Search a topic…':'🔍 Ieškoti temos…';
+ buildGrades(); if(childMode)showBanner();}
+function showBanner(){const b=document.getElementById('cbanner');const isEn=LANG==='en';
+ b.innerHTML=`✅ ${isEn?'Showing':'Rodoma'}: <b>${CHILD.label||(isEn?'your child':'jūsų vaikas')}</b> <button onclick="exitChild()">${isEn?'exit':'išjungti'}</button>`;
+ b.classList.add('on');}
+function exitChild(){childMode=false;document.getElementById('cbanner').classList.remove('on')}
+window.exitChild=exitChild;
+buildGrades();
+if(new URLSearchParams(location.search).get('mode')==='child'&&loadChild()){childMode=true;setTimeout(showBanner,60)}
+document.addEventListener('click',e=>{if(!e.target.closest('.tb-search')){const r=document.getElementById('qres');if(r)r.classList.remove('on')}});
+
+/* --- hover tooltip (Marble-style): tema · dalykas · amžius · aprašymas --- */
+const tipEl=document.createElement('div');tipEl.id='tip';document.body.appendChild(tipEl);
+let hovT=null;
+function hoverAt(mx,my){
+  const W=innerWidth,H=innerHeight;let best=null,bd=16*16;
+  topics.forEach(t=>{if(typeof on!=='undefined'&&on[t.subject]===false)return;const p=project(t,W,H);const d=(p.x-mx)**2+(p.y-my)**2;if(d<bd){bd=d;best=t}});
+  return best;
+}
+function showTip(t,mx,my){
+  const en=(typeof LANG!=='undefined'&&LANG==='en');
+  const yrs=en?'yrs':'m.';
+  const col=(typeof COLORS!=='undefined'&&COLORS[t.subject])||FALLBACK;
+  const desc=(t.description||'').length>170?(t.description.slice(0,167).replace(/\s+\S*$/,'')+'…'):(t.description||'');
+  tipEl.innerHTML='<div class="tname">'+t.name+'</div>'
+    +'<div class="tmeta"><span class="dot" style="background:'+col+'"></span>'+t.subject
+    +(t.domain?' · '+t.domain:'')+' · '+t.ageRangeStart+'–'+t.ageRangeEnd+' '+yrs+'</div>'
+    +'<div class="tdesc">'+desc+'</div>';
+  tipEl.classList.add('on');
+  const r=tipEl.getBoundingClientRect();
+  let x=mx+16,y=my+14;
+  if(x+r.width>innerWidth-10)x=mx-r.width-14;
+  if(y+r.height>innerHeight-10)y=my-r.height-12;
+  tipEl.style.left=Math.max(8,x)+'px';tipEl.style.top=Math.max(8,y)+'px';
+}
+function hideTip(){tipEl.classList.remove('on');hovT=null;cv.style.cursor='grab'}
+cv.addEventListener('mousemove',e=>{
+  if(drag){hideTip();return}
+  const t=hoverAt(e.clientX,e.clientY);
+  if(t){if(t!==hovT){hovT=t}showTip(t,e.clientX,e.clientY);cv.style.cursor='pointer'}
+  else hideTip();
+});
+cv.addEventListener('mouseleave',hideTip);
+cv.addEventListener('mousedown',hideTip);
+cv.addEventListener('touchstart',hideTip,{passive:true});
+if(innerWidth<=720&&!localStorage.getItem('vz-coach')){var _c=document.getElementById('coach');if(_c)_c.classList.add('on');localStorage.setItem('vz-coach','1');var _g=document.getElementById('grade');if(_g)_g.classList.add('nudge');}
+addEventListener('blur',hideTip);
+</script>
+</body>
+</html>
