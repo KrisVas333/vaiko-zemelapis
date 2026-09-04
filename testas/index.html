@@ -78,6 +78,7 @@ h1 .g{color:var(--accent)}
 .res .cnt{color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:.05em;margin-top:8px}
 .disc{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:13px 15px;margin-bottom:14px;color:var(--muted);font-size:13.5px;line-height:1.55}
 .disc .coi{display:block;margin-top:7px;color:var(--ink)}
+.ltag{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:1px 4px;vertical-align:middle;margin-left:6px}
 .disc a{color:var(--accent)}
 /* 🎯 3 klausimai šįvakar */
 .q3{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:14px 15px}
@@ -217,12 +218,22 @@ const CLASSES=[
 let LANG=localStorage.getItem('vz-lang')||'lt';
 let topics=[],byId={},pars={},cls=null,backbone=[],marks={};
 function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
-function fillName(txt){if(!txt)return txt;if(LANG==='en')return txt.replaceAll('{{name}}','your child');
-  return txt.replace(/(\S+)?\s*\{\{name\}\}/g,(m,pre)=>{const p=(pre||'').toLowerCase().replace(/[^a-ząčęėįšųūž]/g,'');const j=(pre?pre+' ':'');
-  if(p==='su')return j+'jūsų vaiku';if(p==='priešais')return j+'jūsų vaiką';
-  if(/^(paklaus|paprašy|klausk|pasiteirau|teiraukit)/.test(p))return j+'jūsų vaiko';
-  if(/^(duok|leisk|pasiūlyk|parodyk|padėk|primink|paduok|užraš|perskaity|paskaity|padiktuo)/.test(p))return j+'jūsų vaikui';
-  return j+'jūsų vaikas';});}
+/* Klausimų tekstai yra LIETUVIŠKI ir EN režime — verčiam tik sąsają, ne patį sakinį,
+   todėl {{name}} visada gauna lietuvišką linksnį (EN vaizde prie jų kabinam „LT" ženklą). */
+const GEN_W=['po','iš','be','pas','vieną','dėl','prie','nuo','link'];   /* kilmininkas */
+const ACC_W=['priešais','apie','per','pro'];                            /* galininkas */
+const RE_ACC=/^(paskir|pakvies|pasodink)/;
+const RE_GEN=/^(paklaus|paprašy|klausk|pasiteirau|teiraukit|perskaitę|peržiūrėję|išklausę|nufilmuo|nufotografuo|įrašy)/;
+const RE_DAT=/^(duok|leisk|pasiūlyk|parodyk|padėk|primink|paduok|užraš|perskaity|paskaity|padiktuo|nupieš|nubrėž|nubraiž|papasakok|pasakyk|sakyk|paleisk|suren|užmink|pagrok|padainuok|įjunk|parašy|skaityk)/;
+function fillName(txt){if(!txt)return txt;
+  return txt.replace(/(\S+)?\s*\{\{name\}\}/g,(m,pre)=>{
+    const p=(pre||'').toLowerCase().replace(/[^a-ząčęėįšųūž]/g,''),j=(pre?pre+' ':'');
+    if(p==='su')return j+'jūsų vaiku';                                  /* įnagininkas */
+    if(ACC_W.includes(p)||RE_ACC.test(p))return j+'jūsų vaiką';
+    if(GEN_W.includes(p)||RE_GEN.test(p))return j+'jūsų vaiko';
+    if(RE_DAT.test(p))return j+'jūsų vaikui';                           /* naudininkas */
+    return j+'jūsų vaikas';});}                                         /* vardininkas: „ar", „kai" */
+function ltTag(){return LANG==='en'?' <span class="ltag">LT</span>':''}
 /* season face — the question a parent is actually asking this month */
 function seasonH(){const S=T[LANG],m=new Date().getMonth()+1;
   if(m>=9&&m<=10)return S.seasons.a;
@@ -252,12 +263,14 @@ function q3Say(btn,msg,ok){const b=btn.closest('.q3');if(!b)return;const e=b.que
   clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2800)}
 function q3Text(btn){const b=btn.closest('.q3');return b?(Q3TEXT[b.dataset.q3]||''):''}
 async function q3copy(btn){const S=T[LANG],txt=q3Text(btn);let ok=false;
+  if(typeof bt==='function')bt('value',{door:'q3copy'});
   try{await navigator.clipboard.writeText(txt);ok=true}catch(e){
     try{const ta=document.createElement('textarea');ta.value=txt;ta.setAttribute('readonly','');
       ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);
       ta.select();ta.setSelectionRange(0,txt.length);ok=document.execCommand('copy');ta.remove()}catch(e2){ok=false}}
   q3Say(btn,ok?S.q3ok:S.q3fail,ok);}
 async function q3share(btn){const txt=q3Text(btn);
+  if(typeof bt==='function')bt('value',{door:'q3share'});
   if(navigator.share){try{await navigator.share({text:txt});return}catch(e){if(e&&e.name==='AbortError')return}}
   q3copy(btn);}
 window.q3copy=q3copy;window.q3share=q3share;
@@ -274,7 +287,7 @@ function mlForm(defId){
     <h5>${esc(S.mlH)}</h5>
     <div class="mllead">${esc(S.mlLead)}</div>
     <label>${esc(S.mlMail)}</label>
-    <input class="mlemail" type="email" inputmode="email" autocomplete="email" placeholder="${esc(S.mlPh)}" aria-label="${esc(S.mlMail)}">
+    <input class="mlemail" type="email" inputmode="email" autocomplete="email" placeholder="${esc(S.mlPh)}" aria-label="${esc(S.mlMail)}" onfocus="mlOpened(this)">
     <label>${esc(S.mlClass)}</label>
     <select class="mlgrade" aria-label="${esc(S.mlClass)}">${opts}</select>
     <input class="mlhp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
@@ -283,6 +296,9 @@ function mlForm(defId){
     <div class="mlmsg" role="status" aria-live="polite"></div>
     <div class="mlpriv">${esc(S.mlPriv)}</div></div>`;
 }
+function mlOpened(el){const b=el.closest('.mlbox');if(!b||b.dataset.seen)return;b.dataset.seen='1';
+  if(typeof bt==='function')bt('cta',{to:'optin'})}
+window.mlOpened=mlOpened;
 async function mlSubmit(btn){
   const S=T[LANG],box=btn.closest('.mlbox');if(!box)return;
   const msg=box.querySelector('.mlmsg');
@@ -298,7 +314,8 @@ async function mlSubmit(btn){
       body:JSON.stringify({email,language:LANG,source:src,consent:true,page_url:location.href,
         company:box.querySelector('.mlhp').value})});
     let d={};try{d=await r.json()}catch(e){}
-    if(r.ok&&d&&d.ok){say(d.duplicate?S.mlDup:S.mlOk,true);if(!d.duplicate)box.querySelector('.mlemail').value=''}
+    if(r.ok&&d&&d.ok){say(d.duplicate?S.mlDup:S.mlOk,true);if(!d.duplicate)box.querySelector('.mlemail').value='';
+      if(typeof bt==='function')bt('value',{door:'optin_ok',seg:src})}
     else if(d&&d.error==='invalid_email')say(S.mlBadEmail,false);
     else say(S.mlErr,false);
   }catch(e){say(S.mlErr,false)}
@@ -315,12 +332,23 @@ Promise.all([fetch('../data/topics.json').then(r=>r.json()),fetch('../data/depen
   if(document.getElementById('lEN')) document.getElementById(LANG==='en'?'lEN':'lLT').classList.add('on');
   render();
 });
+/* Nešališkumas (bias auditas 2026-09-04): temos renkamos RATU per visus tos klasės dalykus —
+   po vieną iš kiekvieno per ratą. Centralumas lemia tik eilę dalyko viduje (lygiosios — pagal
+   pavadinimą, ne id). Todėl nė vienas dalykas, turintis temų šioje amžiaus juostoje, negauna nulio,
+   o informatika negali pakilti virš savo dalies programoje. */
 function pickBackbone(c){
   const inC=topics.filter(t=>t.ageRangeStart>=c.lo && t.ageRangeStart<c.hi);
-  inC.sort((a,b)=>(b.centrality||0)-(a.centrality||0));
-  const out=[],perSubj={};
-  for(const t of inC){const s=t.subject;perSubj[s]=perSubj[s]||0;if(perSubj[s]>=3)continue;perSubj[s]++;out.push(t);if(out.length>=14)break}
-  // ensure at least a few subjects
+  const bySubj={};
+  for(const t of inC){(bySubj[t.subject]=bySubj[t.subject]||[]).push(t)}
+  const subs=Object.keys(bySubj).sort((a,b)=>bySubj[b].length-bySubj[a].length||a.localeCompare(b,'lt'));
+  subs.forEach(k=>bySubj[k].sort((x,y)=>(y.centrality||0)-(x.centrality||0)
+      ||String(x.name).localeCompare(String(y.name),'lt')));
+  const out=[];
+  for(let round=0;out.length<14;round++){
+    let added=false;
+    for(const k of subs){const t=bySubj[k][round];if(!t)continue;out.push(t);added=true;if(out.length>=14)break}
+    if(!added)break;
+  }
   return out;
 }
 function knownSet(){
@@ -409,10 +437,10 @@ function showResult(){
       <div class="cnt">${S.counted(marked,backbone.length)} · ${cls[LANG]}</div>
       ${inferred>0?`<div style="color:var(--muted);font-size:15px;margin-top:10px">${S.infMsg(inferred)}</div>`:''}</div>
     <div class="disc">${S.disc}<span class="coi">${S.coi}</span></div>
-    ${q3list.length===3?`<div class="sec"><h4>${S.q3h}</h4>${q3Card(q3list,`${cls.lo}–${cls.hi}`,q3subj)}</div>`:''}
+    ${q3list.length===3?`<div class="sec"><h4>${S.q3h}${ltTag()}</h4>${q3Card(q3list,`${cls.lo}–${cls.hi}`,q3subj)}</div>`:''}
     <div class="sec">${mlForm(cls.id)}</div>
     ${strengths.length?`<div class="sec"><h4>${S.strengths}</h4><div class="chips">${strengths.map(s=>`<span class="chip">${subjName(s)}</span>`).join('')}</div></div>`:''}
-    <div class="sec"><h4>${S.nextH}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'var(--ink)'}">${t.name}</div><div class="pr">${fillName(t.assessmentPrompt||t.description||'')}</div></div>`).join(''):`<p style="color:var(--muted)">${S.noNext}</p>`}</div>
+    <div class="sec"><h4>${S.nextH}${ltTag()}</h4>${nexts.length?nexts.map(t=>`<div class="next"><div class="nm" style="color:${COL[t.subject]||'var(--ink)'}">${t.name}</div><div class="pr">${fillName(t.assessmentPrompt||t.description||'')}</div></div>`).join(''):`<p style="color:var(--muted)">${S.noNext}</p>`}</div>
     <a class="btn" href="../?mode=child">${S.onMap}</a>
     <button class="btn ghost" onclick="doShare()">${S.share}</button>
     <button class="btn ghost" onclick="cls=null;marks={};document.getElementById('app').dataset.mode='';render()">${S.again}</button>
