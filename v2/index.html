@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+<!-- maximum-scale=1: sąmoningas kompromisas — naršyklės pinch-zoom kariauja su žemėlapio kameros zoom (2026-09-04 auditas). Kaina: negalima priartinti sheet teksto naršykle; kompensuota ≥15px šriftu. -->
+<title>Viskas, ko išmoksta Lietuvos vaikas · v2 (testinė)</title>
+<meta property="og:title" content="Viskas, ko išmoksta Lietuvos vaikas">
+<meta property="og:description" content="Atviras Lietuvos ugdymo programų žemėlapis: 2 129 mikro-temos ir 2 747 ryšiai — nuo darželio iki 12 klasės, 20 dalykų. Paliesk tašką ir pamatyk visą vaiko kelią.">
+<meta property="og:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://krisvas333.github.io/vaiko-zemelapis/v2/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://krisvas333.github.io/vaiko-zemelapis/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23D90429'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* ☀️ LIGHT — Kris brand DNA (wiki/meta/brand-style.md). Full light palette on bare :root. */
+:root{
+  --ground:#FFFFFF;
+  --surface:#F7F7F5;
+  --surface-2:#F1EFEA;
+  --ink:#0A0A0A;
+  --muted:#595959;
+  --line:#E5E2DE;
+  --line2:#D6D2CC;
+  --accent:#D90429;
+  --accent-ink:#FFFFFF;
+  --red:#FF0000;
+  --ok:#1D7A3E;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --r:4px;
+  --shadow:0 1px 2px rgba(10,10,10,.06);
+  --shadow-lg:0 4px 20px rgba(10,10,10,.09);
+  --sat:env(safe-area-inset-top);
+  --sab:env(safe-area-inset-bottom);
+  --sal:env(safe-area-inset-left);
+  --sar:env(safe-area-inset-right);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overscroll-behavior:none}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;
+  overflow:hidden;height:100dvh;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+::selection{background:var(--accent);color:var(--accent-ink)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+canvas{position:fixed;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;overscroll-behavior:none}
+canvas:active{cursor:grabbing}
+button,select,input{font-family:inherit}
+
+/* ---------- desktop chrome ---------- */
+.hero{position:fixed;left:calc(28px + var(--sal));top:24px;max-width:360px;pointer-events:none;z-index:2}
+.hero h1{font-family:var(--mono);font-size:1.7em;line-height:1.1;font-weight:800;letter-spacing:.01em;text-transform:uppercase}
+.hero h1 .dot{color:var(--accent)}
+.hero p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.5}
+.hero .stats b{color:var(--ink);font-family:var(--mono);font-weight:700}
+.badge{display:inline-block;margin-top:10px;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:var(--r);padding:7px 14px;font-size:14px;pointer-events:auto}
+.badge b{color:var(--accent);font-family:var(--mono);font-weight:700;letter-spacing:.04em}
+.credit{margin-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);line-height:1.5}
+.disc{margin-top:6px;font-size:12.5px;line-height:1.45;color:var(--muted);max-width:340px}
+.databtn{display:inline-flex;align-items:center;gap:7px;min-height:44px;margin-top:8px;pointer-events:auto;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);padding:9px 13px;font-size:14px;text-decoration:none;transition:background .2s,border-color .2s;cursor:pointer}
+.databtn:hover{background:var(--surface-2);border-color:var(--line2)}
+.hero .backlink{display:inline-flex;align-items:center;min-height:44px;pointer-events:auto;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+
+.lang{position:fixed;top:24px;right:calc(24px + var(--sar));z-index:5;display:flex;gap:4px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:4px;box-shadow:var(--shadow)}
+.lang button{border:0;background:transparent;color:var(--muted);border-radius:var(--r);min-height:44px;min-width:52px;padding:10px 16px;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.08em;cursor:pointer}
+.lang button.on{background:var(--accent);color:var(--accent-ink)}
+.toolbar{position:fixed;top:82px;right:calc(24px + var(--sar));z-index:5;display:flex;gap:8px;align-items:flex-start}
+.tb-test{display:inline-flex;align-items:center;min-height:44px;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.06em;border-radius:var(--r);padding:11px 16px;text-decoration:none;white-space:nowrap}
+.tb-search{position:relative}
+.tb-search input{background:var(--ground);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);min-height:44px;padding:11px 14px;font-size:15px;width:190px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+#qres{position:absolute;top:52px;right:0;width:290px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:none;box-shadow:var(--shadow-lg)}
+#qres.on{display:block}
+#qres div{padding:11px 13px;font-size:15px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--line)}
+#qres div:hover{background:var(--surface)}
+#qres div .qs{font-size:13px;color:var(--muted)}
+#grade{background:var(--ground);border:1px solid var(--line);color:var(--ink);border-radius:var(--r);min-height:44px;padding:11px 12px;font-size:15px;outline:none;cursor:pointer}
+.cbanner{position:fixed;top:136px;right:calc(24px + var(--sar));z-index:5;background:var(--surface);border:1px solid var(--ok);color:var(--ok);border-radius:var(--r);padding:10px 14px;font-size:15px;display:none;align-items:center;gap:10px}
+.cbanner.on{display:flex}
+.cbanner button{background:transparent;border:0;color:var(--accent);cursor:pointer;font-weight:700;text-decoration:underline;font-size:1em;min-height:44px}
+
+.legend{position:fixed;left:calc(28px + var(--sal));bottom:24px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;z-index:2;
+  display:flex;flex-direction:column;max-height:min(46vh,430px,calc(100dvh - 590px));min-height:150px;box-shadow:var(--shadow)}
+.legend h3{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--muted);margin-bottom:8px;text-transform:uppercase;flex:0 0 auto}
+.legend #rows{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding-right:4px}
+.legend .row{display:flex;align-items:center;gap:8px;font-size:15px;padding:5px 0;cursor:pointer;user-select:none;color:var(--ink)}
+.legend .row.off{opacity:.4}
+.legend .swatch{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+.legend .n{margin-left:auto;color:var(--muted);font-family:var(--mono);font-size:13px;padding-left:14px}
+
+.panel{position:fixed;right:calc(20px + var(--sar));top:136px;width:340px;max-height:calc(100dvh - 160px);overflow-y:auto;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:20px;z-index:3;opacity:0;transform:translateX(24px);pointer-events:none;transition:opacity .28s ease,transform .28s ease;box-shadow:var(--shadow-lg)}
+.panel.open{opacity:1;transform:none;pointer-events:auto}
+.tp .close{float:right;cursor:pointer;color:var(--muted);font-size:1.1em;padding:6px 10px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:0}
+.tp .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.tp h2{font-family:var(--mono);font-size:1.15em;font-weight:800;letter-spacing:.01em;margin-bottom:8px;line-height:1.25}
+.tp .desc{color:var(--muted);font-size:15px;line-height:1.5;margin-bottom:12px}
+.tp .big{font-family:var(--mono);font-size:2em;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.tp .big small{font-family:var(--body);font-size:.4em;color:var(--muted);font-weight:400;margin-left:6px}
+.tp h4{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.tp ul{list-style:none}
+.tp li{font-size:15px;padding:6px 0;line-height:1.4;color:var(--ink)}
+.tp li.link{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px}
+.tp li.link:hover{color:var(--accent)}
+.tp li .age{margin-left:auto;color:var(--muted);font-family:var(--mono);font-size:13px;padding-left:10px;white-space:nowrap}
+.tp .ask{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:10px 12px;font-size:15px;line-height:1.45;color:var(--ink);margin-top:6px}
+
+.hint{position:fixed;right:calc(24px + var(--sar));bottom:18px;color:var(--muted);font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;z-index:2}
+.hint b{color:var(--ink);font-weight:700}
+
+#tip{position:fixed;z-index:8;pointer-events:none;max-width:300px;background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:10px 13px;font-size:15px;line-height:1.45;color:var(--ink);box-shadow:var(--shadow-lg);opacity:0;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}
+#tip.on{opacity:1;transform:none}
+#tip .tname{font-family:var(--mono);font-weight:700;color:var(--ink);margin-bottom:3px}
+#tip .tmeta{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}
+#tip .tmeta .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+#tip .tdesc{color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ---------- about modal ---------- */
+.about{position:fixed;inset:0;background:rgba(10,10,10,.42);z-index:30;display:none;align-items:center;justify-content:center}
+.about.open{display:flex}
+.about .sheet{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);max-width:640px;width:calc(100vw - 32px);max-height:86dvh;overflow-y:auto;padding:26px 28px;box-shadow:var(--shadow-lg)}
+.about h2{font-family:var(--mono);font-size:1.4em;font-weight:800;letter-spacing:.01em;text-transform:uppercase;margin-bottom:6px}
+.about h4{font-family:var(--mono);color:var(--accent);font-size:15px;font-weight:700;letter-spacing:.04em;margin:16px 0 4px}
+.about p{color:var(--muted);font-size:15px;line-height:1.55}
+.about a{color:var(--accent)}
+.about .close{float:right;cursor:pointer;color:var(--muted);font-size:1.2em;padding:6px 10px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:0}
+.about .foot{margin-top:18px;color:var(--muted);font-size:14px}
+.about .discbox{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:14px 16px;font-size:14.5px;line-height:1.55;color:var(--ink);white-space:pre-line}
+.about .backlink{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+
+/* ---------- narrow desktop / tablet (721–1100): stack the toolbar, trim the hero ---------- */
+@media(min-width:721px) and (max-width:1100px){
+  .hero{max-width:300px}
+  .hero p.stats{display:none}
+  .toolbar{flex-direction:column;align-items:stretch;width:212px;top:80px}
+  .tb-search input{width:100%}
+  #qres{width:212px;top:50px}
+  .cbanner{top:250px}
+  .legend{max-height:min(36vh,320px,calc(100dvh - 590px))}
+  .hint{display:none}
+  .panel{top:auto;bottom:24px;max-height:calc(100dvh - 270px)}
+}
+
+/* ---------- mobile top bar ---------- */
+.mtop{display:none}
+.msheet{display:none}
+
+@media(max-width:720px){
+  .hero,.lang,.toolbar,.legend,.hint,.cbanner,.panel,#tip{display:none!important}
+
+  .mtop{display:flex;position:fixed;top:0;left:0;right:0;z-index:12;align-items:center;gap:6px;
+    padding:calc(var(--sat) + 5px) calc(8px + var(--sar)) 5px calc(10px + var(--sal));
+    min-height:calc(44px + var(--sat));
+    background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line)}
+  .mtop h1{font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.045em;line-height:1.3;
+    text-transform:uppercase;flex:1;min-width:0;color:var(--ink)}
+  .mtop h1 .dot{color:var(--accent)}
+  .mlang{display:flex;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:2px;flex:0 0 auto}
+  .mlang button{border:0;background:transparent;color:var(--muted);border-radius:2px;height:38px;min-width:38px;
+    font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;cursor:pointer}
+  .mlang button.on{background:var(--accent);color:var(--accent-ink)}
+  .mabout{flex:0 0 auto;height:44px;width:44px;display:flex;align-items:center;justify-content:center;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);color:var(--ink);font-size:17px;cursor:pointer}
+
+  /* ---------- bottom sheet ---------- */
+  .msheet{display:flex;flex-direction:column;position:fixed;left:0;right:0;bottom:0;z-index:11;
+    height:85dvh;background:var(--ground);border-top:1px solid var(--line);border-radius:14px 14px 0 0;
+    box-shadow:0 -6px 26px rgba(10,10,10,.13);
+    transform:translateY(var(--sy,60dvh));
+    transition:transform .30s cubic-bezier(.32,.72,0,1);
+    padding-bottom:var(--sab)}
+  .msheet.dragging{transition:none}
+  #mhead{flex:0 0 auto;padding:0 calc(14px + var(--sar)) 10px calc(14px + var(--sal));touch-action:none;cursor:grab}
+  .mgrab{height:22px;display:flex;align-items:center;justify-content:center}
+  .mgrab span{width:40px;height:4px;border-radius:2px;background:var(--line2);display:block}
+  .mstrip{display:none;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--ok);
+    color:var(--ok);border-radius:var(--r);padding:7px 10px;font-size:14px;margin-bottom:8px;line-height:1.3}
+  .mstrip.on{display:flex}
+  .mstrip button{background:transparent;border:0;color:var(--accent);text-decoration:underline;font-weight:700;font-size:14px;cursor:pointer;margin-left:auto;min-height:44px}
+  .mtip2{display:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:9px 11px;font-size:14px;line-height:1.5;color:var(--ink);margin-bottom:9px;position:relative;padding-right:40px}
+  .mtip2.on{display:block}
+  .mtip2 button{position:absolute;top:0;right:0;height:44px;width:40px;background:transparent;border:0;color:var(--muted);font-size:16px;cursor:pointer}
+  .mstats{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--muted);margin-bottom:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mstats b{color:var(--ink);font-weight:700}
+  .mrow{display:flex;gap:8px;align-items:stretch}
+  .mcta{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 12px;
+    background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-weight:700;font-size:13px;
+    letter-spacing:.04em;border-radius:var(--r);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mchip{flex:0 0 auto;min-height:46px;min-width:46px;padding:10px 12px;background:var(--ground);
+    border:1px solid var(--line2);border-radius:var(--r);color:var(--ink);font-size:14px;cursor:pointer;
+    display:flex;align-items:center;gap:5px;max-width:44vw}
+  .mchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mchip.act{border-color:var(--accent);color:var(--accent)}
+
+  .msbody{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    padding:2px calc(14px + var(--sar)) 22px calc(14px + var(--sal))}
+  .msbody h4{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+  #mq{width:100%;background:var(--ground);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);
+    min-height:46px;padding:12px 14px;font-size:16px;outline:none}
+  #mq::placeholder{color:var(--muted)}
+  #mqres{margin-top:6px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:none}
+  #mqres.on{display:block}
+  #mqres div{padding:12px 12px;font-size:15px;line-height:1.35;border-bottom:1px solid var(--line);cursor:pointer;min-height:46px}
+  #mqres div:last-child{border-bottom:0}
+  #mqres .qs{font-size:13px;color:var(--muted);display:block;margin-top:2px}
+  #mgrade{width:100%;background:var(--ground);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);
+    min-height:46px;padding:12px 12px;font-size:16px;outline:none}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .mgrid .row{display:flex;align-items:center;gap:7px;min-height:46px;padding:8px 9px;font-size:14px;
+    border:1px solid var(--line);border-radius:var(--r);cursor:pointer;user-select:none;color:var(--ink);background:var(--ground)}
+  .mgrid .row.off{opacity:.4;background:var(--surface)}
+  .mgrid .swatch{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+  .mgrid .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mgrid .n{margin-left:auto;color:var(--muted);font-family:var(--mono);font-size:12px}
+  .mfoot{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.55}
+  .mfoot .vb{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+    color:var(--accent);border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:5px 8px;margin-bottom:8px}
+  .mfoot a{color:var(--accent);text-decoration:none}
+  .mfoot .lk{display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;margin-right:14px}
+  .mtopic li{font-size:16px}
+  .mtopic h2{font-size:1.25em}
+  /* topic open: the head collapses to just the drag handle */
+  .msheet.topicOpen .mstats,.msheet.topicOpen .mrow,.msheet.topicOpen .mtip2{display:none}
+  .msheet.topicOpen #mhead{padding-bottom:0}
+  body.present .mtop,body.present .msheet{display:none!important}
+}
+@media(max-width:380px){        /* iPhone SE / mini: keep the peek row on one line */
+  .mcta{font-size:11.5px;letter-spacing:.01em;padding:10px 6px}
+  .mchip{font-size:12.5px;padding:10px 8px;max-width:32vw;gap:4px}
+  .mstats{font-size:11.5px}
+  .mtop h1{font-size:10.5px}
+}
+@media(min-width:721px){ .mtopic{display:none} }
+body.present .toolbar,body.present .legend,body.present .hint,body.present .lang,body.present .cbanner{display:none!important}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+</style>
+<script defer src="https://krisvas333.github.io/neuron-ar/track.js"
+        data-brand="kris" data-artifact="vaiko-zemelapis-v2" data-kind="map"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<!-- mobile brand bar -->
+<div class="mtop">
+  <h1 id="mTitle">Viskas, ko išmoksta Lietuvos vaikas<span class="dot">.</span></h1>
+  <div class="mlang"><button id="mLT" class="on" onclick="setLang('lt')">LT</button><button id="mEN" onclick="setLang('en')">EN</button></div>
+  <button class="mabout" id="mAboutBtn" aria-label="Apie" onclick="openAbout()">ℹ️</button>
+</div>
+
+<!-- desktop chrome -->
+<div class="lang"><button id="langLT" class="on" onclick="setLang('lt')">LT</button><button id="langEN" onclick="setLang('en')">EN</button></div>
+<div class="toolbar">
+  <a class="tb-test" href="../testas/" id="tbTest">🧭 Kur mano vaikas?</a>
+  <div class="tb-search"><input id="q" placeholder="🔍 Ieškoti temos…" autocomplete="off" oninput="onSearch(this.value)" onkeydown="if(event.key==='Enter')pickFirst()"><div id="qres"></div></div>
+  <select id="grade" onchange="setGrade(this.value)"></select>
+</div>
+<div class="cbanner" id="cbanner"></div>
+<div class="hero">
+  <h1 id="hTitle">Viskas, ko išmoksta Lietuvos vaikas<span class="dot">.</span></h1>
+  <p class="stats" id="hSub"></p>
+  <span class="badge" id="hBadge"></span><br>
+  <a class="databtn" href="https://github.com/KrisVas333/vaiko-zemelapis/tree/main/data" target="_blank" rel="noopener" id="hData"></a>
+  <a class="databtn" href="../metodika/" style="margin-left:8px" id="hMet"></a>
+  <a class="databtn" href="#" onclick="openAbout();return false" style="margin-left:8px" id="hAbout"></a>
+  <div class="credit" id="hCredit"></div>
+  <div class="disc" id="hDisc"></div>
+  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis" id="hBack">← krisvas.lt</a>
+</div>
+<div class="legend"><h3 id="hLegend"></h3><div id="rows"></div></div>
+<div class="panel tp" id="panel"></div>
+<div class="hint" id="hHint"></div>
+
+<!-- mobile bottom sheet -->
+<div class="msheet st-peek" id="msheet">
+  <div id="mhead">
+    <div class="mgrab"><span></span></div>
+    <div class="mstrip" id="mstrip"></div>
+    <div class="mtip2" id="mtip2"></div>
+    <div class="mstats" id="mstats"></div>
+    <div class="mrow">
+      <a class="mcta" id="mcta" href="../testas/">🧭 Kur mano vaikas?</a>
+      <button class="mchip" id="mgradeBtn" onclick="sheetTo('half');focusGrade()">🎂 <span id="mgradeLbl">Visi amžiai</span></button>
+      <button class="mchip" id="msearchBtn" aria-label="Ieškoti" onclick="sheetTo('half');focusSearch()">🔍</button>
+    </div>
+  </div>
+  <div class="msbody" id="msbody">
+    <div id="mBrowse">
+      <h4 id="mSearchH"></h4>
+      <input id="mq" placeholder="🔍 Ieškoti temos…" autocomplete="off" oninput="onSearch(this.value)">
+      <div id="mqres"></div>
+      <h4 id="mGradeH"></h4>
+      <select id="mgrade" onchange="setGrade(this.value)"></select>
+      <h4 id="mLegendH"></h4>
+      <div class="mgrid" id="mrows"></div>
+      <div class="mfoot" id="mfoot"></div>
+    </div>
+    <div id="mTopic" class="mtopic tp" hidden></div>
+  </div>
+</div>
+
+<div id="about" class="about"><div class="sheet" id="aboutSheet"></div></div>
+<script>
+/* ============================================================
+   v2 · LIGHT palette — every subject >= 3.29:1 on #FFFFFF
+   (derived + audited by scratchpad/palette3.py; hue identity kept)
+   ============================================================ */
+const COLORS={"Matematika":"#5380fb","Lietuvių kalba":"#ab8300","Gamtos mokslai":"#008f7c","Fizika":"#ff4f0e","Chemija":"#0093dc","Biologija":"#009625","Informatika":"#9355ff","Pažinimas":"#fa4185","Visuomeninis ugdymas":"#f400f4","Istorija ir geografija":"#9c702d","Technologijos":"#2e9e08","Dailė":"#f312a0","Muzika":"#b75efb","Fizinis ugdymas":"#588112","Etika":"#af5984","Kalba ir komunikacija":"#d55c00","Emocijos ir santykiai":"#cf4c40","Menai ir kūryba":"#c72bee","Savarankiškumas":"#158495","Mokėjimas mokytis":"#d918b9"};
+const RINGC={"Matematika":"#003de3","Lietuvių kalba":"#745900","Gamtos mokslai":"#006154","Fizika":"#b73100","Chemija":"#006496","Biologija":"#006619","Informatika":"#5400e7","Pažinimas":"#d6004f","Visuomeninis ugdymas":"#a600a6","Istorija ir geografija":"#6d4d1c","Technologijos":"#1d7001","Dailė":"#af026f","Muzika":"#8500eb","Fizinis ugdymas":"#3d5b09","Etika":"#7c385a","Kalba ir komunikacija":"#913f00","Emocijos ir santykiai":"#982b21","Menai ir kūryba":"#9408b7","Savarankiškumas":"#0b5c69","Mokėjimas mokytis":"#990b81"};
+const FALLBACK="#5f7aba", FALLBACK_RING="#374f89";
+const ACCENT="#D90429", INK=[10,10,10];
+const SUBJ_EN={"Matematika":"Mathematics","Lietuvių kalba":"Lithuanian","Gamtos mokslai":"Science","Informatika":"Computing","Pažinimas":"Cognition","Visuomeninis ugdymas":"Social studies","Istorija ir geografija":"History & geography","Technologijos":"Technologies","Dailė":"Art","Muzika":"Music","Fizinis ugdymas":"Physical education","Etika":"Ethics","Fizika":"Physics","Chemija":"Chemistry","Biologija":"Biology","Kalba ir komunikacija":"Language & communication","Emocijos ir santykiai":"Emotions & relationships","Menai ir kūryba":"Arts & creativity","Savarankiškumas":"Self-care","Mokėjimas mokytis":"Learning to learn"};
+
+const DISC_SHORT={
+ lt:'⚗️ Eksperimentinis prototipas, sukurtas su AI. Gali klysti — svarbius dalykus pasitikrinkite. Nemokamas. Radote klaidą? Parašykite: krisvas.lt',
+ en:'⚗️ Experimental prototype built with AI. It can be wrong — verify what matters. Free. Found an error? Tell me: krisvas.lt'};
+const DISC_FULL={
+ lt:`⚗️ Eksperimentinis prototipas
+
+Šį įrankį sukūriau su dirbtiniu intelektu. Jis nuolat keičiasi, gali klysti, suklastoti detalę arba rodyti pasenusius duomenis — todėl naudokite jį kaip pokalbio pradžią, ne kaip galutinę tiesą. Svarbius dalykus visada pasitikrinkite pas patį mokytoją ar būrelio vadovą.
+
+Įrankiai nemokami ir kuriami atvirai: noriu, kad augtų VISŲ Lietuvos būrelių kokybė ir pasiūla — ne tik mano. Todėl grįžtamasis ryšys man labai vertingas: radote klaidą, netikslumą ar nesąžiningumą — parašykite, taisau greitai.
+
+Kristijonas Vasiliauskas · krisvas.lt`,
+ en:`⚗️ Experimental prototype
+
+I built this tool with AI. It changes constantly and it can be wrong, invent a detail, or show stale data — treat it as a starting point, not an authority. Always confirm what matters with the teacher or club leader themselves.
+
+These tools are free and built in the open: I want every after-school provider to raise their quality and offering, not just mine. So feedback is genuinely useful — found an error, an inaccuracy or something unfair? Tell me and I'll fix it.
+
+Kris Vasiliauskas · krisvas.lt`};
+
+const STR={
+ lt:{title:'Viskas, ko išmoksta Lietuvos vaikas',
+  sub:(t,d)=>`Atviras žemėlapis iš oficialių Lietuvos ugdymo programų (2022). <b>${t}</b> temos ir <b>${d}</b> ryšiai — kiekvienas sako, kas turi ateiti pirmiau ir kodėl. <b>Paliesk tašką</b> — pamatysi visą kelią iki jo.`,
+  stats:(t,d,s)=>`<b>${t}</b> temos · <b>${d}</b> ryšiai · <b>${s}</b> dalykų`,
+  badge:'🎓 <b>v2 · testinė versija</b> — laukia pedagogų peržiūros',
+  data:'⬇ Atviri duomenys · ODbL',met:'🔬 Metodika ir duomenys',about:'ℹ️ Apie žemėlapį',
+  credit:'Kuria Kristijonas Vasiliauskas · v2 test · duomenys: LT BP 2022 · ODbL',
+  legend:'Dalykai · spausk',legendM:'Dalykai · bakstelėk',searchH:'Paieška',gradeH:'Vaiko amžius',
+  cta:'🧭 Kur mano vaikas?',searchPh:'🔍 Ieškoti temos…',allAges:'Visi amžiai',
+  hint:'<b>Tempk</b> — sukti · <b>Dešinys/Shift</b> — stumdyti · <b>Ratukas</b> — priartinti · <b>Dukart</b> — atstatyti · <b>Spausk tašką</b> — kelias',
+  mhint:'👆 Bakstelėk tašką — pamatysi visą kelią iki jo<br>🤏 Suimk dviem pirštais — priartink · 🎂 pasirink amžių',
+  steps:'žingsnių atveda iki šios temos',ask:'❓ Klauskite savo vaiko',ev:'✅ Moka, kai',dep:'Remiasi',un:'Atrakina',child:'jūsų vaikas',yrs:'m.',
+  nores:'Nieko nerasta',
+  aboutHtml:()=>`<button class="close" onclick="closeAbout()" aria-label="Uždaryti">✕</button>
+  <h2>Apie žemėlapį</h2>
+  <h4>Kas čia per daiktas?</h4><p>Pirmas atviras <b>Lietuvos vaiko mokymosi žemėlapis</b>: 2 129 mikro-temos ir 2 747 „kas turi ateiti pirmiau" ryšiai — nuo darželio iki 12 klasės, visi 20 dalykų. Kiekviena tema turi aprašymą tėvų kalba, klausimą vaikui, mokėjimo kriterijus ir tikslų ugdymo programos kodą.</p>
+  <h4>Kaip jis padarytas?</h4><p>AI agentai perskaitė oficialias <b>2022 m. atnaujintas Bendrąsias programas</b> (emokykla.lt) ir NŠA ikimokyklinio ugdymo pasiekimų aprašą, išskaidė jas į mokomas mikro-temas ir supynė priklausomybių grafą. Dabar vyksta pedagogų peržiūra — todėl „testinė versija". Duomenys atviri (ODbL). Pilna metodika, kokybės patikros, <b>apribojimai</b> ir citavimas — <a href="../metodika/">metodikos puslapyje</a>.</p>
+  <h4>Kas naujo v2?</h4><p>Šviesus dizainas (tas pats stilius kaip krisvas.lt), <b>pertvarkytas mobilus vaizdas</b> — žemėlapis per visą ekraną, apatinis lapas vietoj lango, didesni lietimo taikiniai — ir sodresnės dalykų spalvos, kad taškai matytųsi baltame fone.</p>
+  <h4>Koks originalas?</h4><p>Idėjos autorius — <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble (withmarble.com)</a>: atviras JAV/JK programų žemėlapis su 1 590 temų. Šis — lietuviškas atitikmuo iš mūsų BUP.</p>
+  <h4>👨‍👩‍👧 Tėvams</h4><p>Pagal amžių matote, kas natūraliai „dega" dabar; prie kiekvienos temos — <b>klausimas vaikui</b> ir „moka, kai" požymiai.</p>
+  <h4>🧑‍🏫 Mokytojams</h4><p>„Remiasi" = ko mokinys turi jau mokėti (spragų diagnostika); tarppjūviniai ryšiai rodo tarpdalykines jungtis.</p>
+  <h4>🤸 Būrelių teikėjams</h4><p>Užmap'uokite savo programą — parodykite, kurias temas jūsų veikla ugdo ir ką atrakina. Žemėlapis nereitinguoja ir nerekomenduoja jokio būrelio ar mokyklos.</p>
+  <div class="discbox">${DISC_FULL.lt}</div>
+  <p class="foot">Kuria <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · v2 testinė versija.</p>
+  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>`},
+ en:{title:'Everything a Lithuanian child learns',
+  sub:(t,d)=>`An open map of Lithuania's official curricula (2022). <b>${t}</b> concepts and <b>${d}</b> prerequisite links — each says what must come first, and why. <b>Tap any dot</b> to trace the full path to it.`,
+  stats:(t,d,s)=>`<b>${t}</b> concepts · <b>${d}</b> links · <b>${s}</b> subjects`,
+  badge:'🎓 <b>v2 · test version</b> — pending educator review',
+  data:'⬇ Open data · ODbL',met:'🔬 Methodology & data',about:'ℹ️ About',
+  credit:'Built by Kristijonas Vasiliauskas · v2 test · data: LT BP 2022 · ODbL · topic content in Lithuanian',
+  legend:'Subjects · click',legendM:'Subjects · tap',searchH:'Search',gradeH:"Child's age",
+  cta:'🧭 Where is my child?',searchPh:'🔍 Search a topic…',allAges:'All ages',
+  hint:'<b>Drag</b> — spin · <b>Right/Shift</b> — pan · <b>Scroll</b> — zoom · <b>Double-click</b> — reset · <b>Tap a dot</b> — trace',
+  mhint:'👆 Tap a dot — see the whole path to it<br>🤏 Pinch with two fingers to zoom · 🎂 pick an age',
+  steps:'prerequisites lead to this concept',ask:'❓ Ask your child',ev:'✅ Mastery looks like',dep:'Builds on',un:'Unlocks',child:'your child',yrs:'y.',
+  nores:'Nothing found',
+  aboutHtml:()=>`<button class="close" onclick="closeAbout()" aria-label="Close">✕</button>
+  <h2>About this map</h2>
+  <h4>What is this?</h4><p>The first open <b>map of what a Lithuanian child learns</b>: 2,129 micro-concepts wired by 2,747 prerequisite links — kindergarten to grade 12, all 20 subjects. Every concept carries a parent-friendly description, a question to ask your child, mastery criteria and the exact national-curriculum code.</p>
+  <h4>How was it made?</h4><p>AI agents distilled Lithuania's official <b>2022 national curricula</b> (emokykla.lt) and the NŠA early-childhood framework into teachable micro-concepts and a dependency graph. Educator review is in progress — hence "test version". Data is open (ODbL). Full method, quality checks, <b>limitations</b> and citation are on the <a href="../metodika/">methodology page</a>.</p>
+  <h4>What's new in v2?</h4><p>A light design (same style as krisvas.lt), a <b>rebuilt mobile experience</b> — full-screen map, a bottom sheet instead of pop-ups, bigger touch targets — and deeper subject colours so the dots stay visible on white.</p>
+  <h4>The original</h4><p>Inspired by <a href="https://withmarble.com/curriculum/" target="_blank" rel="noopener">Marble</a> — the open US/UK curriculum map (1,590 concepts). This is its Lithuanian sibling. Note: topic content is currently in Lithuanian.</p>
+  <h4>👨‍👩‍👧 Parents · 🧑‍🏫 Teachers · 🤸 Activity providers</h4><p>See what's naturally "lighting up" at your child's age · diagnose gaps via "builds on" · map your programme onto the graph. This map does not rank or recommend any club or school.</p>
+  <div class="discbox">${DISC_FULL.en}</div>
+  <p class="foot">Built by <b>Kristijonas Vasiliauskas</b> (Robotikos akademija · BrAIn Club) · v2 test version.</p>
+  <a class="backlink" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>`}
+};
+
+/* declared before applyLang() runs — updGradeLbl() reads it on first paint */
+const GRADES=[{v:'',lt:'🎂 Visi amžiai',en:'🎂 All ages'},{v:'2,6',lt:'Darželis (2–6 m.)',en:'Kindergarten (2–6)'},{v:'6,7',lt:'Priešmokyklinis',en:'Pre-primary'},{v:'7,9',lt:'1–2 klasė',en:'Grade 1–2'},{v:'9,11',lt:'3–4 klasė',en:'Grade 3–4'},{v:'11,13',lt:'5–6 klasė',en:'Grade 5–6'},{v:'13,15',lt:'7–8 klasė',en:'Grade 7–8'},{v:'15,17',lt:'9–10 klasė',en:'Grade 9–10'},{v:'17,19',lt:'11–12 klasė',en:'Grade 11–12'}];
+
+const QS=new URLSearchParams(location.search);
+let LANG=localStorage.getItem('zm-lang')||'lt';
+if(QS.get('lang')==='en'||QS.get('lang')==='lt')LANG=QS.get('lang');   /* shareable EN link */
+const DEBUG=QS.get('debug')||'';
+/* QA hook (opt-in via ?debug=err): surface any JS error in the document title */
+if(DEBUG.split(',').includes('err')){
+  addEventListener('error',ev=>{document.title='JSERR '+(ev.message||ev.error||'?')});
+  addEventListener('unhandledrejection',ev=>{document.title='JSERR '+ev.reason});
+}
+function nf(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
+function fillName(txt){if(!txt)return txt;if(LANG==='en')return txt.replaceAll('{{name}}','your child');
+  return txt.replace(/(\S+)?\s*\{\{name\}\}/g,(m,pre)=>{const p=(pre||'').toLowerCase().replace(/[^a-ząčęėįšųūž]/g,'');
+  const j=(pre?pre+' ':'');
+  if(p==='su')return j+'jūsų vaiku';if(p==='priešais')return j+'jūsų vaiką';
+  if(/^(paklaus|paprašy|klausk|pasiteirau|teiraukit)/.test(p))return j+'jūsų vaiko';
+  if(/^(duok|leisk|pasiūlyk|parodyk|padėk|primink|paduok|užraš|perskaity|paskaity|padiktuo)/.test(p))return j+'jūsų vaikui';
+  return j+'jūsų vaikas';});}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+const RGB={},RGBR={}; for(const s in COLORS){RGB[s]=hex2rgb(COLORS[s]);RGBR[s]=hex2rgb(RINGC[s])}
+const RGBF=hex2rgb(FALLBACK),RGBFR=hex2rgb(FALLBACK_RING);
+function rgba(s,a){const c=RGB[s]||RGBF;return `rgba(${c[0]},${c[1]},${c[2]},${a})`}
+function rgbaR(s,a){const c=RGBR[s]||RGBFR;return `rgba(${c[0]},${c[1]},${c[2]},${a})`}
+function mixInk(s,t){const c=RGB[s]||RGBF;
+  return `rgb(${Math.round(INK[0]+(c[0]-INK[0])*t)},${Math.round(INK[1]+(c[1]-INK[1])*t)},${Math.round(INK[2]+(c[2]-INK[2])*t)})`}
+
+let topics=[],deps=[],byId={},childs={},pars={},on={},nSubj=20;
+let sel=null,ancestors=new Set(),descendants=new Set();
+let introStart=0,introMax=0,introDone=false;
+let present=false;
+let ageLo=null,ageHi=null,childMode=false,searchHit=null;
+const CHILD={known:new Set(),ready:new Set(),label:''};
+function loadChild(){try{const d=JSON.parse(localStorage.getItem('vz-child')||'null');if(!d)return false;CHILD.known=new Set(d.known||[]);CHILD.ready=new Set(d.ready||[]);CHILD.label=d.label||'';return true}catch(e){return false}}
+
+/* ---------------- canvas + camera ---------------- */
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const DPR=Math.min(2,window.devicePixelRatio||1);              /* perf: cap DPR at 2 */
+const IS_TOUCH=(matchMedia('(hover:none)').matches)||('ontouchstart' in window);
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let MOBILE=innerWidth<=720;
+let W=innerWidth,H=innerHeight,CX=0,CY=0,ground=null;
+let peekPx=140;
+
+function topBarH(){const t=document.querySelector('.mtop');return t?t.offsetHeight:56}
+function centers(){
+  if(MOBILE){CX=W*0.5; CY=Math.max(120,(topBarH()+(H-peekPx))/2);}
+  else {CX=W*0.5+120; CY=H*0.52;}
+}
+/* first-load framing: the whole cone must sit between the top bar and the peek sheet */
+let camInit=false;
+function fitCam(){
+  if(!MOBILE){DEF.dist=1750;DEF.pitch=-0.10}
+  else{
+    const tip=document.getElementById('mtip2');
+    const hintH=(tip&&tip.classList.contains('on'))?tip.offsetHeight+9:0;
+    const stable=Math.max(96,peekPx-hintH);          /* peek height once the hint is gone */
+    const band=Math.max(220,H-topBarH()-stable);
+    /* nearest nodes are magnified by F/(dist-R_MAX) — solve that, not the flat height */
+    DEF.dist=Math.max(1250,Math.min(1900,Math.round(R_MAX+2*520*F/band)));
+    DEF.pitch=-0.06;
+  }
+  if(!camInit){cam.dist=DEF.dist;cam.pitch=DEF.pitch;camInit=true}
+}
+function resize(){
+  W=innerWidth;H=innerHeight;MOBILE=innerWidth<=720;
+  cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ground=ctx.createRadialGradient(W*0.5,H*0.45,0,W*0.5,H*0.45,Math.max(W,H)*0.75);
+  ground.addColorStop(0,'#FFFFFF');ground.addColorStop(1,'#F7F7F5');
+  measurePeek();fitCam();centers();kick();
+}
+addEventListener('resize',resize);
+addEventListener('orientationchange',()=>setTimeout(resize,120));
+
+function hash(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h}
+const DEF={yaw:0,pitch:-0.10,dist:1500,panX:0,panY:0};
+if(MOBILE){DEF.dist=1250;DEF.pitch=-0.06}
+const cam={...DEF};
+const F=900,WORLD_H=980,R_MAX=460;
+let tween=null,lastInteract=0,drag=null;
+function tweenTo(t,dur=650){tween={t0:performance.now(),dur,from:{...cam},to:{...cam,...t}};kick()}
+function stepTween(now){if(!tween)return;let k=Math.min(1,(now-tween.t0)/tween.dur);k=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;for(const p of ['yaw','pitch','dist','panX','panY'])cam[p]=tween.from[p]+(tween.to[p]-tween.from[p])*k;if(k>=1)tween=null}
+
+/* perf: trig cached, recomputed only when yaw/pitch actually change */
+let _ty=NaN,_tp=NaN,_cy=1,_sy=0,_cp=1,_sp=0;
+function trig(){if(cam.yaw!==_ty){_ty=cam.yaw;_cy=Math.cos(_ty);_sy=Math.sin(_ty)}
+                if(cam.pitch!==_tp){_tp=cam.pitch;_cp=Math.cos(_tp);_sp=Math.sin(_tp)}}
+function project(t){
+  const x=t.x3*_cy-t.z3*_sy, z=t.x3*_sy+t.z3*_cy, y=t.y3;
+  const y2=y*_cp-z*_sp, z2=y*_sp+z*_cp;
+  const zc=z2+cam.dist, s=F/Math.max(120,zc);
+  return {x:CX+(x*s)+cam.panX, y:CY-(y2*s)+cam.panY, s, z:zc};
+}
+
+/* ---------------- language ---------------- */
+function setLang(l){LANG=l;localStorage.setItem('zm-lang',l);
+ for(const [id,v] of [['langLT','lt'],['langEN','en'],['mLT','lt'],['mEN','en']]){
+   const el=document.getElementById(id); if(el)el.classList.toggle('on',l===v);}
+ document.documentElement.lang=l;
+ applyLang();applyTB();if(sel)select(sel,true);kick();}
+window.setLang=setLang;
+function subjName(s){return LANG==='en'?(SUBJ_EN[s]||s):s}
+function openAbout(){document.getElementById('about').classList.add('open')}
+function closeAbout(){document.getElementById('about').classList.remove('open')}
+window.openAbout=openAbout;window.closeAbout=closeAbout;
+
+function applyLang(){const S=STR[LANG];
+ const T=topics.length||2129,D=deps.length||2747;
+ const set=(id,html,txt)=>{const e=document.getElementById(id);if(!e)return;if(txt!==undefined)e.textContent=txt;else e.innerHTML=html};
+ set('hTitle',S.title+'<span class="dot">.</span>');
+ set('mTitle',S.title+'<span class="dot">.</span>');
+ set('hSub',S.sub(nf(T),nf(D)));
+ set('hBadge',S.badge);
+ set('hData',null,S.data);set('hMet',null,S.met);set('hAbout',null,S.about);
+ set('hCredit',null,S.credit);
+ set('hDisc',null,DISC_SHORT[LANG]);
+ set('hLegend',null,S.legend);
+ set('hHint',S.hint);
+ set('mstats',S.stats(nf(T),nf(D),nSubj));
+ set('mSearchH',null,S.searchH);set('mGradeH',null,S.gradeH);set('mLegendH',null,S.legendM);
+ const mc=document.getElementById('mcta');if(mc)mc.textContent=S.cta;
+ const mq=document.getElementById('mq');if(mq)mq.placeholder=S.searchPh;
+ set('mtip2',S.mhint+'<button onclick="dismissTip()" aria-label="X">✕</button>');
+ set('mfoot',`<span class="vb">${LANG==='en'?'v2 · test version — pending educator review':'v2 · testinė versija — laukia pedagogų peržiūros'}</span><br>
+   ${esc(DISC_SHORT[LANG])}<br><br>${esc(S.credit)}<br>
+   <a class="lk" href="https://krisvas.lt/?utm_source=vaiko-zemelapis">← krisvas.lt</a>
+   <a class="lk" href="../metodika/">${LANG==='en'?'Methodology':'Metodika'}</a>`);
+ document.getElementById('aboutSheet').innerHTML=S.aboutHtml();
+ document.querySelectorAll('#rows .row,#mrows .row').forEach(div=>{
+   const l=div.querySelector('.lbl');if(l)l.textContent=subjName(div.dataset.s)});
+ updGradeLbl();
+}
+
+/* ---------------- data ---------------- */
+Promise.all([
+  fetch('../data/topics.json?v='+Date.now()).then(r=>r.json()),
+  fetch('../data/dependencies.json?v='+Date.now()).then(r=>r.json())
+]).then(([T,D])=>{
+  topics=T.topics;deps=D.dependencies;
+  topics.forEach(t=>{byId[t.id]=t;childs[t.id]=[];pars[t.id]=[];
+    const h=hash(t.id);t.theta=(h%3600)/3600*Math.PI*2;t.rr=.35+((h>>4)%1000)/1000*.65;
+    const jit=(((h>>8)%100)-50)/50;
+    t.age=(t.ageRangeStart+t.ageRangeEnd)/2;
+    const a=(t.age-3)/10;
+    t.y3=(a-0.5)*WORLD_H+jit*30;
+    const R=(0.22+0.78*a)*R_MAX*t.rr;
+    t.x3=Math.cos(t.theta)*R;t.z3=Math.sin(t.theta)*R;
+    t.baseR=1.7+t.centrality*16;});
+  deps.forEach(e=>{childs[e.prerequisiteId].push(e.topicId);pars[e.topicId].push(e.prerequisiteId)});
+  /* neural intro: BFS wave from the highest-centrality seeds */
+  const seeds=[...topics].sort((a,b)=>b.centrality-a.centrality).slice(0,7).map(t=>t.id);
+  const depth={};let frontier=[...seeds];seeds.forEach(s=>depth[s]=0);let dmax=0;
+  const und={};topics.forEach(t=>und[t.id]=[]);
+  deps.forEach(e=>{und[e.topicId].push(e.prerequisiteId);und[e.prerequisiteId].push(e.topicId)});
+  while(frontier.length){const nf2=[];
+    for(const n of frontier)for(const m of und[n])if(depth[m]===undefined){depth[m]=depth[n]+1;dmax=Math.max(dmax,depth[m]);nf2.push(m)}
+    frontier=nf2;}
+  topics.forEach(t=>{const d=depth[t.id]!==undefined?depth[t.id]:dmax+1;
+    t.reveal=d*240+((hash(t.id)>>6)%200);introMax=Math.max(introMax,t.reveal);});
+  introStart=performance.now()+400;
+
+  const order=[...new Set(topics.map(t=>t.subject))]
+    .sort((a,b)=>topics.filter(t=>t.subject===b).length-topics.filter(t=>t.subject===a).length);
+  nSubj=order.length;
+  const rows=document.getElementById('rows'),mrows=document.getElementById('mrows');
+  rows.innerHTML='';mrows.innerHTML='';
+  order.forEach(s=>{on[s]=1;
+    if(!COLORS[s]){COLORS[s]=FALLBACK;RINGC[s]=FALLBACK_RING;RGB[s]=RGBF;RGBR[s]=RGBFR}
+    const n=topics.filter(t=>t.subject===s).length;
+    [rows,mrows].forEach(host=>{
+      const div=document.createElement('div');div.className='row';div.dataset.s=s;
+      div.innerHTML=`<span class="swatch" style="background:${COLORS[s]}"></span><span class="lbl">${esc(subjName(s))}</span><span class="n">${n}</span>`;
+      div.onclick=()=>{on[s]=!on[s];
+        document.querySelectorAll(`[data-s="${CSS.escape(s)}"]`).forEach(d=>d.classList.toggle('off',!on[s]));kick()};
+      host.appendChild(div);});
+  });
+  applyLang();measurePeek();centers();
+
+  const dbg=DEBUG.split(',').filter(Boolean);
+  const dsel=dbg.find(x=>x.startsWith('select:'));
+  if(dsel){const id=dsel.slice(7);if(byId[id])setTimeout(()=>{introDone=true;select(byId[id]);kick()},60)}
+  else if(dbg.includes('top'))setTimeout(()=>{introDone=true;select([...topics].sort((a,b)=>b.centrality-a.centrality)[0]);kick()},60);
+  else if(dbg.includes('half'))setTimeout(()=>{sheetTo('half');kick()},60);
+  if(QS.has('present'))setTimeout(startPresent,300);
+  kick();
+});
+applyLang();
+if(LANG==='en'){['langLT','mLT'].forEach(i=>document.getElementById(i).classList.remove('on'));
+                ['langEN','mEN'].forEach(i=>document.getElementById(i).classList.add('on'))}
+
+/* ---------------- present mode ---------------- */
+function startPresent(){
+  present=true;document.body.classList.add('present');
+  const byC=[...topics].sort((a,b)=>b.centrality-a.centrality);
+  const keystone=byC[0];
+  const later=[...topics].filter(t=>t.ageRangeStart>=13).sort((a,b)=>b.centrality-a.centrality)[0]||byC[3];
+  const closeP=()=>{sel=null;ancestors=new Set();descendants=new Set();closeTopic();};
+  [[400,()=>tweenTo({dist:1750,pitch:-0.05},1600)],
+   [7000,()=>tweenTo({dist:1250,pitch:-0.02},1500)],
+   [8800,()=>{if(keystone)select(keystone)}],
+   [14000,()=>{if(later)select(later)}],
+   [19500,()=>{closeP();tweenTo({yaw:cam.yaw,pitch:-0.08,dist:1650,panX:0,panY:0},1800)}]
+  ].forEach(([t,fn])=>setTimeout(fn,t));
+  kick();
+}
+
+/* ---------------- render loop (render-on-demand) ---------------- */
+let running=false,dirty=true;
+const STATIC=DEBUG.split(',').includes('static');   /* capture/QA: no intro, no spin, one frame */
+const SPIN=!MOBILE&&!IS_TOUCH&&!REDUCED&&!STATIC;   /* the signature slow spin — desktop only */
+let zOrder=[];                                      /* perf: reused, sorted in place */
+function kick(){lastInteract=performance.now();dirty=true;
+  if(!running){running=true;requestAnimationFrame(frame)}}
+
+function frame(now){
+  stepTween(now);
+  trig();
+  const it=now-introStart;
+  if(STATIC)introDone=true;
+  if(!introDone&&it>introMax+900)introDone=true;
+  const spinning=(present&&!tween)||(SPIN&&!sel&&!tween&&now-lastInteract>4000);
+  if(spinning)cam.yaw+=present?0.0016:0.0015;
+
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  if(ground){ctx.fillStyle=ground;ctx.fillRect(0,0,W,H)}else{ctx.clearRect(0,0,W,H)}
+
+  const P={};let zmin=1e9,zmax=-1e9;
+  for(const t of topics){const p=project(t);P[t.id]=p;if(p.z<zmin)zmin=p.z;if(p.z>zmax)zmax=p.z}
+  const zr=Math.max(1,zmax-zmin);
+  /* edges: darker tint, alpha 0.18–0.35 by zoom */
+  const EA=0.35-0.17*Math.min(1,Math.max(0,(cam.dist-650)/2150));
+  for(const e of deps){
+    const a=byId[e.prerequisiteId],b=byId[e.topicId];
+    if(!a||!b)continue;
+    if(!on[a.subject]&&!on[b.subject])continue;
+    let grow=1,flash=0;
+    if(!introDone){
+      const born=Math.max(a.reveal,b.reveal)+150;
+      const ea=it-born;if(ea<0)continue;
+      grow=Math.min(1,ea/340);
+      if(ea<640)flash=(1-ea/640);
+    }
+    const hl=sel&&((ancestors.has(e.topicId)||e.topicId===sel.id)&&(ancestors.has(e.prerequisiteId)||e.prerequisiteId===sel.id));
+    const pa=P[a.id],pb=P[b.id];
+    const ex=pa.x+(pb.x-pa.x)*grow,ey=pa.y+(pb.y-pa.y)*grow;
+    if(hl){ctx.strokeStyle='rgba(217,4,41,.85)';ctx.lineWidth=1.9}
+    else if(sel){ctx.strokeStyle='rgba(10,10,10,.07)';ctx.lineWidth=.5}
+    else{ctx.strokeStyle=rgbaR(a.subject,EA*(1-flash*.4)+flash*.55);ctx.lineWidth=.55+flash*.9}
+    ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(ex,ey);ctx.stroke();
+  }
+  /* nodes far -> near (perf: reuse one array, sort in place — no per-frame allocation) */
+  if(zOrder.length!==topics.length)zOrder=topics.slice();
+  zOrder.sort((a,b)=>P[b.id].z-P[a.id].z);
+  /* the phone sits further back, so dots get a bigger radius to stay legible */
+  const rs=MOBILE?1.55:1.2, rmin=MOBILE?1.6:1.0;
+  for(const t of zOrder){
+    if(!on[t.subject])continue;
+    let scale=1,born=1;
+    if(!introDone){
+      const na=it-t.reveal;if(na<0)continue;
+      scale=Math.min(1,na/320);scale=1-Math.pow(1-scale,3);
+      born=Math.min(1,Math.max(0,na/620));
+    }
+    const p=P[t.id],dep=1-(p.z-zmin)/zr;
+    let r=Math.max(rmin,t.baseR*p.s*rs)*scale, al=.42+.58*dep;
+    const isSel=sel&&t.id===sel.id,isAnc=sel&&ancestors.has(t.id),isDesc=sel&&descendants.has(t.id);
+    if(sel){if(isSel||isAnc)al=1;else if(isDesc)al=Math.min(1,al+.2);else al*=.35}
+    let col=COLORS[t.subject],ring=RINGC[t.subject];
+    if(!introDone&&born<1){col=mixInk(t.subject,born);ring=col}
+    if(ageLo!==null&&!(t.ageRangeStart<ageHi&&t.ageRangeEnd>ageLo))al*=.16;
+    if(childMode&&!sel){
+      if(CHILD.known.has(t.id)){col='#1D7A3E';ring='#0F4F27';al=Math.max(al,.95)}
+      else if(CHILD.ready.has(t.id)){col=ACCENT;ring='#8F0219';al=Math.max(al,.9);r*=1.2}
+      else{col='#9A948C';ring='#6E6862';al*=.4}
+    }
+    if(searchHit){if(searchHit.has(t.id)){al=1;r*=1.5;col=ACCENT;ring='#8F0219'}else al*=.18}
+    if(isSel){col=ACCENT;ring='#8F0219'}
+    ctx.globalAlpha=al;
+    ctx.beginPath();ctx.arc(p.x,p.y,isSel?r+3:(isAnc?r+1:r),0,7);
+    ctx.fillStyle=col;ctx.fill();
+    if(r>1.6){ctx.lineWidth=1;ctx.strokeStyle=ring;ctx.stroke()}       /* 1px darker ring */
+    if(isSel||isAnc){                                                   /* soft red halo */
+      ctx.globalAlpha=.30;ctx.strokeStyle=ACCENT;ctx.lineWidth=isSel?3:2;
+      ctx.beginPath();ctx.arc(p.x,p.y,r+(isSel?8:4),0,7);ctx.stroke();
+      if(isSel){ctx.globalAlpha=.12;ctx.fillStyle=ACCENT;ctx.beginPath();ctx.arc(p.x,p.y,r+16,0,7);ctx.fill()}
+    }
+  }
+  ctx.globalAlpha=1;
+
+  if(STATIC){running=false;return}
+  const busy=!introDone||tween||drag||present||spinning||dirty;
+  if(busy){dirty=false;requestAnimationFrame(frame);return}
+  if(now-lastInteract<1500){requestAnimationFrame(frame);return}
+  running=false;                     /* idle: loop paused, kick() resumes it */
+}
+
+function collect(id,map,out){(map[id]||[]).forEach(n=>{if(!out.has(n)){out.add(n);collect(n,map,out)}})}
+
+/* ---------------- pointer / touch ---------------- */
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('mousedown',e=>{if(e.pointerType==='touch')return;
+  drag={x:e.clientX,y:e.clientY,btn:e.button,shift:e.shiftKey,moved:0};kick()});
+addEventListener('mousemove',e=>{if(!drag||drag.touch)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(drag.btn===2||drag.shift){cam.panX+=dx;cam.panY+=dy}
+  else{cam.yaw+=dx*.005;cam.pitch=Math.max(-.9,Math.min(.9,cam.pitch-dy*.003))}
+  drag.x=e.clientX;drag.y=e.clientY;drag.moved+=Math.abs(dx)+Math.abs(dy);kick()});
+addEventListener('mouseup',e=>{if(drag&&drag.touch)return;const was=drag&&drag.moved>6,btn=drag?drag.btn:0;drag=null;kick();
+  if(!was&&btn===0)pick(e.clientX,e.clientY)});
+cv.addEventListener('wheel',e=>{e.preventDefault();cam.dist=Math.max(650,Math.min(2800,cam.dist*(1+e.deltaY*.0012)));kick()},{passive:false});
+cv.addEventListener('dblclick',()=>{tweenTo({...DEF},700)});
+
+let pinch=null,lastTapT=0,lastTapX=0,lastTapY=0;
+cv.addEventListener('touchstart',e=>{
+  hideTip();
+  if(MOBILE&&sheetState!=='peek'&&!sel)sheetTo('peek');           /* tap outside -> peek */
+  if(e.touches.length===1){drag={x:e.touches[0].clientX,y:e.touches[0].clientY,btn:0,moved:0,touch:1};pinch=null}
+  else if(e.touches.length===2){drag=null;
+    const a=e.touches[0],b=e.touches[1];
+    pinch={d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),
+           mx:(a.clientX+b.clientX)/2,my:(a.clientY+b.clientY)/2};}
+  kick();},{passive:false});
+cv.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&drag){
+    const dx=e.touches[0].clientX-drag.x,dy=e.touches[0].clientY-drag.y;
+    cam.yaw+=dx*.005;cam.pitch=Math.max(-.9,Math.min(.9,cam.pitch-dy*.003));
+    drag.x=e.touches[0].clientX;drag.y=e.touches[0].clientY;drag.moved+=Math.abs(dx)+Math.abs(dy);
+  } else if(e.touches.length===2&&pinch){
+    const a=e.touches[0],b=e.touches[1];
+    const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+    const mx=(a.clientX+b.clientX)/2,my=(a.clientY+b.clientY)/2;
+    if(d>0)cam.dist=Math.max(650,Math.min(2800,cam.dist*pinch.d/d));
+    cam.panX+=mx-pinch.mx;cam.panY+=my-pinch.my;                   /* two-finger pan */
+    pinch={d,mx,my};
+  }
+  kick();},{passive:false});
+cv.addEventListener('touchend',e=>{
+  const t=e.changedTouches[0];
+  const was=drag&&drag.moved>8,had=!!drag;drag=null;
+  if(e.touches.length<2)pinch=null;
+  if(had&&!was&&t){
+    const now=performance.now();
+    if(now-lastTapT<330&&Math.hypot(t.clientX-lastTapX,t.clientY-lastTapY)<40){
+      tweenTo({...DEF},600);lastTapT=0;return;                     /* double-tap reset */
+    }
+    lastTapT=now;lastTapX=t.clientX;lastTapY=t.clientY;
+    pick(t.clientX,t.clientY);
+  }
+  kick();},{passive:true});
+
+function pick(mx,my){
+  trig();
+  let best=null,bd=(IS_TOUCH?34:20)**2;
+  for(const t of topics){if(!on[t.subject])continue;const p=project(t);
+    const d=(p.x-mx)**2+(p.y-my)**2;if(d<bd){bd=d;best=t}}
+  if(best)select(best);
+  else{sel=null;ancestors=new Set();descendants=new Set();closeTopic();kick()}
+}
+
+/* ---------------- topic panel (shared desktop + sheet) ---------------- */
+function topicHTML(t){
+  const S=STR[LANG];
+  const dir=(pars[t.id]||[]).map(id=>byId[id]).filter(Boolean);
+  const un=(childs[t.id]||[]).map(id=>byId[id]).filter(Boolean);
+  const li=x=>`<li class="link" onclick="select(byId['${x.id}'])"><span style="color:${COLORS[x.subject]||FALLBACK}">●</span> ${esc(x.name)}<span class="age">${x.ageRangeStart}–${x.ageRangeEnd} ${S.yrs}</span></li>`;
+  const c=COLORS[t.subject]||FALLBACK;
+  return `<button class="close" onclick="closeTopic(true)" aria-label="✕">✕</button>
+    <div class="kicker" style="color:${c}">● ${esc(subjName(t.subject))} · ${esc(t.domain||'')} · ${t.ageRangeStart}–${t.ageRangeEnd} ${S.yrs}</div>
+    <h2>${esc(t.name)}</h2>
+    <div class="desc">${esc(t.description||'')}</div>
+    <div class="big" style="color:${c}">${ancestors.size}<small>${S.steps}</small></div>
+    ${t.assessmentPrompt?`<h4>${S.ask}</h4><div class="ask" style="border-left-color:${c}">${esc(fillName(t.assessmentPrompt))}</div>`:''}
+    ${t.evidence&&t.evidence.length?`<h4>${S.ev}</h4><ul>${t.evidence.map(e=>`<li>· ${esc(e)}</li>`).join('')}</ul>`:''}
+    ${dir.length?`<h4>${S.dep} (${dir.length})</h4><ul>${dir.map(li).join('')}</ul>`:''}
+    ${un.length?`<h4>${S.un} (${un.length})</h4><ul>${un.map(li).join('')}</ul>`:''}`;
+}
+function select(t,quiet){
+  sel=t;ancestors=new Set();descendants=new Set();
+  collect(t.id,pars,ancestors);collect(t.id,childs,descendants);
+  if(!quiet){
+    let ty=-Math.PI/2-t.theta;
+    while(ty-cam.yaw>Math.PI)ty-=2*Math.PI;while(ty-cam.yaw<-Math.PI)ty+=2*Math.PI;
+    tweenTo({yaw:ty,dist:Math.max(900,cam.dist*.9),panX:0,panY:0},700);
+  }
+  const html=topicHTML(t);
+  const pn=document.getElementById('panel');pn.innerHTML=html;pn.classList.add('open');
+  const mt=document.getElementById('mTopic');mt.innerHTML=html;
+  if(MOBILE){document.getElementById('mBrowse').hidden=true;mt.hidden=false;
+    msheet.classList.add('topicOpen');
+    document.getElementById('msbody').scrollTop=0;
+    if(sheetState!=='full'){prevState=sheetState;sheetTo('full')}}
+  dismissTipSilent();kick();
+}
+window.select=select;window.byId=byId;
+function closeTopic(clear){
+  document.getElementById('panel').classList.remove('open');
+  const mt=document.getElementById('mTopic');mt.hidden=true;mt.innerHTML='';
+  msheet.classList.remove('topicOpen');measurePeek();
+  document.getElementById('mBrowse').hidden=false;
+  if(clear){sel=null;ancestors=new Set();descendants=new Set()}
+  if(MOBILE)sheetTo(prevState||'peek');
+  kick();
+}
+window.closeTopic=closeTopic;
+
+/* ---------------- bottom sheet ---------------- */
+const msheet=document.getElementById('msheet'),mhead=document.getElementById('mhead');
+let sheetState='peek',prevState='peek';
+function measurePeek(){
+  const h=mhead?mhead.offsetHeight:0;
+  peekPx=Math.max(96,h+2);
+  msheet.style.setProperty('--peek',peekPx+'px');
+  applySheet();
+}
+function applySheet(){
+  const y={peek:`calc(85dvh - ${peekPx}px)`,half:'35dvh',full:'0px'}[sheetState];
+  msheet.style.setProperty('--sy',y);
+  centers();
+}
+function sheetTo(s){if(s===sheetState)return;if(sheetState!=='full'||s!=='full')prevState=sheetState;
+  sheetState=s;applySheet();kick()}
+window.sheetTo=sheetTo;
+function focusSearch(){setTimeout(()=>{const e=document.getElementById('mq');if(e){e.focus();e.scrollIntoView({block:'nearest'})}},320)}
+function focusGrade(){setTimeout(()=>{const e=document.getElementById('mgrade');if(e)e.scrollIntoView({block:'nearest'})},320)}
+window.focusSearch=focusSearch;window.focusGrade=focusGrade;
+
+/* drag the sheet by its head */
+let sd=null;
+mhead.addEventListener('pointerdown',e=>{
+  if(e.target.closest('a,button,select,input'))return;
+  sd={y:e.clientY,base:msheet.getBoundingClientRect().top,moved:0};
+  msheet.classList.add('dragging');
+  try{mhead.setPointerCapture(e.pointerId)}catch(_){}
+});
+mhead.addEventListener('pointermove',e=>{
+  if(!sd)return;
+  const dy=e.clientY-sd.y;sd.moved=Math.abs(dy);
+  const top=Math.max(0,sd.base+dy);
+  msheet.style.setProperty('--sy',(top-(innerHeight-msheet.offsetHeight))+'px');
+});
+function endDrag(e){
+  if(!sd)return;
+  msheet.classList.remove('dragging');
+  const top=msheet.getBoundingClientRect().top,h=innerHeight;
+  const cand=[['full',h*0.15],['half',h*0.50],['peek',h-peekPx]];
+  let bestS='peek',bd=1e9;
+  for(const [s,py] of cand){const d=Math.abs(top-py);if(d<bd){bd=d;bestS=s}}
+  sd=null;sheetState=bestS;applySheet();kick();
+}
+mhead.addEventListener('pointerup',endDrag);
+mhead.addEventListener('pointercancel',endDrag);
+
+function dismissTip(){const e=document.getElementById('mtip2');if(e)e.classList.remove('on');
+  localStorage.setItem('vz-hint2','1');measurePeek();kick()}
+function dismissTipSilent(){const e=document.getElementById('mtip2');
+  if(e&&e.classList.contains('on')){e.classList.remove('on');localStorage.setItem('vz-hint2','1');measurePeek()}}
+window.dismissTip=dismissTip;
+if(!localStorage.getItem('vz-hint2'))document.getElementById('mtip2').classList.add('on');
+
+/* ---------------- search · grade · child mode ---------------- */
+function buildGrades(){
+  for(const id of ['grade','mgrade']){const g=document.getElementById(id);if(!g)continue;
+    const cur=g.value;g.innerHTML=GRADES.map(o=>`<option value="${o.v}">${o[LANG]}</option>`).join('');g.value=cur}
+}
+function updGradeLbl(){
+  const g=document.getElementById('mgrade');const lbl=document.getElementById('mgradeLbl');
+  if(!g||!lbl)return;
+  const o=GRADES.find(x=>x.v===g.value)||GRADES[0];
+  lbl.textContent=o[LANG].replace('🎂 ','');
+  document.getElementById('mgradeBtn').classList.toggle('act',!!g.value);
+}
+function setGrade(v){
+  if(!v){ageLo=null;ageHi=null}else{const p=v.split(',');ageLo=+p[0];ageHi=+p[1]}
+  ['grade','mgrade'].forEach(id=>{const g=document.getElementById(id);if(g)g.value=v});
+  updGradeLbl();kick();
+}
+window.setGrade=setGrade;
+
+function onSearch(qv){
+  const S=STR[LANG];const q=qv.trim().toLowerCase();
+  const dres=document.getElementById('qres'),mres=document.getElementById('mqres');
+  ['q','mq'].forEach(id=>{const e=document.getElementById(id);if(e&&e.value!==qv)e.value=qv});
+  if(q.length<2){searchHit=null;dres.classList.remove('on');mres.classList.remove('on');kick();return}
+  const m=topics.filter(t=>t.name.toLowerCase().includes(q));
+  searchHit=new Set(m.map(t=>t.id));
+  const items=m.slice(0,12);
+  const html=items.map(t=>`<div onclick="pickId('${t.id}')">${esc(t.name)}<span class="qs"> · ${esc(subjName(t.subject))} · ${t.ageRangeStart}–${t.ageRangeEnd}</span></div>`).join('')
+    ||`<div style="color:var(--muted)">${S.nores}</div>`;
+  dres.innerHTML=html;mres.innerHTML=html;
+  dres.classList.add('on');mres.classList.add('on');kick();
+}
+function pickId(id){searchHit=null;
+  ['qres','mqres'].forEach(i=>document.getElementById(i).classList.remove('on'));
+  ['q','mq'].forEach(i=>{const e=document.getElementById(i);if(e)e.value=''});
+  select(byId[id]);}
+function pickFirst(){if(searchHit&&searchHit.size)pickId([...searchHit][0])}
+window.onSearch=onSearch;window.pickId=pickId;window.pickFirst=pickFirst;
+
+function applyTB(){const S=STR[LANG];
+ document.getElementById('tbTest').textContent=S.cta;
+ document.getElementById('q').placeholder=S.searchPh;
+ buildGrades();updGradeLbl();if(childMode)showBanner();}
+function showBanner(){const isEn=LANG==='en';
+ const txt=`✅ ${isEn?'Showing':'Rodoma'}: <b>${esc(CHILD.label||(isEn?'your child':'jūsų vaikas'))}</b> <button onclick="exitChild()">${isEn?'exit':'išjungti'}</button>`;
+ const b=document.getElementById('cbanner');b.innerHTML=txt;b.classList.add('on');
+ const m=document.getElementById('mstrip');m.innerHTML=txt;m.classList.add('on');
+ measurePeek();}
+function exitChild(){childMode=false;
+ document.getElementById('cbanner').classList.remove('on');
+ const m=document.getElementById('mstrip');m.classList.remove('on');m.innerHTML='';
+ measurePeek();kick();}
+window.exitChild=exitChild;
+buildGrades();updGradeLbl();
+if(QS.get('mode')==='child'&&loadChild()){childMode=true;setTimeout(showBanner,60)}
+document.addEventListener('click',e=>{if(!e.target.closest('.tb-search')){const r=document.getElementById('qres');if(r)r.classList.remove('on')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAbout();closeTopic(true)}});
+
+/* ---------------- hover tooltip (pointer devices only) ---------------- */
+const tipEl=document.getElementById('tip')||(()=>{const d=document.createElement('div');d.id='tip';document.body.appendChild(d);return d})();
+function showTip(t,mx,my){
+  const yrs=STR[LANG].yrs;
+  const col=COLORS[t.subject]||FALLBACK;
+  const d=(t.description||'');
+  const desc=d.length>170?(d.slice(0,167).replace(/\s+\S*$/,'')+'…'):d;
+  tipEl.innerHTML='<div class="tname">'+esc(t.name)+'</div>'
+    +'<div class="tmeta"><span class="dot" style="background:'+col+'"></span>'+esc(subjName(t.subject))
+    +(t.domain?' · '+esc(t.domain):'')+' · '+t.ageRangeStart+'–'+t.ageRangeEnd+' '+yrs+'</div>'
+    +'<div class="tdesc">'+esc(desc)+'</div>';
+  tipEl.classList.add('on');
+  const r=tipEl.getBoundingClientRect();
+  let x=mx+16,y=my+14;
+  if(x+r.width>innerWidth-10)x=mx-r.width-14;
+  if(y+r.height>innerHeight-10)y=my-r.height-12;
+  tipEl.style.left=Math.max(8,x)+'px';tipEl.style.top=Math.max(8,y)+'px';
+}
+function hideTip(){tipEl.classList.remove('on');cv.style.cursor='grab'}
+if(!IS_TOUCH){                                   /* perf: no hover picking on touch */
+  cv.addEventListener('mousemove',e=>{
+    if(drag||MOBILE){hideTip();return}
+    trig();
+    let best=null,bd=16*16;
+    for(const t of topics){if(on[t.subject]===false)continue;const p=project(t);
+      const d=(p.x-e.clientX)**2+(p.y-e.clientY)**2;if(d<bd){bd=d;best=t}}
+    if(best){showTip(best,e.clientX,e.clientY);cv.style.cursor='pointer'}else hideTip();
+  });
+  cv.addEventListener('mouseleave',hideTip);
+  cv.addEventListener('mousedown',hideTip);
+  addEventListener('blur',hideTip);
+}
+resize();
+if(DEBUG.split(',').includes('diag')){
+  setTimeout(()=>{const r=msheet.getBoundingClientRect(),m=document.querySelector('.mtop').getBoundingClientRect();
+    document.title='DIAG topics='+topics.length+' MOBILE='+MOBILE+' peekPx='+peekPx
+      +' sy='+msheet.style.getPropertyValue('--sy')+' sheetTop='+Math.round(r.top)
+      +' headH='+mhead.offsetHeight+' CX='+Math.round(CX)+' CY='+Math.round(CY)
+      +' topW='+Math.round(m.width)+' topH='+Math.round(m.height)
+      +' h1W='+Math.round(document.querySelector('.mtop h1').getBoundingClientRect().width)
+      +' introDone='+introDone+' W='+W+' H='+H+' dist='+Math.round(cam.dist)
+      +' PARITY='+(()=>{const a=Object.keys(STR.lt),b=Object.keys(STR.en);
+        const m=a.filter(k=>!b.includes(k)).concat(b.filter(k=>!a.includes(k)));
+        return m.length?('MISSING:'+m.join('/')):'ok('+a.length+' keys)'})();},4000);
+}
+</script>
+</body>
+</html>
